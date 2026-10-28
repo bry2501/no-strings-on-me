@@ -1,0 +1,3929 @@
+{
+  "source": "Mounce, Basics of Biblical Greek Grammar (4th ed.) — personal study list",
+  "chapters": [
+    {
+      "chapter": 4,
+      "word_count": 26,
+      "words": [
+        {
+          "id": 1,
+          "chapter": 4,
+          "lemma": "ἄγγελος, –ου, ὁ",
+          "gloss": "angel; messenger",
+          "part_of_speech": "noun",
+          "root": "ἀγγελο",
+          "frequency": 175
+        },
+        {
+          "id": 2,
+          "chapter": 4,
+          "lemma": "ἀμήν",
+          "gloss": "verily, truly, amen, so let it be",
+          "part_of_speech": "other",
+          "frequency": 128
+        },
+        {
+          "id": 3,
+          "chapter": 4,
+          "lemma": "ἄνθρωπος, –ου, ὁ",
+          "gloss": "man; person, human being; people, mankind",
+          "part_of_speech": "noun",
+          "root": "ἀνθρωπο",
+          "frequency": 550
+        },
+        {
+          "id": 4,
+          "chapter": 4,
+          "lemma": "ἀπόστολος, –ου, ὁ",
+          "gloss": "apostle; envoy, messenger",
+          "part_of_speech": "noun",
+          "root": "ἀποστολο",
+          "frequency": 81
+        },
+        {
+          "id": 5,
+          "chapter": 4,
+          "lemma": "Γαλιλαία, –ας, ἡ",
+          "gloss": "Galilee",
+          "part_of_speech": "noun",
+          "root": "γαλιλαια",
+          "frequency": 61
+        },
+        {
+          "id": 6,
+          "chapter": 4,
+          "lemma": "γραφή, –ῆς, ἡ",
+          "gloss": "writing; Scripture",
+          "part_of_speech": "noun",
+          "root": "γραφη",
+          "frequency": 50
+        },
+        {
+          "id": 7,
+          "chapter": 4,
+          "lemma": "δόξα, –ης, ἡ",
+          "gloss": "glory, majesty, fame",
+          "part_of_speech": "noun",
+          "root": "δοξα",
+          "frequency": 166
+        },
+        {
+          "id": 8,
+          "chapter": 4,
+          "lemma": "ἐγώ",
+          "gloss": "I",
+          "part_of_speech": "verb",
+          "frequency": 1800
+        },
+        {
+          "id": 9,
+          "chapter": 4,
+          "lemma": "ἔσχατος, –η, –ον",
+          "gloss": "last",
+          "part_of_speech": "adjective",
+          "root": "ἐσχατο",
+          "frequency": 52
+        },
+        {
+          "id": 10,
+          "chapter": 4,
+          "lemma": "ζωή, –ῆς, ἡ",
+          "gloss": "life",
+          "part_of_speech": "noun",
+          "root": "ζωη",
+          "frequency": 135
+        },
+        {
+          "id": 11,
+          "chapter": 4,
+          "lemma": "θεός, –οῦ, ὁ",
+          "gloss": "God, god",
+          "part_of_speech": "noun",
+          "root": "θεο",
+          "frequency": 1317
+        },
+        {
+          "id": 12,
+          "chapter": 4,
+          "lemma": "καί",
+          "gloss": "and; even, also; namely",
+          "part_of_speech": "other",
+          "frequency": 9162
+        },
+        {
+          "id": 13,
+          "chapter": 4,
+          "lemma": "καρδία, –ας, ἡ",
+          "gloss": "heart; inner self",
+          "part_of_speech": "noun",
+          "root": "καρδια",
+          "frequency": 156
+        },
+        {
+          "id": 14,
+          "chapter": 4,
+          "lemma": "κόσμος, –ου, ὁ",
+          "gloss": "world, universe; mankind",
+          "part_of_speech": "noun",
+          "root": "κοσμο",
+          "frequency": 186
+        },
+        {
+          "id": 15,
+          "chapter": 4,
+          "lemma": "λόγος, –ου, ὁ",
+          "gloss": "word, Word; statement, message",
+          "part_of_speech": "noun",
+          "root": "λογο",
+          "frequency": 330
+        },
+        {
+          "id": 16,
+          "chapter": 4,
+          "lemma": "πνεῦμα, –ατος, τό",
+          "gloss": "spirit, Spirit; wind, breath; inner life",
+          "part_of_speech": "noun",
+          "root": "πνευματ",
+          "frequency": 379
+        },
+        {
+          "id": 17,
+          "chapter": 4,
+          "lemma": "προφήτης, –ου, ὁ",
+          "gloss": "prophet",
+          "part_of_speech": "noun",
+          "root": "προφητη",
+          "frequency": 144
+        },
+        {
+          "id": 18,
+          "chapter": 4,
+          "lemma": "σάββατον, –ου, τό",
+          "gloss": "Sabbath; week",
+          "part_of_speech": "noun",
+          "root": "σαββατο",
+          "frequency": 68
+        },
+        {
+          "id": 19,
+          "chapter": 4,
+          "lemma": "φωνή, –ῆς, ἡ",
+          "gloss": "sound, noise; voice",
+          "part_of_speech": "noun",
+          "root": "φωνη",
+          "frequency": 139
+        },
+        {
+          "id": 20,
+          "chapter": 4,
+          "lemma": "Χριστός, –οῦ, ὁ",
+          "gloss": "Christ, Messiah; Anointed One",
+          "part_of_speech": "noun",
+          "root": "χριστο",
+          "frequency": 529
+        },
+        {
+          "id": 21,
+          "chapter": 4,
+          "lemma": "᾿Αβραάμ, ὁ",
+          "gloss": "Abraham",
+          "part_of_speech": "noun",
+          "root": "ἀβρααμ",
+          "frequency": 73
+        },
+        {
+          "id": 22,
+          "chapter": 4,
+          "lemma": "Δαυίδ, ὁ",
+          "gloss": "David",
+          "part_of_speech": "noun",
+          "root": "δαυιδ",
+          "frequency": 59
+        },
+        {
+          "id": 23,
+          "chapter": 4,
+          "lemma": "Παῦλος, –ου, ὁ",
+          "gloss": "Paul",
+          "part_of_speech": "noun",
+          "root": "παυλο",
+          "frequency": 158
+        },
+        {
+          "id": 24,
+          "chapter": 4,
+          "lemma": "Πέτρος, –ου, ὁ",
+          "gloss": "Peter",
+          "part_of_speech": "noun",
+          "root": "πετρο",
+          "frequency": 156
+        },
+        {
+          "id": 25,
+          "chapter": 4,
+          "lemma": "Πιλᾶτος, –ου, ὁ",
+          "gloss": "Pilate",
+          "part_of_speech": "noun",
+          "root": "πιλατο",
+          "frequency": 55
+        },
+        {
+          "id": 26,
+          "chapter": 4,
+          "lemma": "Σίμων, –ωνος, ὁ",
+          "gloss": "Simon",
+          "part_of_speech": "noun",
+          "root": "σιμων",
+          "frequency": 75
+        }
+      ]
+    },
+    {
+      "chapter": 6,
+      "word_count": 13,
+      "words": [
+        {
+          "id": 27,
+          "chapter": 6,
+          "lemma": "ἀγάπη, –ης, ἡ",
+          "gloss": "love",
+          "part_of_speech": "noun",
+          "root": "ἀγαπη",
+          "frequency": 116
+        },
+        {
+          "id": 28,
+          "chapter": 6,
+          "lemma": "ἄλλος, –η, –ο",
+          "gloss": "other, another",
+          "part_of_speech": "adjective",
+          "root": "ἀλλο",
+          "frequency": 155
+        },
+        {
+          "id": 29,
+          "chapter": 6,
+          "lemma": "αὐτός, –ή, –ό",
+          "gloss": "singular: he, she, it (him, her); plural: they (them)",
+          "part_of_speech": "adjective",
+          "root": "αὐτο",
+          "frequency": 5597
+        },
+        {
+          "id": 30,
+          "chapter": 6,
+          "lemma": "βασιλεία, –ας, ἡ",
+          "gloss": "kingdom",
+          "part_of_speech": "noun",
+          "root": "βασιλεια",
+          "frequency": 162
+        },
+        {
+          "id": 31,
+          "chapter": 6,
+          "lemma": "δέ ( δ᾿ )",
+          "gloss": "but; and",
+          "part_of_speech": "other",
+          "frequency": 2791
+        },
+        {
+          "id": 32,
+          "chapter": 6,
+          "lemma": "ἐν",
+          "gloss": "in; on; among",
+          "part_of_speech": "other",
+          "frequency": 2752
+        },
+        {
+          "id": 33,
+          "chapter": 6,
+          "lemma": "ἔργον, –ου, τό",
+          "gloss": "work; deed, action",
+          "part_of_speech": "noun",
+          "root": "ἐργο",
+          "frequency": 169
+        },
+        {
+          "id": 34,
+          "chapter": 6,
+          "lemma": "καιρός, –οῦ, ὁ",
+          "gloss": "(appointed) time, season",
+          "part_of_speech": "noun",
+          "root": "καιρο",
+          "frequency": 85
+        },
+        {
+          "id": 35,
+          "chapter": 6,
+          "lemma": "νῦν",
+          "gloss": "adverb: now; noun: the present",
+          "part_of_speech": "other",
+          "frequency": 147
+        },
+        {
+          "id": 36,
+          "chapter": 6,
+          "lemma": "ὁ, ἡ, τό",
+          "gloss": "the",
+          "part_of_speech": "noun",
+          "frequency": 19865
+        },
+        {
+          "id": 37,
+          "chapter": 6,
+          "lemma": "ὅτι",
+          "gloss": "that; since; because; “ ”",
+          "part_of_speech": "other",
+          "frequency": 1294
+        },
+        {
+          "id": 38,
+          "chapter": 6,
+          "lemma": "οὐ (οὐκ, οὐχ)",
+          "gloss": "not",
+          "part_of_speech": "other",
+          "frequency": 1624
+        },
+        {
+          "id": 39,
+          "chapter": 6,
+          "lemma": "ὥρα, –ας, ἡ",
+          "gloss": "hour; occasion, moment",
+          "part_of_speech": "noun",
+          "root": "ὡρα",
+          "frequency": 106
+        }
+      ]
+    },
+    {
+      "chapter": 7,
+      "word_count": 15,
+      "words": [
+        {
+          "id": 40,
+          "chapter": 7,
+          "lemma": "ἁμαρτία, –ας, ἡ",
+          "gloss": "sin",
+          "part_of_speech": "noun",
+          "root": "ἁμαρτια",
+          "frequency": 173
+        },
+        {
+          "id": 41,
+          "chapter": 7,
+          "lemma": "ἀρχή, –ῆς, ἡ",
+          "gloss": "beginning; ruler",
+          "part_of_speech": "noun",
+          "root": "ἀρχη",
+          "frequency": 55
+        },
+        {
+          "id": 42,
+          "chapter": 7,
+          "lemma": "γάρ",
+          "gloss": "for; then",
+          "part_of_speech": "other",
+          "frequency": 1041
+        },
+        {
+          "id": 43,
+          "chapter": 7,
+          "lemma": "εἶπεν",
+          "gloss": "he/she/it said",
+          "part_of_speech": "other",
+          "frequency": 613
+        },
+        {
+          "id": 44,
+          "chapter": 7,
+          "lemma": "εἰς",
+          "gloss": "into; in",
+          "part_of_speech": "other",
+          "frequency": 1767
+        },
+        {
+          "id": 45,
+          "chapter": 7,
+          "lemma": "ἐξουσία, –ας, ἡ",
+          "gloss": "authority, power",
+          "part_of_speech": "noun",
+          "root": "ἐξουσια",
+          "frequency": 102
+        },
+        {
+          "id": 46,
+          "chapter": 7,
+          "lemma": "εὐαγγέλιον, –ου, τό",
+          "gloss": "good news, Gospel",
+          "part_of_speech": "noun",
+          "root": "εὐαγγελιο",
+          "frequency": 76
+        },
+        {
+          "id": 47,
+          "chapter": 7,
+          "lemma": "Ἰησοῦς, –οῦ, ὁ",
+          "gloss": "Jesus, Joshua",
+          "part_of_speech": "noun",
+          "root": "ἰησου",
+          "frequency": 917
+        },
+        {
+          "id": 48,
+          "chapter": 7,
+          "lemma": "κύριος, –ου, ὁ",
+          "gloss": "Lord; lord, master, sir",
+          "part_of_speech": "noun",
+          "root": "κυριο",
+          "frequency": 716
+        },
+        {
+          "id": 49,
+          "chapter": 7,
+          "lemma": "μή",
+          "gloss": "not, lest",
+          "part_of_speech": "other",
+          "frequency": 1042
+        },
+        {
+          "id": 50,
+          "chapter": 7,
+          "lemma": "οὐρανός, –οῦ, ὁ",
+          "gloss": "heaven; sky",
+          "part_of_speech": "noun",
+          "root": "οὐρανο",
+          "frequency": 273
+        },
+        {
+          "id": 51,
+          "chapter": 7,
+          "lemma": "οὗτος, αὕτη, τοῦτο",
+          "gloss": "singular: this (one); plural: these",
+          "part_of_speech": "adjective",
+          "root": "τουτο",
+          "frequency": 1387
+        },
+        {
+          "id": 52,
+          "chapter": 7,
+          "lemma": "σύ",
+          "gloss": "you (singular)",
+          "part_of_speech": "other",
+          "frequency": 1067
+        },
+        {
+          "id": 53,
+          "chapter": 7,
+          "lemma": "υἱός, –οῦ, ὁ",
+          "gloss": "son; descendant",
+          "part_of_speech": "noun",
+          "root": "υἱο",
+          "frequency": 377
+        },
+        {
+          "id": 54,
+          "chapter": 7,
+          "lemma": "ὥστε",
+          "gloss": "therefore, so that",
+          "part_of_speech": "other",
+          "frequency": 83
+        }
+      ]
+    },
+    {
+      "chapter": 8,
+      "word_count": 20,
+      "words": [
+        {
+          "id": 55,
+          "chapter": 8,
+          "lemma": "ἀλλά (ἀλλ᾿)",
+          "gloss": "but, yet; rather",
+          "part_of_speech": "other",
+          "frequency": 638
+        },
+        {
+          "id": 56,
+          "chapter": 8,
+          "lemma": "ἀπό (ἀπ᾿, ἀφ᾿)",
+          "cases": {
+            "genitive": "(away) from"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 646
+        },
+        {
+          "id": 57,
+          "chapter": 8,
+          "lemma": "διά (δι᾿)",
+          "cases": {
+            "genitive": "through",
+            "accusative": "on account of"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 667
+        },
+        {
+          "id": 58,
+          "chapter": 8,
+          "lemma": "εἰμί",
+          "gloss": "I am, exist, live, am present",
+          "part_of_speech": "verb",
+          "root": "ἐς",
+          "principal_parts": [
+            "(ἤμην)",
+            "ἔσομαι",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 2462
+        },
+        {
+          "id": 59,
+          "chapter": 8,
+          "lemma": "ἐκ (ἐξ)",
+          "cases": {
+            "genitive": "from, out of"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 914
+        },
+        {
+          "id": 60,
+          "chapter": 8,
+          "lemma": "ἡμέρα, –ας, ἡ",
+          "gloss": "day",
+          "part_of_speech": "noun",
+          "root": "ἡμερα",
+          "frequency": 389
+        },
+        {
+          "id": 61,
+          "chapter": 8,
+          "lemma": "ἦν",
+          "gloss": "he/she/it was",
+          "part_of_speech": "other",
+          "frequency": 315
+        },
+        {
+          "id": 62,
+          "chapter": 8,
+          "lemma": "θάλασσα, –ης, ἡ",
+          "gloss": "sea, lake",
+          "part_of_speech": "noun",
+          "root": "θαλασσα",
+          "frequency": 91
+        },
+        {
+          "id": 63,
+          "chapter": 8,
+          "lemma": "θάνατος, –ου, ὁ",
+          "gloss": "death",
+          "part_of_speech": "noun",
+          "root": "θανατο",
+          "frequency": 120
+        },
+        {
+          "id": 64,
+          "chapter": 8,
+          "lemma": "ἵνα",
+          "gloss": "in order that; that; so that",
+          "part_of_speech": "other",
+          "frequency": 663
+        },
+        {
+          "id": 65,
+          "chapter": 8,
+          "lemma": "Ἰωάννης, –ου, ὁ",
+          "gloss": "John",
+          "part_of_speech": "noun",
+          "root": "ἰωαννη",
+          "frequency": 135
+        },
+        {
+          "id": 66,
+          "chapter": 8,
+          "lemma": "λέγω",
+          "gloss": "I say, speak",
+          "part_of_speech": "verb",
+          "root": "λεγ, ερ/ επ",
+          "frequency": 2353
+        },
+        {
+          "id": 67,
+          "chapter": 8,
+          "lemma": "μετά (μετ᾿, μεθ᾿)",
+          "cases": {
+            "genitive": "with",
+            "accusative": "after"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 469
+        },
+        {
+          "id": 68,
+          "chapter": 8,
+          "lemma": "οἰκία, –ας, ἡ",
+          "gloss": "house, home",
+          "part_of_speech": "noun",
+          "root": "οἰκια",
+          "frequency": 93
+        },
+        {
+          "id": 69,
+          "chapter": 8,
+          "lemma": "οἶκος, –ου, ὁ",
+          "gloss": "house, home",
+          "part_of_speech": "noun",
+          "root": "οἰκο",
+          "frequency": 114
+        },
+        {
+          "id": 70,
+          "chapter": 8,
+          "lemma": "ὄχλος, –ου, ὁ",
+          "gloss": "crowd, multitude",
+          "part_of_speech": "noun",
+          "root": "ὀχλο",
+          "frequency": 175
+        },
+        {
+          "id": 71,
+          "chapter": 8,
+          "lemma": "παρά (παρ᾿)",
+          "cases": {
+            "genitive": "from",
+            "dative": "beside, in the presence of",
+            "accusative": "alongside of"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 194
+        },
+        {
+          "id": 72,
+          "chapter": 8,
+          "lemma": "παραβολή, –ῆς, ἡ",
+          "gloss": "parable",
+          "part_of_speech": "noun",
+          "root": "παραβολη",
+          "frequency": 50
+        },
+        {
+          "id": 73,
+          "chapter": 8,
+          "lemma": "πρός",
+          "cases": {
+            "accusative": "to, towards; with"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 700
+        },
+        {
+          "id": 74,
+          "chapter": 8,
+          "lemma": "ὑπό (ὑπ᾿, ὑφ᾿)",
+          "cases": {
+            "genitive": "by",
+            "accusative": "under"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 220
+        }
+      ]
+    },
+    {
+      "chapter": 9,
+      "word_count": 18,
+      "words": [
+        {
+          "id": 75,
+          "chapter": 9,
+          "lemma": "ἀγαθός, –ή, –όν",
+          "gloss": "good, useful",
+          "part_of_speech": "adjective",
+          "root": "ἀγαθο",
+          "frequency": 102
+        },
+        {
+          "id": 76,
+          "chapter": 9,
+          "lemma": "ἀγαπητός, –ή, –όν",
+          "gloss": "beloved",
+          "part_of_speech": "adjective",
+          "root": "ἀγαπητο",
+          "frequency": 61
+        },
+        {
+          "id": 77,
+          "chapter": 9,
+          "lemma": "ἅγιος, –ία, –ιον",
+          "gloss": "adjective: holy; plural noun: saints",
+          "part_of_speech": "adjective",
+          "root": "ἁγιο",
+          "frequency": 233
+        },
+        {
+          "id": 78,
+          "chapter": 9,
+          "lemma": "αἰώνιος, –ον",
+          "gloss": "eternal",
+          "part_of_speech": "adjective",
+          "root": "αἰωνιο",
+          "frequency": 71
+        },
+        {
+          "id": 79,
+          "chapter": 9,
+          "lemma": "ἀλλήλων",
+          "gloss": "one another",
+          "part_of_speech": "other",
+          "root": "ἀλληλο",
+          "frequency": 100
+        },
+        {
+          "id": 80,
+          "chapter": 9,
+          "lemma": "ἀπεκρίθη",
+          "gloss": "he/she/it answered",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 81,
+          "chapter": 9,
+          "lemma": "δοῦλος, –ου, ὁ",
+          "gloss": "slave; servant",
+          "part_of_speech": "noun",
+          "root": "δουλο",
+          "frequency": 126
+        },
+        {
+          "id": 82,
+          "chapter": 9,
+          "lemma": "ἐάν",
+          "gloss": "if; when",
+          "part_of_speech": "other",
+          "frequency": 349
+        },
+        {
+          "id": 83,
+          "chapter": 9,
+          "lemma": "ἐμός, ἐμή, ἐμόν",
+          "gloss": "my, mine",
+          "part_of_speech": "adjective",
+          "root": "ἐμο",
+          "frequency": 76
+        },
+        {
+          "id": 84,
+          "chapter": 9,
+          "lemma": "ἐντολή, –ῆς, ἡ",
+          "gloss": "commandment",
+          "part_of_speech": "noun",
+          "root": "ἐντολη",
+          "frequency": 67
+        },
+        {
+          "id": 85,
+          "chapter": 9,
+          "lemma": "καθώς",
+          "gloss": "as, even as",
+          "part_of_speech": "other",
+          "frequency": 182
+        },
+        {
+          "id": 86,
+          "chapter": 9,
+          "lemma": "κακός, –ή, –όν",
+          "gloss": "bad, evil",
+          "part_of_speech": "adjective",
+          "root": "κακο",
+          "frequency": 50
+        },
+        {
+          "id": 87,
+          "chapter": 9,
+          "lemma": "μου (ἐμοῦ)",
+          "gloss": "my",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 88,
+          "chapter": 9,
+          "lemma": "νεκρός, –ά, –όν",
+          "gloss": "adjective: dead; noun: dead body, corpse",
+          "part_of_speech": "adjective",
+          "root": "νεκρο",
+          "frequency": 128
+        },
+        {
+          "id": 89,
+          "chapter": 9,
+          "lemma": "πιστός, –ή, –όν",
+          "gloss": "faithful, believing",
+          "part_of_speech": "adjective",
+          "root": "πιστο",
+          "frequency": 67
+        },
+        {
+          "id": 90,
+          "chapter": 9,
+          "lemma": "πονηρός, –ά, –όν",
+          "gloss": "evil, bad",
+          "part_of_speech": "adjective",
+          "root": "πονηρο",
+          "frequency": 78
+        },
+        {
+          "id": 91,
+          "chapter": 9,
+          "lemma": "πρῶτος, –η, –ον",
+          "gloss": "first; earlier",
+          "part_of_speech": "adjective",
+          "root": "πρωτο",
+          "frequency": 155
+        },
+        {
+          "id": 92,
+          "chapter": 9,
+          "lemma": "τρίτος, –η, –ον",
+          "gloss": "third",
+          "part_of_speech": "adjective",
+          "root": "τριτο",
+          "frequency": 56
+        }
+      ]
+    },
+    {
+      "chapter": 10,
+      "word_count": 14,
+      "words": [
+        {
+          "id": 93,
+          "chapter": 10,
+          "lemma": "εἰ",
+          "gloss": "if",
+          "part_of_speech": "other",
+          "frequency": 502
+        },
+        {
+          "id": 94,
+          "chapter": 10,
+          "lemma": "εἰ μή",
+          "gloss": "except; if not",
+          "part_of_speech": "other",
+          "frequency": 86
+        },
+        {
+          "id": 95,
+          "chapter": 10,
+          "lemma": "εἷς, μία, ἕν",
+          "gloss": "one",
+          "part_of_speech": "other",
+          "root": "ἑν/μια",
+          "frequency": 345
+        },
+        {
+          "id": 96,
+          "chapter": 10,
+          "lemma": "ἤδη",
+          "gloss": "now, already",
+          "part_of_speech": "other",
+          "frequency": 61
+        },
+        {
+          "id": 97,
+          "chapter": 10,
+          "lemma": "ὄνομα, –ατος, τό",
+          "gloss": "name; reputation",
+          "part_of_speech": "noun",
+          "root": "ὀνοματ",
+          "frequency": 230
+        },
+        {
+          "id": 98,
+          "chapter": 10,
+          "lemma": "οὐδείς, οὐδεμία, οὐδέν",
+          "gloss": "no one, none, nothing",
+          "part_of_speech": "other",
+          "root": "οὐ(δε) + ἑν/μια",
+          "frequency": 227
+        },
+        {
+          "id": 99,
+          "chapter": 10,
+          "lemma": "πᾶς, πᾶσα, πᾶν",
+          "gloss": "singular: each, every; plural: all",
+          "part_of_speech": "other",
+          "root": "παντ/πασα",
+          "frequency": 1243
+        },
+        {
+          "id": 100,
+          "chapter": 10,
+          "lemma": "περί",
+          "cases": {
+            "genitive": "concerning, about",
+            "accusative": "around"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 333
+        },
+        {
+          "id": 101,
+          "chapter": 10,
+          "lemma": "σάρξ, σαρκός, ἡ",
+          "gloss": "flesh; body",
+          "part_of_speech": "noun",
+          "root": "σαρκ",
+          "frequency": 147
+        },
+        {
+          "id": 102,
+          "chapter": 10,
+          "lemma": "σύν",
+          "cases": {
+            "dative": "with"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 128
+        },
+        {
+          "id": 103,
+          "chapter": 10,
+          "lemma": "σῶμα, –ατος, τό",
+          "gloss": "body",
+          "part_of_speech": "noun",
+          "root": "σωματ",
+          "frequency": 142
+        },
+        {
+          "id": 104,
+          "chapter": 10,
+          "lemma": "τέκνον, –ου, τό",
+          "gloss": "child; descendant",
+          "part_of_speech": "noun",
+          "root": "τεκνο",
+          "frequency": 99
+        },
+        {
+          "id": 105,
+          "chapter": 10,
+          "lemma": "τίς, τί",
+          "gloss": "who? what? which? why?",
+          "part_of_speech": "other",
+          "root": "τιν",
+          "frequency": 555
+        },
+        {
+          "id": 106,
+          "chapter": 10,
+          "lemma": "τις, τι",
+          "gloss": "someone/thing; certain one/thing; anyone/thing",
+          "part_of_speech": "other",
+          "root": "τιν",
+          "frequency": 525
+        }
+      ]
+    },
+    {
+      "chapter": 11,
+      "word_count": 21,
+      "words": [
+        {
+          "id": 107,
+          "chapter": 11,
+          "lemma": "ἀδελφός, –οῦ, ὁ",
+          "gloss": "brother",
+          "part_of_speech": "noun",
+          "root": "ἀδελφο",
+          "frequency": 343
+        },
+        {
+          "id": 108,
+          "chapter": 11,
+          "lemma": "ἄν",
+          "gloss": "an untranslatable, uninflected particle, used to make a definite statement contingent upon something, e.g., changing “who” to “whoever.” You usually cannot translate it.",
+          "part_of_speech": "other",
+          "frequency": 166
+        },
+        {
+          "id": 109,
+          "chapter": 11,
+          "lemma": "ἀνήρ, ἀνδρός, ὁ",
+          "gloss": "male, husband; man",
+          "part_of_speech": "noun",
+          "root": "ἀνδρ",
+          "frequency": 216
+        },
+        {
+          "id": 110,
+          "chapter": 11,
+          "lemma": "ἐκκλησία, –ας, ἡ",
+          "gloss": "congregation",
+          "part_of_speech": "noun",
+          "root": "ἐκκλησια",
+          "frequency": 114
+        },
+        {
+          "id": 111,
+          "chapter": 11,
+          "lemma": "ἐλπίς, –ίδος, ἡ",
+          "gloss": "hope, expectation",
+          "part_of_speech": "noun",
+          "root": "ἐλπιδ",
+          "frequency": 53
+        },
+        {
+          "id": 112,
+          "chapter": 11,
+          "lemma": "ἔξω",
+          "gloss": "adverb: without",
+          "part_of_speech": "verb",
+          "frequency": 63
+        },
+        {
+          "id": 113,
+          "chapter": 11,
+          "lemma": "ἐπί ( ἐπ᾿, ἐφ᾿ )",
+          "cases": {
+            "genitive": "on, over, when",
+            "dative": "on the basis of, at",
+            "accusative": "on, to, against"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 890
+        },
+        {
+          "id": 114,
+          "chapter": 11,
+          "lemma": "ἡμεῖς",
+          "gloss": "we",
+          "part_of_speech": "other",
+          "frequency": 863
+        },
+        {
+          "id": 115,
+          "chapter": 11,
+          "lemma": "θέλημα, θελήματος, τό",
+          "gloss": "will, desire",
+          "part_of_speech": "noun",
+          "root": "θεληματ",
+          "frequency": 62
+        },
+        {
+          "id": 116,
+          "chapter": 11,
+          "lemma": "ἴδε",
+          "gloss": "See! Behold! (29; interjection)",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 117,
+          "chapter": 11,
+          "lemma": "ἰδού",
+          "gloss": "See! Behold! (200; interjection)",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 118,
+          "chapter": 11,
+          "lemma": "καλός, –ή, –όν",
+          "gloss": "good; beautiful",
+          "part_of_speech": "adjective",
+          "root": "καλο",
+          "frequency": 101
+        },
+        {
+          "id": 119,
+          "chapter": 11,
+          "lemma": "μήτηρ, μητρός, ἡ",
+          "gloss": "mother",
+          "part_of_speech": "noun",
+          "root": "μητρ",
+          "frequency": 83
+        },
+        {
+          "id": 120,
+          "chapter": 11,
+          "lemma": "οὐδέ",
+          "gloss": "and not, not even; neither, nor",
+          "part_of_speech": "other",
+          "frequency": 143
+        },
+        {
+          "id": 121,
+          "chapter": 11,
+          "lemma": "πατήρ, πατρός, ὁ",
+          "gloss": "father",
+          "part_of_speech": "noun",
+          "root": "πατρ",
+          "frequency": 413
+        },
+        {
+          "id": 122,
+          "chapter": 11,
+          "lemma": "πίστις, πίστεως, ἡ",
+          "gloss": "faith, belief; trust; teaching",
+          "part_of_speech": "noun",
+          "root": "πιστ",
+          "frequency": 243
+        },
+        {
+          "id": 123,
+          "chapter": 11,
+          "lemma": "ὕδωρ, ὕδατος, τό",
+          "gloss": "water",
+          "part_of_speech": "noun",
+          "root": "ὑδατ",
+          "frequency": 76
+        },
+        {
+          "id": 124,
+          "chapter": 11,
+          "lemma": "ὑμεῖς",
+          "gloss": "you (plural)",
+          "part_of_speech": "other",
+          "frequency": 1840
+        },
+        {
+          "id": 125,
+          "chapter": 11,
+          "lemma": "φῶς, φωτός, τό",
+          "gloss": "light",
+          "part_of_speech": "noun",
+          "root": "φωτ",
+          "frequency": 73
+        },
+        {
+          "id": 126,
+          "chapter": 11,
+          "lemma": "χάρις, χάριτος, ἡ",
+          "gloss": "grace, favor, kindness",
+          "part_of_speech": "noun",
+          "root": "χαριτ",
+          "frequency": 155
+        },
+        {
+          "id": 127,
+          "chapter": 11,
+          "lemma": "ὧδε",
+          "gloss": "here",
+          "part_of_speech": "other",
+          "frequency": 61
+        }
+      ]
+    },
+    {
+      "chapter": 12,
+      "word_count": 15,
+      "words": [
+        {
+          "id": 128,
+          "chapter": 12,
+          "lemma": "αἰών, –ῶνος, ὁ",
+          "gloss": "age, eternity",
+          "part_of_speech": "noun",
+          "root": "αἰων",
+          "frequency": 122
+        },
+        {
+          "id": 129,
+          "chapter": 12,
+          "lemma": "διδάσκαλος, –ου, ὁ",
+          "gloss": "teacher",
+          "part_of_speech": "noun",
+          "root": "διδασκαλο",
+          "frequency": 59
+        },
+        {
+          "id": 130,
+          "chapter": 12,
+          "lemma": "εὐθύς",
+          "gloss": "immediately",
+          "part_of_speech": "other",
+          "frequency": 51
+        },
+        {
+          "id": 131,
+          "chapter": 12,
+          "lemma": "ἕως",
+          "gloss": "conj: until",
+          "part_of_speech": "other",
+          "frequency": 146,
+          "cases": {
+            "genitive": "as far as"
+          }
+        },
+        {
+          "id": 132,
+          "chapter": 12,
+          "lemma": "μαθητής, –οῦ, ὁ",
+          "gloss": "disciple",
+          "part_of_speech": "noun",
+          "root": "μαθητη",
+          "frequency": 261
+        },
+        {
+          "id": 133,
+          "chapter": 12,
+          "lemma": "μέν",
+          "gloss": "on the one hand; indeed",
+          "part_of_speech": "other",
+          "frequency": 179
+        },
+        {
+          "id": 134,
+          "chapter": 12,
+          "lemma": "μηδείς, μηδεμία, μηδέν",
+          "gloss": "no one/thing",
+          "part_of_speech": "other",
+          "root": "μη(δε) + ἑν/μια",
+          "frequency": 90
+        },
+        {
+          "id": 135,
+          "chapter": 12,
+          "lemma": "μόνος, –η, –ον",
+          "gloss": "alone, only",
+          "part_of_speech": "adjective",
+          "root": "μονο",
+          "frequency": 114
+        },
+        {
+          "id": 136,
+          "chapter": 12,
+          "lemma": "ὅπως",
+          "gloss": "how; (in order) that",
+          "part_of_speech": "other",
+          "frequency": 53
+        },
+        {
+          "id": 137,
+          "chapter": 12,
+          "lemma": "ὅσος, –η, –ον",
+          "gloss": "as great as, as many as",
+          "part_of_speech": "adjective",
+          "root": "ὁσο",
+          "frequency": 110
+        },
+        {
+          "id": 138,
+          "chapter": 12,
+          "lemma": "οὖν",
+          "gloss": "therefore, accordingly; then",
+          "part_of_speech": "other",
+          "frequency": 498
+        },
+        {
+          "id": 139,
+          "chapter": 12,
+          "lemma": "ὀφθαλμός, –οῦ, ὁ",
+          "gloss": "eye, sight",
+          "part_of_speech": "noun",
+          "root": "ὀφθαλμο",
+          "frequency": 100
+        },
+        {
+          "id": 140,
+          "chapter": 12,
+          "lemma": "πάλιν",
+          "gloss": "again",
+          "part_of_speech": "other",
+          "frequency": 141
+        },
+        {
+          "id": 141,
+          "chapter": 12,
+          "lemma": "πούς, ποδός, ὁ",
+          "gloss": "foot",
+          "part_of_speech": "noun",
+          "root": "ποδ",
+          "frequency": 93
+        },
+        {
+          "id": 142,
+          "chapter": 12,
+          "lemma": "ὑπέρ",
+          "cases": {
+            "genitive": "in behalf of",
+            "accusative": "above"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 150
+        }
+      ]
+    },
+    {
+      "chapter": 13,
+      "word_count": 13,
+      "words": [
+        {
+          "id": 143,
+          "chapter": 13,
+          "lemma": "γυνή, γυναικός, ἡ",
+          "gloss": "woman; wife",
+          "part_of_speech": "noun",
+          "root": "γυναικ",
+          "frequency": 215
+        },
+        {
+          "id": 144,
+          "chapter": 13,
+          "lemma": "δικαιοσύνη, –ης, ἡ",
+          "gloss": "righteousness",
+          "part_of_speech": "noun",
+          "root": "δικαιοσυνη",
+          "frequency": 92
+        },
+        {
+          "id": 145,
+          "chapter": 13,
+          "lemma": "δώδεκα",
+          "gloss": "twelve",
+          "part_of_speech": "other",
+          "root": "δωδεκα",
+          "frequency": 75
+        },
+        {
+          "id": 146,
+          "chapter": 13,
+          "lemma": "ἑαυτοῦ, –ῆς, –οῦ",
+          "gloss": "singular: himself/herself/itself; plural: themselves",
+          "part_of_speech": "other",
+          "root": "ἑαυτο",
+          "frequency": 319
+        },
+        {
+          "id": 147,
+          "chapter": 13,
+          "lemma": "ἐκεῖνος, –η, –ο",
+          "gloss": "singular: that man/woman/thing; plural: those men/women/things",
+          "part_of_speech": "adjective",
+          "root": "ἐκεινο",
+          "frequency": 265
+        },
+        {
+          "id": 148,
+          "chapter": 13,
+          "lemma": "ἤ",
+          "gloss": "or; than",
+          "part_of_speech": "other",
+          "frequency": 343
+        },
+        {
+          "id": 149,
+          "chapter": 13,
+          "lemma": "κἀγώ",
+          "gloss": "and I, but I",
+          "part_of_speech": "verb",
+          "root": "καί + ἐγω",
+          "frequency": 76
+        },
+        {
+          "id": 150,
+          "chapter": 13,
+          "lemma": "μακάριος, –ία, –ιον",
+          "gloss": "blessed, happy",
+          "part_of_speech": "adjective",
+          "root": "μακαριο",
+          "frequency": 50
+        },
+        {
+          "id": 151,
+          "chapter": 13,
+          "lemma": "μέγας, μεγάλη, μέγα",
+          "gloss": "large; great",
+          "part_of_speech": "other",
+          "root": "μεγαλο",
+          "frequency": 243
+        },
+        {
+          "id": 152,
+          "chapter": 13,
+          "lemma": "πόλις, –εως, ἡ",
+          "gloss": "city, town",
+          "part_of_speech": "noun",
+          "root": "πολ",
+          "frequency": 163
+        },
+        {
+          "id": 153,
+          "chapter": 13,
+          "lemma": "πολύς, πολλή, πολύ",
+          "gloss": "singular: much; plural: many; adverb: often",
+          "part_of_speech": "other",
+          "root": "πολλο",
+          "frequency": 416
+        },
+        {
+          "id": 154,
+          "chapter": 13,
+          "lemma": "πῶς",
+          "gloss": "how?",
+          "part_of_speech": "other",
+          "frequency": 118
+        },
+        {
+          "id": 155,
+          "chapter": 13,
+          "lemma": "σημεῖον, –ου, τό",
+          "gloss": "sign, miracle",
+          "part_of_speech": "noun",
+          "root": "σημειο",
+          "frequency": 77
+        }
+      ]
+    },
+    {
+      "chapter": 14,
+      "word_count": 18,
+      "words": [
+        {
+          "id": 156,
+          "chapter": 14,
+          "lemma": "ἀλήθεια, –ας, ἡ",
+          "gloss": "truth",
+          "part_of_speech": "noun",
+          "root": "ἀληθεια",
+          "frequency": 109
+        },
+        {
+          "id": 157,
+          "chapter": 14,
+          "lemma": "εἰρήνη, –ης, ἡ",
+          "gloss": "peace",
+          "part_of_speech": "noun",
+          "root": "εἰρηνη",
+          "frequency": 92
+        },
+        {
+          "id": 158,
+          "chapter": 14,
+          "lemma": "ἐνώπιον",
+          "cases": {
+            "genitive": "before"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 94
+        },
+        {
+          "id": 159,
+          "chapter": 14,
+          "lemma": "ἐπαγγελία, –ας, ἡ",
+          "gloss": "promise",
+          "part_of_speech": "noun",
+          "root": "ἐπαγγελια",
+          "frequency": 52
+        },
+        {
+          "id": 160,
+          "chapter": 14,
+          "lemma": "ἑπτά",
+          "gloss": "seven",
+          "part_of_speech": "other",
+          "root": "ἑπτα",
+          "frequency": 88
+        },
+        {
+          "id": 161,
+          "chapter": 14,
+          "lemma": "θρόνος, –ου, ὁ",
+          "gloss": "throne",
+          "part_of_speech": "noun",
+          "root": "θρονο",
+          "frequency": 62
+        },
+        {
+          "id": 162,
+          "chapter": 14,
+          "lemma": "Ἰερουσαλήμ, ἡ",
+          "gloss": "Jerusalem",
+          "part_of_speech": "noun",
+          "root": "ἰερουσαλημ",
+          "frequency": 77
+        },
+        {
+          "id": 163,
+          "chapter": 14,
+          "lemma": "κατά (κατ᾿, καθ᾿)",
+          "cases": {
+            "genitive": "down from, against",
+            "accusative": "according to, throughout, during"
+          },
+          "part_of_speech": "preposition",
+          "frequency": 473
+        },
+        {
+          "id": 164,
+          "chapter": 14,
+          "lemma": "κεφαλή, –ῆς, ἡ",
+          "gloss": "head",
+          "part_of_speech": "noun",
+          "root": "κεφαλη",
+          "frequency": 75
+        },
+        {
+          "id": 165,
+          "chapter": 14,
+          "lemma": "ὁδός, –οῦ, ἡ",
+          "gloss": "way, road; journey; conduct",
+          "part_of_speech": "noun",
+          "root": "ὁδο",
+          "frequency": 101
+        },
+        {
+          "id": 166,
+          "chapter": 14,
+          "lemma": "ὅς, ἥ, ὅ",
+          "gloss": "who (whom), which",
+          "part_of_speech": "noun",
+          "root": "ὁς",
+          "frequency": 1399
+        },
+        {
+          "id": 167,
+          "chapter": 14,
+          "lemma": "ὅτε",
+          "gloss": "when",
+          "part_of_speech": "other",
+          "frequency": 103
+        },
+        {
+          "id": 168,
+          "chapter": 14,
+          "lemma": "οὕτως",
+          "gloss": "thus, so; in this manner",
+          "part_of_speech": "other",
+          "frequency": 208
+        },
+        {
+          "id": 169,
+          "chapter": 14,
+          "lemma": "πλοῖον, –ου, τό",
+          "gloss": "ship, boat",
+          "part_of_speech": "noun",
+          "root": "πλοιο",
+          "frequency": 67
+        },
+        {
+          "id": 170,
+          "chapter": 14,
+          "lemma": "ῥῆμα, –ατος, τό",
+          "gloss": "word, saying",
+          "part_of_speech": "noun",
+          "root": "ῥηματ",
+          "frequency": 68
+        },
+        {
+          "id": 171,
+          "chapter": 14,
+          "lemma": "τέ",
+          "gloss": "and (so), so",
+          "part_of_speech": "other",
+          "frequency": 215
+        },
+        {
+          "id": 172,
+          "chapter": 14,
+          "lemma": "χείρ, χειρός, ἡ",
+          "gloss": "hand",
+          "part_of_speech": "noun",
+          "root": "χειρ",
+          "frequency": 177
+        },
+        {
+          "id": 173,
+          "chapter": 14,
+          "lemma": "ψυχή, –ῆς, ἡ",
+          "gloss": "life; soul; self",
+          "part_of_speech": "noun",
+          "root": "ψυχη",
+          "frequency": 103
+        }
+      ]
+    },
+    {
+      "chapter": 16,
+      "word_count": 12,
+      "words": [
+        {
+          "id": 174,
+          "chapter": 16,
+          "lemma": "ἀκούω",
+          "gloss": "I hear; learn, obey; understand",
+          "part_of_speech": "verb",
+          "root": "ἀκου",
+          "principal_parts": [
+            "(ἤκουον)",
+            "ἀκούσω",
+            "ἤκουσα",
+            "ἀκήκοα",
+            "–",
+            "ἠκούσθην"
+          ],
+          "frequency": 428
+        },
+        {
+          "id": 175,
+          "chapter": 16,
+          "lemma": "βλέπω",
+          "gloss": "I see, look at",
+          "part_of_speech": "verb",
+          "root": "βλεπ",
+          "principal_parts": [
+            "(ἔβλεπον)",
+            "βλέψω",
+            "ἔβλεψα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 132
+        },
+        {
+          "id": 176,
+          "chapter": 16,
+          "lemma": "ἔχω",
+          "gloss": "I have, hold",
+          "part_of_speech": "verb",
+          "root": "σεχ",
+          "principal_parts": [
+            "(εἶχον)",
+            "ἕξω",
+            "ἔσχον",
+            "ἔσχηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 708
+        },
+        {
+          "id": 177,
+          "chapter": 16,
+          "lemma": "λέγω",
+          "gloss": "I say, speak",
+          "part_of_speech": "verb",
+          "root": "λεγ, ερ, ιπ",
+          "principal_parts": [
+            "(ἔλεγον)",
+            "ἐρῶ",
+            "εἶπον",
+            "εἴρηκα",
+            "εἴρημαι",
+            "ἐρρέθην"
+          ],
+          "frequency": 2353
+        },
+        {
+          "id": 178,
+          "chapter": 16,
+          "lemma": "λύω",
+          "gloss": "I loose, untie, destroy",
+          "part_of_speech": "verb",
+          "root": "λυ",
+          "principal_parts": [
+            "(ἔλυον)",
+            "λύσω",
+            "ἔλυσα",
+            "–",
+            "λέλυμαι",
+            "ἐλύθην"
+          ],
+          "frequency": 42
+        },
+        {
+          "id": 179,
+          "chapter": 16,
+          "lemma": "νόμος, –ου, ὁ",
+          "gloss": "law; principle",
+          "part_of_speech": "noun",
+          "root": "νομο",
+          "frequency": 194
+        },
+        {
+          "id": 180,
+          "chapter": 16,
+          "lemma": "ὅπου",
+          "gloss": "where",
+          "part_of_speech": "other",
+          "frequency": 82
+        },
+        {
+          "id": 181,
+          "chapter": 16,
+          "lemma": "πιστεύω",
+          "gloss": "I believe, have faith (in), trust",
+          "part_of_speech": "verb",
+          "root": "πιστευ",
+          "principal_parts": [
+            "(ἐπίστευον)",
+            "πιστεύσω",
+            "ἐπίστευσα",
+            "πεπίστευκα",
+            "πεπίστευμαι",
+            "ἐπιστεύθην"
+          ],
+          "frequency": 241
+        },
+        {
+          "id": 182,
+          "chapter": 16,
+          "lemma": "πρόσωπον, –ου, τό",
+          "gloss": "face; appearance",
+          "part_of_speech": "noun",
+          "root": "προσωπο",
+          "frequency": 76
+        },
+        {
+          "id": 183,
+          "chapter": 16,
+          "lemma": "τότε",
+          "gloss": "then; thereafter",
+          "part_of_speech": "other",
+          "frequency": 160
+        },
+        {
+          "id": 184,
+          "chapter": 16,
+          "lemma": "τυφλός, –ή, –όν",
+          "gloss": "blind",
+          "part_of_speech": "adjective",
+          "root": "τυφλο",
+          "frequency": 50
+        },
+        {
+          "id": 185,
+          "chapter": 16,
+          "lemma": "χαρά, –ᾶς, ἡ",
+          "gloss": "joy, delight",
+          "part_of_speech": "noun",
+          "root": "χαρα",
+          "frequency": 59
+        }
+      ]
+    },
+    {
+      "chapter": 17,
+      "word_count": 11,
+      "words": [
+        {
+          "id": 186,
+          "chapter": 17,
+          "lemma": "ἀγαπάω",
+          "gloss": "I love, cherish",
+          "part_of_speech": "verb",
+          "root": "ἀγαπα",
+          "principal_parts": [
+            "(ἠγάπων)",
+            "ἀγαπήσω",
+            "ἠγάπησα",
+            "ἠγάπηκα",
+            "ἠγάπημαι",
+            "ἠγαπήθην"
+          ],
+          "frequency": 143
+        },
+        {
+          "id": 187,
+          "chapter": 17,
+          "lemma": "δαιμόνιον, –ου, τό",
+          "gloss": "demon",
+          "part_of_speech": "noun",
+          "root": "δαιμονιο",
+          "frequency": 63
+        },
+        {
+          "id": 188,
+          "chapter": 17,
+          "lemma": "ζητέω",
+          "gloss": "I seek, desire, try to obtain",
+          "part_of_speech": "verb",
+          "root": "ζητε",
+          "principal_parts": [
+            "(ἐζήτουν)",
+            "ζητήσω",
+            "ἐζήτησα",
+            "–",
+            "–",
+            "ἐζητήθην"
+          ],
+          "frequency": 117
+        },
+        {
+          "id": 189,
+          "chapter": 17,
+          "lemma": "καλέω",
+          "gloss": "I call, name, invite",
+          "part_of_speech": "verb",
+          "root": "καλε",
+          "principal_parts": [
+            "(ἐκάλουν)",
+            "καλέσω",
+            "ἐκάλεσα",
+            "κέκληκα",
+            "κέκλημαι",
+            "ἐκλήθην"
+          ],
+          "frequency": 148
+        },
+        {
+          "id": 190,
+          "chapter": 17,
+          "lemma": "λαλέω",
+          "gloss": "I speak, say",
+          "part_of_speech": "verb",
+          "root": "λαλε",
+          "principal_parts": [
+            "(ἐλάλουν)",
+            "λαλήσω",
+            "ἐλάλησα",
+            "λελάληκα",
+            "λελάλημαι",
+            "ἐλαλήθην"
+          ],
+          "frequency": 296
+        },
+        {
+          "id": 191,
+          "chapter": 17,
+          "lemma": "οἶδα",
+          "gloss": "I know, understand",
+          "part_of_speech": "verb",
+          "root": "οἰδ, ἰδ",
+          "principal_parts": [
+            "εἰδήσω",
+            "ᾔδειν",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 318
+        },
+        {
+          "id": 192,
+          "chapter": 17,
+          "lemma": "ὅταν",
+          "gloss": "whenever",
+          "part_of_speech": "other",
+          "frequency": 123
+        },
+        {
+          "id": 193,
+          "chapter": 17,
+          "lemma": "πλείων, πλεῖον",
+          "gloss": "larger, more",
+          "part_of_speech": "adjective",
+          "root": "πλειο",
+          "frequency": 54
+        },
+        {
+          "id": 194,
+          "chapter": 17,
+          "lemma": "πληρόω",
+          "gloss": "I fill, complete, fulfill",
+          "part_of_speech": "verb",
+          "root": "πληρο",
+          "principal_parts": [
+            "(ἐπλήρουν)",
+            "πληρώσω",
+            "ἐπλήρωσα",
+            "πεπλήρωκα",
+            "πεπλήρωμαι",
+            "ἐπληρώθην"
+          ],
+          "frequency": 86
+        },
+        {
+          "id": 195,
+          "chapter": 17,
+          "lemma": "ποιέω",
+          "gloss": "I do, make",
+          "part_of_speech": "verb",
+          "root": "ποιε",
+          "principal_parts": [
+            "(ἐποίουν)",
+            "ποιήσω",
+            "ἐποίησα",
+            "πεποίηκα",
+            "πεποίημαι",
+            "–"
+          ],
+          "frequency": 568
+        },
+        {
+          "id": 196,
+          "chapter": 17,
+          "lemma": "τηρέω",
+          "gloss": "I keep, guard, observe",
+          "part_of_speech": "verb",
+          "root": "τηρε",
+          "principal_parts": [
+            "(ἐτήρουν)",
+            "τηρήσω",
+            "ἐτήρησα",
+            "τετήρηκα",
+            "τετήρημαι",
+            "ἐτηρήθην"
+          ],
+          "frequency": 70
+        }
+      ]
+    },
+    {
+      "chapter": 18,
+      "word_count": 10,
+      "words": [
+        {
+          "id": 197,
+          "chapter": 18,
+          "lemma": "ἀποκρίνομαι",
+          "gloss": "I answer",
+          "part_of_speech": "verb",
+          "root": "ἀπό + κριν",
+          "frequency": 231
+        },
+        {
+          "id": 198,
+          "chapter": 18,
+          "lemma": "δεῖ",
+          "gloss": "it is necessary",
+          "part_of_speech": "verb",
+          "root": "δει",
+          "principal_parts": [
+            "(ἔδει)",
+            "–",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 101
+        },
+        {
+          "id": 199,
+          "chapter": 18,
+          "lemma": "δύναμαι",
+          "gloss": "I am able, am powerful",
+          "part_of_speech": "verb",
+          "root": "δυνα",
+          "principal_parts": [
+            "(ἐδυνάμην or ἠδυνάμην)",
+            "δυνήσομαι",
+            "–",
+            "–",
+            "–",
+            "ἠδυνήθην"
+          ],
+          "frequency": 210
+        },
+        {
+          "id": 200,
+          "chapter": 18,
+          "lemma": "ἔρχομαι",
+          "gloss": "I come; go",
+          "part_of_speech": "verb",
+          "root": "ἐρχ, ἐλευθ",
+          "principal_parts": [
+            "(ἠρχόμην)",
+            "ἐλεύσομαι",
+            "ἦλθον or ἦλθα",
+            "ἐλήλυθα",
+            "–",
+            "–"
+          ],
+          "frequency": 632
+        },
+        {
+          "id": 201,
+          "chapter": 18,
+          "lemma": "νύξ, νυκτός, ἡ",
+          "gloss": "night",
+          "part_of_speech": "noun",
+          "root": "νυκτ",
+          "frequency": 61
+        },
+        {
+          "id": 202,
+          "chapter": 18,
+          "lemma": "ὅστις, ἥτις, ὅτι",
+          "gloss": "whoever, whichever, whatever",
+          "part_of_speech": "other",
+          "root": "ὁ + τιν",
+          "frequency": 152
+        },
+        {
+          "id": 203,
+          "chapter": 18,
+          "lemma": "πορεύομαι",
+          "gloss": "I go, proceed; live",
+          "part_of_speech": "verb",
+          "root": "πορευ",
+          "principal_parts": [
+            "(ἐπορευόμην)",
+            "πορεύσομαι",
+            "–",
+            "–",
+            "πεπόρευμαι",
+            "ἐπορεύθην"
+          ],
+          "frequency": 153
+        },
+        {
+          "id": 204,
+          "chapter": 18,
+          "lemma": "συνάγω",
+          "gloss": "I gather together, bring together; lead",
+          "part_of_speech": "verb",
+          "root": "σύν + ἀγ",
+          "principal_parts": [
+            "συνάξω",
+            "συνήγαγον",
+            "–",
+            "συνῆγμαι",
+            "συνήχθην"
+          ],
+          "frequency": 59
+        },
+        {
+          "id": 205,
+          "chapter": 18,
+          "lemma": "τόπος, –ου, ὁ",
+          "gloss": "place; location",
+          "part_of_speech": "noun",
+          "root": "τοπο",
+          "frequency": 94
+        },
+        {
+          "id": 206,
+          "chapter": 18,
+          "lemma": "ὡς",
+          "gloss": "as, like; that; approximately; when, after",
+          "part_of_speech": "other",
+          "frequency": 504
+        }
+      ]
+    },
+    {
+      "chapter": 19,
+      "word_count": 10,
+      "words": [
+        {
+          "id": 207,
+          "chapter": 19,
+          "lemma": "βασιλεύς, –έως, ὁ",
+          "gloss": "king",
+          "part_of_speech": "noun",
+          "root": "βασιλε",
+          "frequency": 115
+        },
+        {
+          "id": 208,
+          "chapter": 19,
+          "lemma": "γεννάω",
+          "gloss": "I beget, give birth to; produce",
+          "part_of_speech": "verb",
+          "root": "γεννα",
+          "principal_parts": [
+            "γεννήσω",
+            "ἐγέννησα",
+            "γεγέννηκα",
+            "γεγέννημαι",
+            "ἐγεννήθην"
+          ],
+          "frequency": 97
+        },
+        {
+          "id": 209,
+          "chapter": 19,
+          "lemma": "ζάω",
+          "gloss": "I live",
+          "part_of_speech": "verb",
+          "root": "ζα",
+          "principal_parts": [
+            "(ἔζων)",
+            "ζήσω",
+            "ἔζησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 140
+        },
+        {
+          "id": 210,
+          "chapter": 19,
+          "lemma": "Ἰουδαία, –ας, ἡ",
+          "gloss": "Judea",
+          "part_of_speech": "noun",
+          "root": "ἰουδαια",
+          "frequency": 43
+        },
+        {
+          "id": 211,
+          "chapter": 19,
+          "lemma": "Ἰουδαῖος, –αία, –αῖον",
+          "gloss": "adjective: Jewish; noun: Jew",
+          "part_of_speech": "adjective",
+          "root": "ἰουδαιο",
+          "frequency": 195
+        },
+        {
+          "id": 212,
+          "chapter": 19,
+          "lemma": "Ἰσραήλ, ὁ",
+          "gloss": "Israel",
+          "part_of_speech": "noun",
+          "root": "ἰσραηλ",
+          "frequency": 68
+        },
+        {
+          "id": 213,
+          "chapter": 19,
+          "lemma": "καρπός, –οῦ, ὁ",
+          "gloss": "fruit, crop; result",
+          "part_of_speech": "noun",
+          "root": "καρπο",
+          "frequency": 67
+        },
+        {
+          "id": 214,
+          "chapter": 19,
+          "lemma": "μείζων, –ον",
+          "gloss": "greater",
+          "part_of_speech": "adjective",
+          "root": "μειζον",
+          "frequency": 46
+        },
+        {
+          "id": 215,
+          "chapter": 19,
+          "lemma": "ὅλος, –η, –ον",
+          "gloss": "adjective: whole, complete; adverb: entirely",
+          "part_of_speech": "adjective",
+          "root": "ὁλο",
+          "frequency": 109
+        },
+        {
+          "id": 216,
+          "chapter": 19,
+          "lemma": "προσκυνέω",
+          "gloss": "I worship",
+          "part_of_speech": "verb",
+          "root": "προσκυνε",
+          "principal_parts": [
+            "(προσεκύνουν)",
+            "προσκυνήσω",
+            "προσεκύνησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 60
+        }
+      ]
+    },
+    {
+      "chapter": 20,
+      "word_count": 16,
+      "words": [
+        {
+          "id": 217,
+          "chapter": 20,
+          "lemma": "αἴρω",
+          "gloss": "I raise, take up, take away",
+          "part_of_speech": "verb",
+          "root": "ἀρ",
+          "principal_parts": [
+            "ἀρῶ",
+            "ἦρα",
+            "ἦρκα",
+            "ἦρμαι",
+            "ἤρθην"
+          ],
+          "frequency": 101
+        },
+        {
+          "id": 218,
+          "chapter": 20,
+          "lemma": "ἀποκτείνω",
+          "gloss": "I kill",
+          "part_of_speech": "verb",
+          "root": "ἀπό + κτεν",
+          "principal_parts": [
+            "ἀποκτενῶ",
+            "ἀπέκτεινα",
+            "–",
+            "–",
+            "ἀπεκτάνθην"
+          ],
+          "frequency": 74
+        },
+        {
+          "id": 219,
+          "chapter": 20,
+          "lemma": "ἀποστέλλω",
+          "gloss": "I send (away)",
+          "part_of_speech": "verb",
+          "root": "ἀπό + στελ",
+          "principal_parts": [
+            "ἀποστελῶ",
+            "ἀπέστειλα",
+            "ἀπέσταλκα",
+            "ἀπέσταλμαι",
+            "ἀπεστάλην"
+          ],
+          "frequency": 132
+        },
+        {
+          "id": 220,
+          "chapter": 20,
+          "lemma": "βαπτίζω",
+          "gloss": "I baptize; dip, immerse",
+          "part_of_speech": "verb",
+          "root": "βαπτιδ",
+          "principal_parts": [
+            "(ἐβάπτιζον)",
+            "βαπτίσω",
+            "ἐβάπτισα",
+            "–",
+            "βεβάπτισμαι",
+            "ἐβαπτίσθην"
+          ],
+          "frequency": 77
+        },
+        {
+          "id": 221,
+          "chapter": 20,
+          "lemma": "γινώσκω",
+          "gloss": "I know, come to know, realize, learn",
+          "part_of_speech": "verb",
+          "root": "γνω",
+          "principal_parts": [
+            "(ἐγίνωσκον)",
+            "γνώσομαι",
+            "ἔγνων",
+            "ἔγνωκα",
+            "ἔγνωσμαι",
+            "ἐγνώσθην"
+          ],
+          "frequency": 222
+        },
+        {
+          "id": 222,
+          "chapter": 20,
+          "lemma": "γλῶσσα, –ης, ἡ",
+          "gloss": "tongue, language",
+          "part_of_speech": "noun",
+          "root": "γλωσσα",
+          "frequency": 50
+        },
+        {
+          "id": 223,
+          "chapter": 20,
+          "lemma": "ἐγείρω",
+          "gloss": "I raise up, wake",
+          "part_of_speech": "verb",
+          "root": "ἐγερ",
+          "principal_parts": [
+            "ἐγερῶ",
+            "ἤγειρα",
+            "–",
+            "ἐγήγερμαι",
+            "ἠγέρθην"
+          ],
+          "frequency": 144
+        },
+        {
+          "id": 224,
+          "chapter": 20,
+          "lemma": "ἐκβάλλω",
+          "gloss": "I cast out, send out",
+          "part_of_speech": "verb",
+          "root": "ἐκ + βαλ",
+          "principal_parts": [
+            "(ἐξέβαλλον)",
+            "ἐκβαλῶ",
+            "ἐξέβαλον",
+            "–",
+            "–",
+            "ἐξεβλήθην"
+          ],
+          "frequency": 81
+        },
+        {
+          "id": 225,
+          "chapter": 20,
+          "lemma": "ἐκεῖ",
+          "gloss": "there, in that place",
+          "part_of_speech": "other",
+          "frequency": 105
+        },
+        {
+          "id": 226,
+          "chapter": 20,
+          "lemma": "κρίνω",
+          "gloss": "I judge, decide, prefer",
+          "part_of_speech": "verb",
+          "root": "κριν",
+          "principal_parts": [
+            "(ἐκρινόμην)",
+            "κρινῶ",
+            "ἔκρινα",
+            "κέκρικα",
+            "κέκριμαι",
+            "ἐκρίθην"
+          ],
+          "frequency": 114
+        },
+        {
+          "id": 227,
+          "chapter": 20,
+          "lemma": "λαός, –οῦ, ὁ",
+          "gloss": "people, crowd",
+          "part_of_speech": "noun",
+          "root": "λαο",
+          "frequency": 142
+        },
+        {
+          "id": 228,
+          "chapter": 20,
+          "lemma": "μένω",
+          "gloss": "I remain, live",
+          "part_of_speech": "verb",
+          "root": "μεν",
+          "principal_parts": [
+            "(ἔμενον)",
+            "μενῶ",
+            "ἔμεινα",
+            "μεμένηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 118
+        },
+        {
+          "id": 229,
+          "chapter": 20,
+          "lemma": "ὁράω",
+          "gloss": "I see, notice, experience",
+          "part_of_speech": "verb",
+          "root": "ὁρα; ὀπ; ἰδ",
+          "principal_parts": [
+            "ὄψομαι",
+            "εἶδον",
+            "ἑώρακα",
+            "–",
+            "ὤφθην"
+          ],
+          "frequency": 454
+        },
+        {
+          "id": 230,
+          "chapter": 20,
+          "lemma": "σοφία, –ας, ἡ",
+          "gloss": "wisdom",
+          "part_of_speech": "noun",
+          "root": "σοφια",
+          "frequency": 51
+        },
+        {
+          "id": 231,
+          "chapter": 20,
+          "lemma": "στόμα, –ατος, τό",
+          "gloss": "mouth",
+          "part_of_speech": "noun",
+          "root": "στοματ",
+          "frequency": 78
+        },
+        {
+          "id": 232,
+          "chapter": 20,
+          "lemma": "σῴζω",
+          "gloss": "I save, deliver, rescue",
+          "part_of_speech": "verb",
+          "root": "σωδ",
+          "principal_parts": [
+            "(ἔσῳζον)",
+            "σώσω",
+            "ἔσωσα",
+            "σέσωκα",
+            "σέσῳσμαι",
+            "ἐσώθην"
+          ],
+          "frequency": 106
+        }
+      ]
+    },
+    {
+      "chapter": 21,
+      "word_count": 9,
+      "words": [
+        {
+          "id": 233,
+          "chapter": 21,
+          "lemma": "ἀκολουθέω",
+          "gloss": "I follow; accompany",
+          "part_of_speech": "verb",
+          "root": "ἀκολουθε",
+          "principal_parts": [
+            "(ἠκολούθουν)",
+            "ἀκολουθήσω",
+            "ἠκολούθησα",
+            "ἠκολούθηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 90
+        },
+        {
+          "id": 234,
+          "chapter": 21,
+          "lemma": "διδάσκω",
+          "gloss": "I teach",
+          "part_of_speech": "verb",
+          "root": "διδακ",
+          "principal_parts": [
+            "(ἐδίδασκον)",
+            "διδάξω",
+            "16"
+          ],
+          "frequency": 97
+        },
+        {
+          "id": 235,
+          "chapter": 21,
+          "lemma": "ἐπερωτάω",
+          "gloss": "I ask (for)",
+          "part_of_speech": "verb",
+          "root": "ἐπί + ἐρωτα",
+          "principal_parts": [
+            "(ἐπηρώτων)",
+            "ἐπερωτήσω",
+            "ἐπηρώτησα",
+            "–",
+            "–",
+            "ἐπηρωτήθην"
+          ],
+          "frequency": 56
+        },
+        {
+          "id": 236,
+          "chapter": 21,
+          "lemma": "ἐρωτάω",
+          "gloss": "I ask; request",
+          "part_of_speech": "verb",
+          "root": "ἐρωτα",
+          "principal_parts": [
+            "(ἠρώτων)",
+            "ἐρωτήσω",
+            "ἠρώτησα",
+            "–",
+            "–",
+            "ἠρωτήθην"
+          ],
+          "frequency": 63
+        },
+        {
+          "id": 237,
+          "chapter": 21,
+          "lemma": "θέλω",
+          "gloss": "I wish, desire; enjoy",
+          "part_of_speech": "verb",
+          "root": "ἐθελε",
+          "principal_parts": [
+            "(ἤθελον)",
+            "–",
+            "ἠθέλησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 208
+        },
+        {
+          "id": 238,
+          "chapter": 21,
+          "lemma": "περιπατέω",
+          "gloss": "I walk (around); live",
+          "part_of_speech": "verb",
+          "root": "περί + πατε",
+          "principal_parts": [
+            "(περιεπάτουν)",
+            "περιπατήσω",
+            "περιεπάτησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 95
+        },
+        {
+          "id": 239,
+          "chapter": 21,
+          "lemma": "συναγωγή, –ῆς, ἡ",
+          "gloss": "synagogue; meeting",
+          "part_of_speech": "noun",
+          "root": "συναγωγη",
+          "frequency": 56
+        },
+        {
+          "id": 240,
+          "chapter": 21,
+          "lemma": "Φαρισαῖος, –ου, ὁ",
+          "gloss": "Pharisee",
+          "part_of_speech": "noun",
+          "root": "φαρισαιο",
+          "frequency": 98
+        },
+        {
+          "id": 241,
+          "chapter": 21,
+          "lemma": "χρόνος, –ου, ὁ",
+          "gloss": "time",
+          "part_of_speech": "noun",
+          "root": "χρονο",
+          "frequency": 54
+        }
+      ]
+    },
+    {
+      "chapter": 22,
+      "word_count": 14,
+      "words": [
+        {
+          "id": 242,
+          "chapter": 22,
+          "lemma": "ἀποθνῄσκω",
+          "gloss": "I die, am about to die, am freed from",
+          "part_of_speech": "verb",
+          "root": "ἀπό + θαν",
+          "principal_parts": [
+            "(ἀπέθνῃσκον)",
+            "ἀποθανοῦμαι",
+            "ἀπέθανον",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 111
+        },
+        {
+          "id": 243,
+          "chapter": 22,
+          "lemma": "ἄρτος, –ου, ὁ",
+          "gloss": "bread, loaf, food",
+          "part_of_speech": "noun",
+          "root": "ἀρτο",
+          "frequency": 97
+        },
+        {
+          "id": 244,
+          "chapter": 22,
+          "lemma": "βάλλω",
+          "gloss": "I throw",
+          "part_of_speech": "verb",
+          "root": "βαλ",
+          "principal_parts": [
+            "(ἔβαλλον)",
+            "βαλῶ",
+            "ἔβαλον",
+            "βέβληκα",
+            "βέβλημαι",
+            "ἐβλήθην"
+          ],
+          "frequency": 122
+        },
+        {
+          "id": 245,
+          "chapter": 22,
+          "lemma": "γῆ, γῆς, ἡ",
+          "gloss": "earth, land, region, humanity",
+          "part_of_speech": "noun",
+          "root": "γη",
+          "frequency": 250
+        },
+        {
+          "id": 246,
+          "chapter": 22,
+          "lemma": "γίνομαι",
+          "gloss": "I become, take place; am, exist; am born, am created (ἐγινόμην), γενήσομαι, ἐγενόμην, γέγονα, γεγένημαι, ἐγενήθην",
+          "part_of_speech": "verb",
+          "root": "γεν",
+          "frequency": 669
+        },
+        {
+          "id": 247,
+          "chapter": 22,
+          "lemma": "εἰσέρχομαι",
+          "gloss": "I come in(to); go in(to), enter",
+          "part_of_speech": "verb",
+          "root": "εἰς + ἐρχ/ἐλευθ",
+          "principal_parts": [
+            "εἰσελεύσομαι",
+            "εἰσῆλθον",
+            "11"
+          ],
+          "frequency": 194
+        },
+        {
+          "id": 248,
+          "chapter": 22,
+          "lemma": "ἐξέρχομαι",
+          "gloss": "I go out",
+          "part_of_speech": "verb",
+          "root": "ἐκ + ἐρχ/ἐλευθ",
+          "principal_parts": [
+            "(ἐξηρχόμην)",
+            "ἐξελεύσομαι",
+            "ἐξῆλθον",
+            "12"
+          ],
+          "frequency": 218
+        },
+        {
+          "id": 249,
+          "chapter": 22,
+          "lemma": "ἔτι",
+          "gloss": "still, yet, even",
+          "part_of_speech": "other",
+          "frequency": 93
+        },
+        {
+          "id": 250,
+          "chapter": 22,
+          "lemma": "εὑρίσκω",
+          "gloss": "I find",
+          "part_of_speech": "verb",
+          "root": "εὑρ",
+          "principal_parts": [
+            "(εὕρισκον or ηὕρισκον)",
+            "εὑρήσω",
+            "14"
+          ],
+          "frequency": 176
+        },
+        {
+          "id": 251,
+          "chapter": 22,
+          "lemma": "λαμβάνω",
+          "gloss": "I take; receive",
+          "part_of_speech": "verb",
+          "root": "λαβ",
+          "principal_parts": [
+            "(ἐλάμβανον)",
+            "λήμψομαι",
+            "15"
+          ],
+          "frequency": 258
+        },
+        {
+          "id": 252,
+          "chapter": 22,
+          "lemma": "οὔτε",
+          "gloss": "and not, neither, nor",
+          "part_of_speech": "other",
+          "frequency": 87
+        },
+        {
+          "id": 253,
+          "chapter": 22,
+          "lemma": "προσέρχομαι",
+          "gloss": "I come/go to",
+          "part_of_speech": "verb",
+          "root": "πρός + ἐρχ/ἐλευθ",
+          "principal_parts": [
+            "(προσηρχόμην)",
+            "–",
+            "προσῆλθον",
+            "16"
+          ],
+          "frequency": 86
+        },
+        {
+          "id": 254,
+          "chapter": 22,
+          "lemma": "προσεύχομαι",
+          "gloss": "I pray",
+          "part_of_speech": "verb",
+          "root": "πρός + εὐχ",
+          "principal_parts": [
+            "(προσηυχόμην)",
+            "προσεύξομαι",
+            "προσηυξάμην",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 85
+        },
+        {
+          "id": 255,
+          "chapter": 22,
+          "lemma": "πῦρ, πυρός, τό",
+          "gloss": "fire",
+          "part_of_speech": "noun",
+          "root": "πυρ",
+          "frequency": 71
+        }
+      ]
+    },
+    {
+      "chapter": 23,
+      "word_count": 8,
+      "words": [
+        {
+          "id": 256,
+          "chapter": 23,
+          "lemma": "ἀπέρχομαι",
+          "gloss": "I depart",
+          "part_of_speech": "verb",
+          "root": "ἀπό + ἐρχ/ἐλευθ",
+          "principal_parts": [
+            "ἀπελεύσομαι",
+            "ἀπῆλθον",
+            "ἀπελήλυθα",
+            "–",
+            "–"
+          ],
+          "frequency": 117
+        },
+        {
+          "id": 257,
+          "chapter": 23,
+          "lemma": "ἄρχομαι",
+          "gloss": "I begin",
+          "part_of_speech": "verb",
+          "root": "ἀρχ",
+          "principal_parts": [
+            "ἄρξομαι",
+            "ἠρξάμην",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 86
+        },
+        {
+          "id": 258,
+          "chapter": 23,
+          "lemma": "γράφω",
+          "gloss": "I write",
+          "part_of_speech": "verb",
+          "root": "γραφ",
+          "principal_parts": [
+            "(ἔγραφον)",
+            "γράψω",
+            "ἔγραψα",
+            "γέγραφα",
+            "γέγραπμαι or γέγραμμαι",
+            "ἐγράφην"
+          ],
+          "frequency": 191
+        },
+        {
+          "id": 259,
+          "chapter": 23,
+          "lemma": "διό",
+          "gloss": "therefore, for this reason",
+          "part_of_speech": "other",
+          "frequency": 53
+        },
+        {
+          "id": 260,
+          "chapter": 23,
+          "lemma": "δοξάζω",
+          "gloss": "I praise, honor, glorify",
+          "part_of_speech": "verb",
+          "root": "δοξαδ",
+          "principal_parts": [
+            "(ἐδόξαζον)",
+            "δοξάσω",
+            "ἐδόξασα",
+            "–",
+            "δεδόξασμαι",
+            "ἐδοξάσθην"
+          ],
+          "frequency": 61
+        },
+        {
+          "id": 261,
+          "chapter": 23,
+          "lemma": "δύναμις, –εως, ἡ",
+          "gloss": "power; miracle",
+          "part_of_speech": "noun",
+          "root": "δυναμ",
+          "frequency": 119
+        },
+        {
+          "id": 262,
+          "chapter": 23,
+          "lemma": "κηρύσσω",
+          "gloss": "I proclaim; preach",
+          "part_of_speech": "verb",
+          "root": "κηρυγ",
+          "principal_parts": [
+            "(ἐκήρυσσον)",
+            "–",
+            "ἐκήρυξα",
+            "–",
+            "–",
+            "ἐκηρύχθην"
+          ],
+          "frequency": 61
+        },
+        {
+          "id": 263,
+          "chapter": 23,
+          "lemma": "πίνω",
+          "gloss": "I drink",
+          "part_of_speech": "verb",
+          "root": "πι",
+          "principal_parts": [
+            "(ἔπινον)",
+            "πίομαι",
+            "ἔπιον",
+            "πέπωκα",
+            "–",
+            "ἐπόθην"
+          ],
+          "frequency": 73
+        }
+      ]
+    },
+    {
+      "chapter": 24,
+      "word_count": 8,
+      "words": [
+        {
+          "id": 264,
+          "chapter": 24,
+          "lemma": "ἄγω",
+          "gloss": "I lead, bring, arrest",
+          "part_of_speech": "verb",
+          "root": "ἀγ",
+          "principal_parts": [
+            "(ἦγον)",
+            "ἄξω",
+            "ἤγαγον",
+            "13"
+          ],
+          "frequency": 67
+        },
+        {
+          "id": 265,
+          "chapter": 24,
+          "lemma": "αἷμα, –ατος, τό",
+          "gloss": "blood",
+          "part_of_speech": "noun",
+          "root": "αἱματ",
+          "frequency": 97
+        },
+        {
+          "id": 266,
+          "chapter": 24,
+          "lemma": "ἕκαστος, –η, –ον",
+          "gloss": "each, every",
+          "part_of_speech": "adjective",
+          "root": "ἑκαστο",
+          "frequency": 82
+        },
+        {
+          "id": 267,
+          "chapter": 24,
+          "lemma": "ἱμάτιον, –ου, τό",
+          "gloss": "garment, cloak",
+          "part_of_speech": "noun",
+          "root": "ἱματιο",
+          "frequency": 60
+        },
+        {
+          "id": 268,
+          "chapter": 24,
+          "lemma": "ὄρος, ὄρους, τό",
+          "gloss": "mountain, hill",
+          "part_of_speech": "noun",
+          "root": "ὀρο",
+          "frequency": 63
+        },
+        {
+          "id": 269,
+          "chapter": 24,
+          "lemma": "ὑπάγω",
+          "gloss": "I depart",
+          "part_of_speech": "verb",
+          "root": "ὑπό + ἀγ",
+          "principal_parts": [
+            "(ὑπῆγον)",
+            "–",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 79
+        },
+        {
+          "id": 270,
+          "chapter": 24,
+          "lemma": "φοβέομαι",
+          "gloss": "I fear",
+          "part_of_speech": "verb",
+          "root": "φοβε",
+          "principal_parts": [
+            "(ἐφοβούμην)",
+            "–",
+            "–",
+            "–",
+            "–",
+            "ἐφοβήθην19"
+          ],
+          "frequency": 95
+        },
+        {
+          "id": 271,
+          "chapter": 24,
+          "lemma": "χαίρω",
+          "gloss": "I rejoice",
+          "part_of_speech": "verb",
+          "root": "χαρ",
+          "principal_parts": [
+            "(ἔχαιρον)",
+            "–",
+            "–",
+            "–",
+            "–",
+            "ἐχάρην21"
+          ],
+          "frequency": 74
+        }
+      ]
+    },
+    {
+      "chapter": 25,
+      "word_count": 3,
+      "words": [
+        {
+          "id": 272,
+          "chapter": 25,
+          "lemma": "αἰτέω",
+          "gloss": "I ask; demand",
+          "part_of_speech": "verb",
+          "root": "αἰτε",
+          "principal_parts": [
+            "(ᾔτουν)",
+            "αἰτήσω",
+            "ᾔτησα",
+            "ᾔτηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 70
+        },
+        {
+          "id": 273,
+          "chapter": 25,
+          "lemma": "μᾶλλον",
+          "gloss": "more, rather",
+          "part_of_speech": "other",
+          "frequency": 81
+        },
+        {
+          "id": 274,
+          "chapter": 25,
+          "lemma": "μαρτυρέω",
+          "gloss": "I bear witness, testify",
+          "part_of_speech": "verb",
+          "root": "μαρτυρε",
+          "principal_parts": [
+            "(ἐμαρτύρουν)",
+            "μαρτυρήσω",
+            "ἐμαρτύρησα",
+            "μεμαρτύρηκα",
+            "μεμαρτύρημαι",
+            "ἐμαρτυρήθην"
+          ],
+          "frequency": 76
+        }
+      ]
+    },
+    {
+      "chapter": 27,
+      "word_count": 14,
+      "words": [
+        {
+          "id": 275,
+          "chapter": 27,
+          "lemma": "ἀναβαίνω",
+          "gloss": "I go up",
+          "part_of_speech": "verb",
+          "root": "ἀνά + βα",
+          "principal_parts": [
+            "(ἀνέβαινον)",
+            "ἀναβήσομαι",
+            "ἀνέβην",
+            "ἀναβέβηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 82
+        },
+        {
+          "id": 276,
+          "chapter": 27,
+          "lemma": "ἀρχιερεύς, –έως, ὁ",
+          "gloss": "chief priest, high priest",
+          "part_of_speech": "noun",
+          "root": "ἀρχιερε",
+          "frequency": 122
+        },
+        {
+          "id": 277,
+          "chapter": 27,
+          "lemma": "δεξιός, –ά, –όν",
+          "gloss": "right",
+          "part_of_speech": "adjective",
+          "root": "δεξιο",
+          "frequency": 54
+        },
+        {
+          "id": 278,
+          "chapter": 27,
+          "lemma": "δύο",
+          "gloss": "two",
+          "part_of_speech": "other",
+          "frequency": 135
+        },
+        {
+          "id": 279,
+          "chapter": 27,
+          "lemma": "ἕτερος, –α, –ον",
+          "gloss": "other; another, different",
+          "part_of_speech": "adjective",
+          "root": "ἑτερο",
+          "frequency": 98
+        },
+        {
+          "id": 280,
+          "chapter": 27,
+          "lemma": "εὐαγγελίζω",
+          "gloss": "I bring good news; preach",
+          "part_of_speech": "verb",
+          "root": "εὐαγγελιδ",
+          "principal_parts": [
+            "(εὐηγγέλιζον)",
+            "–",
+            "εὐηγγέλισα",
+            "–",
+            "εὐηγγέλισμαι",
+            "εὐηγγελίσθην"
+          ],
+          "frequency": 54
+        },
+        {
+          "id": 281,
+          "chapter": 27,
+          "lemma": "θεωρέω",
+          "gloss": "I look at; perceive",
+          "part_of_speech": "verb",
+          "root": "θεωρε",
+          "principal_parts": [
+            "(ἐθεώρουν)",
+            "θεωρήσω",
+            "ἐθεώρησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 58
+        },
+        {
+          "id": 282,
+          "chapter": 27,
+          "lemma": "Ἱεροσόλυμα, τά",
+          "gloss": "Jerusalem",
+          "part_of_speech": "other",
+          "root": "ἱεροσολυμα",
+          "frequency": 62
+        },
+        {
+          "id": 283,
+          "chapter": 27,
+          "lemma": "κάθημαι",
+          "gloss": "I sit (down); live",
+          "part_of_speech": "verb",
+          "root": "καθη",
+          "principal_parts": [
+            "(ἐκαθήμην)",
+            "καθήσομαι",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 91
+        },
+        {
+          "id": 284,
+          "chapter": 27,
+          "lemma": "καταβαίνω",
+          "gloss": "I go down, come down",
+          "part_of_speech": "verb",
+          "root": "κατά + βα",
+          "principal_parts": [
+            "(κατέβαινον)",
+            "καταβήσομαι",
+            "κατέβην",
+            "καταβέβηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 81
+        },
+        {
+          "id": 285,
+          "chapter": 27,
+          "lemma": "οὗ",
+          "gloss": "where (23; adverb)",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 286,
+          "chapter": 27,
+          "lemma": "παρακαλέω",
+          "gloss": "I call (to one’s side); urge, implore; comfort",
+          "part_of_speech": "verb",
+          "root": "παρά + καλε",
+          "principal_parts": [
+            "(παρεκάλουν)",
+            "–",
+            "παρεκάλεσα",
+            "–",
+            "παρακέκλημαι",
+            "παρεκλήθην"
+          ],
+          "frequency": 109
+        },
+        {
+          "id": 287,
+          "chapter": 27,
+          "lemma": "πείθω",
+          "gloss": "I persuade",
+          "part_of_speech": "verb",
+          "root": "πειθ",
+          "principal_parts": [
+            "(ἔπειθον)",
+            "πείσω",
+            "ἔπεισα",
+            "πέποιθα",
+            "πέπεισμαι",
+            "ἐπείσθην"
+          ],
+          "frequency": 52
+        },
+        {
+          "id": 288,
+          "chapter": 27,
+          "lemma": "τρεῖς, τρία",
+          "gloss": "three",
+          "part_of_speech": "other",
+          "root": "τρες",
+          "frequency": 69
+        }
+      ]
+    },
+    {
+      "chapter": 28,
+      "word_count": 8,
+      "words": [
+        {
+          "id": 289,
+          "chapter": 28,
+          "lemma": "ἀσπάζομαι",
+          "gloss": "I greet, salute",
+          "part_of_speech": "verb",
+          "root": "ἀσπαδ",
+          "principal_parts": [
+            "(ἠσπαζόμην)",
+            "–",
+            "ἠσπασάμην",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 59
+        },
+        {
+          "id": 290,
+          "chapter": 28,
+          "lemma": "γραμματεύς, –έως, ὁ",
+          "gloss": "scribe",
+          "part_of_speech": "noun",
+          "root": "γραμματε",
+          "frequency": 63
+        },
+        {
+          "id": 291,
+          "chapter": 28,
+          "lemma": "ἔφη",
+          "gloss": "He/she/it was saying; he/she/it said",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 292,
+          "chapter": 28,
+          "lemma": "ἱερόν, –οῦ, τό",
+          "gloss": "temple",
+          "part_of_speech": "noun",
+          "root": "ἱερο",
+          "frequency": 71
+        },
+        {
+          "id": 293,
+          "chapter": 28,
+          "lemma": "κράζω",
+          "gloss": "I cry out, call out",
+          "part_of_speech": "verb",
+          "root": "κραγ",
+          "principal_parts": [
+            "(ἔκραζον)",
+            "κράξω",
+            "ἔκραξα",
+            "κέκραγα",
+            "–",
+            "–"
+          ],
+          "frequency": 55
+        },
+        {
+          "id": 294,
+          "chapter": 28,
+          "lemma": "οὐχί",
+          "gloss": "not (54, adverb)",
+          "part_of_speech": "other"
+        },
+        {
+          "id": 295,
+          "chapter": 28,
+          "lemma": "παιδίον, –ου, τό",
+          "gloss": "child, infant",
+          "part_of_speech": "noun",
+          "root": "παιδιο",
+          "frequency": 53
+        },
+        {
+          "id": 296,
+          "chapter": 28,
+          "lemma": "σπείρω",
+          "gloss": "I sow",
+          "part_of_speech": "verb",
+          "root": "σπερ",
+          "frequency": 52
+        }
+      ]
+    },
+    {
+      "chapter": 29,
+      "word_count": 5,
+      "words": [
+        {
+          "id": 297,
+          "chapter": 29,
+          "lemma": "δέχομαι",
+          "gloss": "I take, receive",
+          "part_of_speech": "verb",
+          "root": "δεχ",
+          "principal_parts": [
+            "δέξομαι",
+            "ἐδεξάμην",
+            "–",
+            "δέδεγμαι",
+            "ἐδέχθην"
+          ],
+          "frequency": 56
+        },
+        {
+          "id": 298,
+          "chapter": 29,
+          "lemma": "δοκέω",
+          "gloss": "I think, seem",
+          "part_of_speech": "verb",
+          "root": "δοκ",
+          "principal_parts": [
+            "(ἐδόκουν)",
+            "–",
+            "ἔδοξα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 62
+        },
+        {
+          "id": 299,
+          "chapter": 29,
+          "lemma": "ἐσθίω",
+          "gloss": "I eat",
+          "part_of_speech": "verb",
+          "root": "ἐσθι, φαγ",
+          "principal_parts": [
+            "(ἤσθιον)",
+            "φάγομαι",
+            "ἔφαγον",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 158
+        },
+        {
+          "id": 300,
+          "chapter": 29,
+          "lemma": "πέμπω",
+          "gloss": "I send",
+          "part_of_speech": "verb",
+          "root": "πεμπ",
+          "principal_parts": [
+            "πέμψω",
+            "ἔπεμψα",
+            "–",
+            "–",
+            "ἐπέμφθην"
+          ],
+          "frequency": 79
+        },
+        {
+          "id": 301,
+          "chapter": 29,
+          "lemma": "φέρω",
+          "gloss": "I carry, bear, produce",
+          "part_of_speech": "verb",
+          "root": "φερ, οἰ, ἐνεχ",
+          "principal_parts": [
+            "(ἔφερον)",
+            "οἴσω",
+            "ἤνεγκα",
+            "ἐνήνοχα",
+            "–",
+            "ἠνέχθην"
+          ],
+          "frequency": 66
+        }
+      ]
+    },
+    {
+      "chapter": 30,
+      "word_count": 2,
+      "words": [
+        {
+          "id": 302,
+          "chapter": 30,
+          "lemma": "μηδέ",
+          "gloss": "but not, nor, not even",
+          "part_of_speech": "other",
+          "frequency": 56
+        },
+        {
+          "id": 303,
+          "chapter": 30,
+          "lemma": "πρεσβύτερος, –α, –ον",
+          "gloss": "elder; older",
+          "part_of_speech": "adjective",
+          "root": "πρεσβυτερο",
+          "frequency": 66
+        }
+      ]
+    },
+    {
+      "chapter": 31,
+      "word_count": 2,
+      "words": [
+        {
+          "id": 304,
+          "chapter": 31,
+          "lemma": "λίθος, –ου, ὁ",
+          "gloss": "stone",
+          "part_of_speech": "noun",
+          "root": "λιθο",
+          "frequency": 59
+        },
+        {
+          "id": 305,
+          "chapter": 31,
+          "lemma": "τοιοῦτος, –αύτη, –οῦτον",
+          "gloss": "such, of such a kind",
+          "part_of_speech": "adjective",
+          "root": "τοιουτο",
+          "frequency": 57
+        }
+      ]
+    },
+    {
+      "chapter": 32,
+      "word_count": 2,
+      "words": [
+        {
+          "id": 306,
+          "chapter": 32,
+          "lemma": "δίκαιος, –αία, –αιον",
+          "gloss": "right, just, righteous",
+          "part_of_speech": "adjective",
+          "root": "δικαιο",
+          "frequency": 79
+        },
+        {
+          "id": 307,
+          "chapter": 32,
+          "lemma": "μέλλω",
+          "gloss": "I am about to",
+          "part_of_speech": "verb",
+          "root": "μελλε",
+          "principal_parts": [
+            "(ἔμελλον or ἤμελλον)",
+            "μελλήσω",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 109
+        }
+      ]
+    },
+    {
+      "chapter": 33,
+      "word_count": 3,
+      "words": [
+        {
+          "id": 308,
+          "chapter": 33,
+          "lemma": "ἀπόλλυμι",
+          "gloss": "active: I destroy, kill; middle: I perish, die",
+          "part_of_speech": "verb",
+          "root": "ἀπό + ὀλ",
+          "principal_parts": [
+            "(ἀπώλλυον)",
+            "ἀπολέσω or ἀπολῶ",
+            "ἀπώλεσα",
+            "ἀπόλωλα",
+            "–",
+            "–"
+          ],
+          "frequency": 90
+        },
+        {
+          "id": 309,
+          "chapter": 33,
+          "lemma": "ἀπολύω",
+          "gloss": "I release",
+          "part_of_speech": "verb",
+          "root": "ἀπό + λυ",
+          "principal_parts": [
+            "(ἀπέλυον)",
+            "ἀπολύσω",
+            "ἀπέλυσα",
+            "–",
+            "ἀπολέλυμαι",
+            "ἀπελύθην"
+          ],
+          "frequency": 66
+        },
+        {
+          "id": 310,
+          "chapter": 33,
+          "lemma": "εἴτε",
+          "gloss": "if, whether",
+          "part_of_speech": "other",
+          "frequency": 65
+        }
+      ]
+    },
+    {
+      "chapter": 34,
+      "word_count": 7,
+      "words": [
+        {
+          "id": 311,
+          "chapter": 34,
+          "lemma": "δίδωμι",
+          "gloss": "I give; entrust",
+          "part_of_speech": "verb",
+          "root": "δο",
+          "principal_parts": [
+            "(ἐδίδουν)",
+            "δώσω",
+            "ἔδωκα",
+            "δέδωκα",
+            "δέδομαι",
+            "ἐδόθην"
+          ],
+          "frequency": 415
+        },
+        {
+          "id": 312,
+          "chapter": 34,
+          "lemma": "ἔθνος, –ους, τό",
+          "gloss": "singular: nation; plural: the gentiles",
+          "part_of_speech": "noun",
+          "root": "ἐθνες",
+          "frequency": 162
+        },
+        {
+          "id": 313,
+          "chapter": 34,
+          "lemma": "λοιπός, –ή, –όν",
+          "gloss": "adjective: remaining; noun: (the) rest; adverb: for the rest, henceforth",
+          "part_of_speech": "adjective",
+          "root": "λοιπο",
+          "frequency": 55
+        },
+        {
+          "id": 314,
+          "chapter": 34,
+          "lemma": "Μωϋσῆς, –έως, ὁ",
+          "gloss": "Moses",
+          "part_of_speech": "noun",
+          "root": "μωϋση",
+          "frequency": 80
+        },
+        {
+          "id": 315,
+          "chapter": 34,
+          "lemma": "παραδίδωμι",
+          "gloss": "I deliver, entrust; hand over",
+          "part_of_speech": "verb",
+          "root": "παρά + δο",
+          "principal_parts": [
+            "(παρεδίδουν)",
+            "παραδώσω",
+            "παρέδωκα",
+            "παραδέδωκα",
+            "παραδέδομαι",
+            "παρεδόθην"
+          ],
+          "frequency": 119
+        },
+        {
+          "id": 316,
+          "chapter": 34,
+          "lemma": "πίπτω",
+          "gloss": "I fall",
+          "part_of_speech": "verb",
+          "root": "πετ",
+          "principal_parts": [
+            "(ἔπιπτον)",
+            "πεσοῦμαι",
+            "ἔπεσον or ἔπεσα",
+            "πέπτωκα",
+            "–",
+            "–"
+          ],
+          "frequency": 90
+        },
+        {
+          "id": 317,
+          "chapter": 34,
+          "lemma": "ὑπάρχω",
+          "gloss": "I am; exist",
+          "part_of_speech": "verb",
+          "root": "ὑπό + ἀρχ",
+          "principal_parts": [
+            "(ὑπῆρχον)",
+            "–",
+            "–",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 60
+        }
+      ]
+    },
+    {
+      "chapter": 35,
+      "word_count": 15,
+      "words": [
+        {
+          "id": 318,
+          "chapter": 35,
+          "lemma": "ἁγιάζω",
+          "gloss": "I consecrate, sanctify",
+          "part_of_speech": "verb",
+          "root": "ἁγιαδ",
+          "frequency": 28
+        },
+        {
+          "id": 319,
+          "chapter": 35,
+          "lemma": "ἁμαρτάνω",
+          "gloss": "I sin",
+          "part_of_speech": "verb",
+          "root": "ἁμαρτ",
+          "principal_parts": [
+            "ἁμαρτήσω",
+            "ἥμαρτον or ἡμάρτησα",
+            "ἡμάρτηκα",
+            "–",
+            "–"
+          ],
+          "frequency": 43
+        },
+        {
+          "id": 320,
+          "chapter": 35,
+          "lemma": "ἁμαρτωλός, –όν",
+          "gloss": "adjective: sinful; noun: sinner",
+          "part_of_speech": "adjective",
+          "root": "ἁμαρτωλο",
+          "frequency": 47
+        },
+        {
+          "id": 321,
+          "chapter": 35,
+          "lemma": "ἀνάστασις, –εως, ἡ",
+          "gloss": "resurrection",
+          "part_of_speech": "noun",
+          "root": "ἀναστασ",
+          "frequency": 42
+        },
+        {
+          "id": 322,
+          "chapter": 35,
+          "lemma": "ἀπαγγέλλω",
+          "gloss": "I report; tell",
+          "part_of_speech": "verb",
+          "root": "ἀπό + ἀγγελ",
+          "principal_parts": [
+            "(ἀπήγγελλον)",
+            "ἀπαγγελῶ",
+            "ἀπήγγειλα",
+            "–",
+            "–",
+            "ἀπηγγέλην"
+          ],
+          "frequency": 45
+        },
+        {
+          "id": 323,
+          "chapter": 35,
+          "lemma": "διακονέω",
+          "gloss": "I serve",
+          "part_of_speech": "verb",
+          "root": "διακονε",
+          "principal_parts": [
+            "(διηκόνουν)",
+            "διακονήσω",
+            "διηκόνησα",
+            "–",
+            "–",
+            "διηκονήθην"
+          ],
+          "frequency": 37
+        },
+        {
+          "id": 324,
+          "chapter": 35,
+          "lemma": "διακονία, –ας, ἡ",
+          "gloss": "service",
+          "part_of_speech": "noun",
+          "root": "διακονια",
+          "frequency": 34
+        },
+        {
+          "id": 325,
+          "chapter": 35,
+          "lemma": "δικαιόω",
+          "gloss": "I justify; vindicate",
+          "part_of_speech": "verb",
+          "root": "δικαιο",
+          "principal_parts": [
+            "δικαιώσω",
+            "ἐδικαίωσα",
+            "–",
+            "δεδικαίωμαι",
+            "ἐδικαιώθην"
+          ],
+          "frequency": 39
+        },
+        {
+          "id": 326,
+          "chapter": 35,
+          "lemma": "θλῖψις, –εως, ἡ",
+          "gloss": "affliction, tribulation",
+          "part_of_speech": "noun",
+          "root": "θλιψ",
+          "frequency": 45
+        },
+        {
+          "id": 327,
+          "chapter": 35,
+          "lemma": "ἱλαστήριον, –ου, τό",
+          "gloss": "propitiation, expiation, place of atonement",
+          "part_of_speech": "noun",
+          "root": "ἱλαστηριο",
+          "frequency": 2
+        },
+        {
+          "id": 328,
+          "chapter": 35,
+          "lemma": "σταυρόω",
+          "gloss": "I crucify",
+          "part_of_speech": "verb",
+          "root": "σταυρο",
+          "principal_parts": [
+            "σταυρώσω",
+            "ἐσταύρωσα",
+            "–",
+            "ἐσταύρωμαι",
+            "ἐσταυρώθην"
+          ],
+          "frequency": 46
+        },
+        {
+          "id": 329,
+          "chapter": 35,
+          "lemma": "σωτήρ, –ῆρος, ὁ",
+          "gloss": "savior; deliverer",
+          "part_of_speech": "noun",
+          "root": "σωτηρ",
+          "frequency": 24
+        },
+        {
+          "id": 330,
+          "chapter": 35,
+          "lemma": "σωτηρία, –ας, ἡ",
+          "gloss": "salvation; deliverance",
+          "part_of_speech": "noun",
+          "root": "σωτηρια",
+          "frequency": 46
+        },
+        {
+          "id": 331,
+          "chapter": 35,
+          "lemma": "φανερόω",
+          "gloss": "I reveal, make known",
+          "part_of_speech": "verb",
+          "root": "φανερο",
+          "principal_parts": [
+            "φανερώσω",
+            "ἐφανέρωσα",
+            "–",
+            "πεφανέρωμαι",
+            "ἐφανερώθην"
+          ],
+          "frequency": 49
+        },
+        {
+          "id": 332,
+          "chapter": 35,
+          "lemma": "φόβος, –ου, ὁ",
+          "gloss": "fear; reverence",
+          "part_of_speech": "noun",
+          "root": "φοβο",
+          "frequency": 47
+        }
+      ]
+    },
+    {
+      "chapter": 36,
+      "word_count": 9,
+      "words": [
+        {
+          "id": 333,
+          "chapter": 36,
+          "lemma": "ἀνίστημι",
+          "gloss": "intransitive: I rise, get up; transitive: I raise",
+          "part_of_speech": "verb",
+          "root": "ἀνά + στα",
+          "principal_parts": [
+            "ἀναστήσω",
+            "ἀνέστησα",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 108
+        },
+        {
+          "id": 334,
+          "chapter": 36,
+          "lemma": "ἀνοίγω",
+          "gloss": "I open",
+          "part_of_speech": "verb",
+          "root": "ἀνά + οἰγ",
+          "principal_parts": [
+            "ἀνοίξω",
+            "ἠνέῳξα",
+            "ἀνέῳγα",
+            "ἀνέῳγμαι",
+            "ἠνεῴχθην or ἠνοίγην"
+          ],
+          "frequency": 77
+        },
+        {
+          "id": 335,
+          "chapter": 36,
+          "lemma": "ἀφίημι",
+          "gloss": "I let go, leave, permit; forgive",
+          "part_of_speech": "verb",
+          "root": "ἀπό + σε",
+          "principal_parts": [
+            "(ἤφιον)",
+            "ἀφήσω",
+            "ἀφῆκα",
+            "–",
+            "ἀφέωμαι",
+            "ἀφέθην"
+          ],
+          "frequency": 143
+        },
+        {
+          "id": 336,
+          "chapter": 36,
+          "lemma": "δείκνυμι",
+          "gloss": "I show, explain",
+          "part_of_speech": "verb",
+          "root": "δεικνυ",
+          "principal_parts": [
+            "δείξω",
+            "ἔδειξα",
+            "δέδειχα",
+            "–",
+            "ἐδείχθην"
+          ],
+          "frequency": 30
+        },
+        {
+          "id": 337,
+          "chapter": 36,
+          "lemma": "ἴδιος, ἴδια, ἴδιον",
+          "gloss": "one’s own",
+          "part_of_speech": "adjective",
+          "root": "ἰδιο",
+          "frequency": 114
+        },
+        {
+          "id": 338,
+          "chapter": 36,
+          "lemma": "ἵστημι",
+          "gloss": "intransitive: I stand; transitive: I cause to stand",
+          "part_of_speech": "verb",
+          "root": "στα",
+          "principal_parts": [
+            "(ἵστην)",
+            "στήσω",
+            "ἔστησα or ἔστην",
+            "ἕστηκα",
+            "–",
+            "ἐστάθην"
+          ],
+          "frequency": 154
+        },
+        {
+          "id": 339,
+          "chapter": 36,
+          "lemma": "μέσος, –η, –ον",
+          "gloss": "middle, in the midst",
+          "part_of_speech": "adjective",
+          "root": "μεσο",
+          "frequency": 58
+        },
+        {
+          "id": 340,
+          "chapter": 36,
+          "lemma": "τίθημι",
+          "gloss": "I put, place",
+          "part_of_speech": "verb",
+          "root": "θε",
+          "principal_parts": [
+            "(ἐτίθην)",
+            "θήσω",
+            "ἔθηκα",
+            "τέθεικα",
+            "τέθειμαι",
+            "ἐτέθην"
+          ],
+          "frequency": 100
+        },
+        {
+          "id": 341,
+          "chapter": 36,
+          "lemma": "φημί",
+          "gloss": "I say, affirm",
+          "part_of_speech": "verb",
+          "root": "φε",
+          "principal_parts": [
+            "(ἔφη)",
+            "–",
+            "ἔφη",
+            "–",
+            "–",
+            "–"
+          ],
+          "frequency": 66
+        }
+      ]
+    }
+  ]
+}
