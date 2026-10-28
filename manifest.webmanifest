@@ -1,0 +1,15 @@
+{
+  "name": "Greek Flashcards",
+  "short_name": "Greek Cards",
+  "description": "Flashcards for Biblical Greek vocabulary from Mounce, Basics of Biblical Greek.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf8e2",
+  "theme_color": "#092365",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
