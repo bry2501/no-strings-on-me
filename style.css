@@ -233,9 +233,6 @@ legend { font-weight: 600; margin-bottom: 8px; }
 .card-back { border-top: 1px solid var(--border); padding-top: 16px; text-align: center; }
 .answer-main { font-size: 1.35rem; font-weight: 500; margin: 0 0 12px; }
 .answer-main.greek { font-family: var(--greek); font-size: 1.75rem; font-weight: 400; }
-.cases { display: inline-grid; grid-template-columns: auto auto; gap: 4px 12px; text-align: left; margin: 0 0 12px; }
-.cases dt { color: var(--muted); font-size: 0.85rem; padding-top: 0.2rem; }
-.cases dd { margin: 0; font-size: 1.15rem; }
 .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 0.9rem; color: var(--muted); margin: 0; }
 .details .greek { font-family: var(--greek); color: var(--text); }
 .also { font-size: 0.9rem; color: var(--muted); margin: 0 0 12px; }

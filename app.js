@@ -159,7 +159,8 @@
   function chapterRank(chapter) {
     if (settings.track !== "two") return chapter;
     var i = TRACK_TWO.indexOf(chapter);
-    return i === -1 ? chapter : i;
+    // Chapters after the list keep book order, ranked after everything in it.
+    return i === -1 ? TRACK_TWO.length + chapter : i;
   }
 
   function inChapters(card) { return settings.chapters.indexOf(card.word.chapter) !== -1; }
@@ -404,7 +405,6 @@
     el.card.classList.remove("revealed", "flash-right", "flash-wrong", "combo-186", "combo-187", "combo-188");
     var combo = COMBOS[card.order % COMBOS.length];
     if (combo) el.card.classList.add(combo);
-    el.card.setAttribute("aria-label", "Flashcard. Press to reveal the answer.");
     el.answer.hidden = true;
     el.answer.textContent = "";
     el.btnRight.disabled = true;
@@ -430,7 +430,6 @@
     var word = card.word;
     round.revealed = true;
     el.card.classList.add("revealed");
-    el.card.setAttribute("aria-label", "Flashcard, answer shown.");
     el.answer.textContent = "";
 
     if (settings.direction === "english") {
@@ -476,6 +475,8 @@
   }
 
   function record(id, correct) {
+    // Start from what is saved, so answers from another open tab or the installed app survive.
+    stats = load(STATS_KEY) || stats;
     var s = stats[id] || (stats[id] = { right: 0, wrong: 0 });
     s[correct ? "right" : "wrong"] += 1;
     schedule(id, correct);
@@ -511,16 +512,25 @@
 
   function skip() {
     var card = currentCard();
-    if (!card) return;
+    if (!card || round.busy) return;
     round.skip += 1;
     round.queue.push(round.queue.shift());
     advance();
   }
 
+  // The queue has already moved on, so lock the controls until the next card is
+  // shown; otherwise a double press would grade a card the user never saw.
   function advance(flashClass) {
+    round.revealed = false;
+    el.btnRight.disabled = true;
+    el.btnWrong.disabled = true;
     if (flashClass) {
+      round.busy = true;
       el.card.classList.add(flashClass);
-      setTimeout(showCard, 180);
+      setTimeout(function () {
+        round.busy = false;
+        showCard();
+      }, 180);
     } else {
       showCard();
     }
@@ -544,7 +554,7 @@
     el.summaryText.textContent =
       "You went through " + plural(round.total, "card") + ". " +
       firstTry + " right on the first try, " + round.missed.length + " missed at least once" +
-      (round.skip ? ", " + round.skip + " skips." : ".");
+      (round.skip ? ", " + plural(round.skip, "skip") + "." : ".");
     el.summaryNext.textContent = nextReviewText();
 
     el.missedList.textContent = "";
@@ -558,7 +568,7 @@
       el.missedList.appendChild(li);
     });
     el.practiceMissed.hidden = round.missed.length === 0;
-    el.practiceMissed.focus();
+    (round.missed.length ? el.practiceMissed : $("restart")).focus();
   }
 
   function showError(message) {
@@ -590,8 +600,10 @@
     onRadio("mode", function (value) { settings.mode = value; });
     onRadio("track", function (value) { settings.track = value; });
     el.newPerRound.addEventListener("change", function () {
-      var n = Math.round(Number(el.newPerRound.value));
-      settings.newPerRound = isFinite(n) ? Math.max(0, Math.min(200, n)) : 20;
+      var raw = el.newPerRound.value.trim();
+      var n = Math.round(Number(raw));
+      // Number("") is 0, so an emptied field would otherwise switch new cards off.
+      if (raw !== "" && isFinite(n)) settings.newPerRound = Math.max(0, Math.min(200, n));
       el.newPerRound.value = settings.newPerRound;
       save(SETTINGS_KEY, settings);
     });
@@ -614,6 +626,13 @@
     $("caught-up-settings").addEventListener("click", function () { toggleSettings(true); });
     $("restart").addEventListener("click", function () { startRound(); });
     el.practiceMissed.addEventListener("click", function () { startRound(round.missed); });
+
+    // Another tab or the installed app saved progress: pick it up.
+    window.addEventListener("storage", function (e) {
+      if (e.key !== STATS_KEY) return;
+      stats = load(STATS_KEY) || {};
+      if (!el.settings.hidden) renderSrsStatus();
+    });
 
     el.card.addEventListener("click", reveal);
     el.btnRight.addEventListener("click", markRight);
@@ -720,8 +739,15 @@
       if (!res.ok) throw new Error("HTTP " + res.status);
       return res.json();
     })
-    .then(init)
-    .catch(function (err) {
+    .then(function (data) {
+      try {
+        init(data);
+      } catch (err) {
+        hidePanels();
+        showError("Something went wrong while starting the flashcards: " + err.message);
+        console.error(err);
+      }
+    }, function (err) {
       el.study.hidden = true;
       showError("Could not load " + DATA_URL + " (" + err.message + "). " +
         "If you opened this file directly from disk, serve the folder over HTTP instead, " +
