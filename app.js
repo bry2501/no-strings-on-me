@@ -7,7 +7,12 @@
   var CASE_ORDER = ["nominative", "genitive", "dative", "accusative", "vocative"];
   // Card stripe classes from style.css; "" is the default combination (185).
   var COMBOS = ["", "combo-186", "combo-187", "combo-188"];
-  var CASE_ABBR ={ nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
+  var CASE_ABBR = { nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
+
+  // Leitner boxes: days until the next review, indexed by box. Box 0 means new.
+  var INTERVALS = [0, 1, 3, 7, 14, 30];
+  var MAX_BOX = INTERVALS.length - 1;
+  var DAY_MS = 24 * 60 * 60 * 1000;
 
   var $ = function (id) { return document.getElementById(id); };
   var el = {
@@ -16,8 +21,13 @@
     chapterList: $("chapter-list"),
     shuffle: $("opt-shuffle"),
     repeat: $("opt-repeat"),
+    newPerRound: $("opt-new"),
+    srsStatus: $("srs-status"),
     study: $("study"),
     summary: $("summary"),
+    summaryNext: $("summary-next"),
+    caughtUp: $("caught-up"),
+    caughtUpText: $("caught-up-text"),
     card: $("card"),
     prompt: $("prompt"),
     answer: $("answer"),
@@ -41,7 +51,9 @@
   var words = [];
   var byId = {};
   var chapters = [];
-  var settings = { chapters: null, direction: "greek", shuffle: true, repeat: true };
+  var settings = {
+    chapters: null, mode: "review", newPerRound: 20, direction: "greek", shuffle: true, repeat: true
+  };
   var stats = {};
   var round = null;
 
@@ -94,6 +106,78 @@
     return parts.join("; ");
   }
 
+  // ---------- spaced repetition ----------
+
+  // Days since the epoch in local time, so "due tomorrow" flips at local midnight.
+  function today() {
+    var now = new Date();
+    return Math.floor((now.getTime() - now.getTimezoneOffset() * 60000) / DAY_MS);
+  }
+
+  function boxOf(id) {
+    var s = stats[id];
+    return s && s.box ? s.box : 0;
+  }
+
+  function isNew(id) { return boxOf(id) === 0; }
+
+  function isDue(id, day) {
+    return !isNew(id) && stats[id].due <= (day === undefined ? today() : day);
+  }
+
+  // Only the first answer to a word in a round moves it between boxes.
+  // Practicing a word that isn't due yet never pushes it further out,
+  // but missing it still brings it back tomorrow.
+  function schedule(id, correct) {
+    if (round.graded[id]) return;
+    round.graded[id] = true;
+    var s = stats[id];
+    if (correct) {
+      if (!isNew(id) && !isDue(id)) return;
+      s.box = Math.min(boxOf(id) + 1, MAX_BOX);
+    } else {
+      s.box = 1;
+    }
+    s.due = today() + INTERVALS[s.box];
+  }
+
+  function selectedIds() {
+    return words
+      .filter(function (w) { return settings.chapters.indexOf(w.chapter) !== -1; })
+      .map(function (w) { return w.id; });
+  }
+
+  function countSelected(test) {
+    return selectedIds().filter(test).length;
+  }
+
+  function plural(n, word) { return n + " " + word + (n === 1 ? "" : "s"); }
+
+  function renderSrsStatus() {
+    var ids = selectedIds();
+    var due = ids.filter(function (id) { return isDue(id); }).length;
+    var fresh = ids.filter(isNew).length;
+    var mastered = ids.filter(function (id) { return boxOf(id) === MAX_BOX; }).length;
+    el.srsStatus.textContent = "";
+    [["Due now", due], ["New", fresh], ["Learning", ids.length - fresh - mastered], ["In the last box", mastered]]
+      .forEach(function (pair, i) {
+        if (i) el.srsStatus.appendChild(document.createTextNode(" · "));
+        el.srsStatus.appendChild(document.createTextNode(pair[0] + ": "));
+        el.srsStatus.appendChild(make("b", null, String(pair[1])));
+      });
+  }
+
+  function nextReviewText() {
+    var tomorrow = countSelected(function (id) { return isDue(id, today() + 1); });
+    if (tomorrow) return plural(tomorrow, "word") + " will be due for review tomorrow.";
+    var upcoming = selectedIds()
+      .filter(function (id) { return !isNew(id); })
+      .map(function (id) { return stats[id].due; });
+    if (!upcoming.length) return "";
+    var days = Math.min.apply(null, upcoming) - today();
+    return "Your next review is in " + plural(days, "day") + ".";
+  }
+
   // ---------- settings UI ----------
 
   function renderChapterChips() {
@@ -119,6 +203,7 @@
       function (input) { return Number(input.value); }
     );
     save(SETTINGS_KEY, settings);
+    renderSrsStatus();
   }
 
   function setAllChapters(checked) {
@@ -130,6 +215,10 @@
     document.querySelectorAll('input[name="direction"]').forEach(function (input) {
       input.checked = input.value === settings.direction;
     });
+    document.querySelectorAll('input[name="mode"]').forEach(function (input) {
+      input.checked = input.value === settings.mode;
+    });
+    el.newPerRound.value = settings.newPerRound;
     el.shuffle.checked = settings.shuffle;
     el.repeat.checked = settings.repeat;
     renderChapterChips();
@@ -138,30 +227,63 @@
   function toggleSettings(open) {
     if (open === undefined) open = el.settings.hidden;
     el.settings.hidden = !open;
+    if (open) renderSrsStatus();
     el.settingsToggle.setAttribute("aria-expanded", String(open));
     el.settingsToggle.textContent = open ? "Close settings" : "Settings";
   }
 
   // ---------- round ----------
 
-  function startRound(ids) {
-    if (!ids) {
-      ids = words
-        .filter(function (w) { return settings.chapters.indexOf(w.chapter) !== -1; })
-        .map(function (w) { return w.id; });
+  // Due words first, then up to newPerRound new words in chapter order.
+  function reviewDeck() {
+    var ids = selectedIds();
+    var due = ids.filter(function (id) { return isDue(id); });
+    var fresh = ids.filter(isNew).slice(0, settings.newPerRound);
+    if (settings.shuffle) {
+      shuffle(due);
+      shuffle(fresh);
     }
-    if (!ids.length) {
-      el.study.hidden = true;
-      el.summary.hidden = true;
+    return due.concat(fresh);
+  }
+
+  function hidePanels() {
+    el.study.hidden = true;
+    el.summary.hidden = true;
+    el.caughtUp.hidden = true;
+  }
+
+  // With no ids, builds the deck from the settings. Otherwise studies exactly those words.
+  function startRound(ids) {
+    hidePanels();
+    if (!settings.chapters.length) {
       toggleSettings(true);
       showError("Select at least one chapter to study.");
       return;
     }
     showError("");
-    ids = ids.slice();
-    if (settings.shuffle) shuffle(ids);
+    if (ids) {
+      ids = ids.slice();
+      if (settings.shuffle) shuffle(ids);
+    } else if (settings.mode === "review") {
+      ids = reviewDeck();
+    } else {
+      ids = selectedIds();
+      if (settings.shuffle) shuffle(ids);
+    }
+    if (!ids.length) {
+      toggleSettings(false);
+      var fresh = countSelected(isNew);
+      el.caughtUpText.textContent = "Nothing is due in the selected chapters. " +
+        (fresh ? plural(fresh, "new word") + (fresh === 1 ? " is" : " are") +
+                 " waiting, but new words per round is set to 0. "
+               : "You have started every word in them. ") +
+        nextReviewText();
+      el.caughtUp.hidden = false;
+      return;
+    }
 
     round = {
+      graded: {},
       queue: ids,
       total: ids.length,
       done: 0,
@@ -171,7 +293,6 @@
       missed: [],
       revealed: false
     };
-    el.summary.hidden = true;
     el.study.hidden = false;
     toggleSettings(false);
     showCard();
@@ -254,26 +375,26 @@
     }
 
     var s = stats[word.id];
-    if (s && (s.right || s.wrong)) {
-      el.answer.appendChild(make("p", "record",
-        "Your record: " + s.right + " right, " + s.wrong + " wrong"));
-    }
+    var history = isNew(word.id) ? "New word" : "Box " + boxOf(word.id) + " of " + MAX_BOX;
+    if (s && (s.right || s.wrong)) history += " · " + s.right + " right, " + s.wrong + " wrong";
+    el.answer.appendChild(make("p", "record", history));
 
     el.answer.hidden = false;
     el.btnRight.disabled = false;
     el.btnWrong.disabled = false;
   }
 
-  function record(id, key) {
+  function record(id, correct) {
     var s = stats[id] || (stats[id] = { right: 0, wrong: 0 });
-    s[key] += 1;
+    s[correct ? "right" : "wrong"] += 1;
+    schedule(id, correct);
     save(STATS_KEY, stats);
   }
 
   function markRight() {
     var word = currentWord();
     if (!word || !round.revealed) return;
-    record(word.id, "right");
+    record(word.id, true);
     round.right += 1;
     round.done += 1;
     round.queue.shift();
@@ -283,7 +404,7 @@
   function markWrong() {
     var word = currentWord();
     if (!word || !round.revealed) return;
-    record(word.id, "wrong");
+    record(word.id, false);
     round.wrong += 1;
     if (round.missed.indexOf(word.id) === -1) round.missed.push(word.id);
     round.queue.shift();
@@ -333,6 +454,7 @@
       "You went through " + round.total + (round.total === 1 ? " word" : " words") + ". " +
       firstTry + " right on the first try, " + round.missed.length + " missed at least once" +
       (round.skip ? ", " + round.skip + " skips." : ".");
+    el.summaryNext.textContent = nextReviewText();
 
     el.missedList.textContent = "";
     round.missed.forEach(function (id) {
@@ -366,6 +488,18 @@
         if (round && !el.study.hidden) showCard();
       });
     });
+    document.querySelectorAll('input[name="mode"]').forEach(function (input) {
+      input.addEventListener("change", function () {
+        settings.mode = input.value;
+        save(SETTINGS_KEY, settings);
+      });
+    });
+    el.newPerRound.addEventListener("change", function () {
+      var n = Math.round(Number(el.newPerRound.value));
+      settings.newPerRound = isFinite(n) ? Math.max(0, Math.min(200, n)) : 20;
+      el.newPerRound.value = settings.newPerRound;
+      save(SETTINGS_KEY, settings);
+    });
     el.shuffle.addEventListener("change", function () {
       settings.shuffle = el.shuffle.checked;
       save(SETTINGS_KEY, settings);
@@ -376,10 +510,13 @@
     });
     $("start").addEventListener("click", function () { startRound(); });
     $("reset-stats").addEventListener("click", function () {
-      if (!confirm("Clear your saved right/wrong history for every word?")) return;
+      if (!confirm("Clear your saved history and review schedule for every word?")) return;
       stats = {};
       save(STATS_KEY, stats);
+      renderSrsStatus();
     });
+    $("practice-all").addEventListener("click", function () { startRound(selectedIds()); });
+    $("caught-up-settings").addEventListener("click", function () { toggleSettings(true); });
     $("restart").addEventListener("click", function () { startRound(); });
     el.practiceMissed.addEventListener("click", function () { startRound(round.missed); });
 

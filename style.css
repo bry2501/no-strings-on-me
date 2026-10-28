@@ -139,6 +139,19 @@ input[type="radio"], input[type="checkbox"] { accent-color: var(--accent); }
 fieldset { border: none; padding: 0; margin: 0 0 16px; }
 legend { font-weight: 600; margin-bottom: 8px; }
 .radio, .check { display: block; margin: 4px 0; }
+.number { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+.number input {
+  width: 5rem;
+  font: inherit;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.help { font-size: 0.85rem; color: var(--muted); margin: 4px 0; }
+.srs-status { font-size: 0.9rem; margin: 8px 0 0; }
+.srs-status b { color: var(--highlight); }
 .panel-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .chip-actions { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.9rem; }
