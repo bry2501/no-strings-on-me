@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Greek Flashcards</title>
+  <meta name="description" content="Flashcards for Biblical Greek vocabulary from Mounce, Basics of Biblical Greek.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Greek Flashcards</h1>
+    <button id="settings-toggle" class="ghost" aria-expanded="false" aria-controls="settings">Settings</button>
+  </header>
+
+  <main>
+    <section id="settings" class="panel" hidden>
+      <fieldset>
+        <legend>Chapters</legend>
+        <div class="chip-actions">
+          <button type="button" class="link" id="chapters-all">All</button>
+          <button type="button" class="link" id="chapters-none">None</button>
+        </div>
+        <div id="chapter-list" class="chips"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Card front</legend>
+        <label class="radio"><input type="radio" name="direction" value="greek" checked> Greek → English</label>
+        <label class="radio"><input type="radio" name="direction" value="english"> English → Greek</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Options</legend>
+        <label class="check"><input type="checkbox" id="opt-shuffle" checked> Shuffle cards</label>
+        <label class="check"><input type="checkbox" id="opt-repeat" checked> Repeat missed cards later in the round</label>
+      </fieldset>
+
+      <div class="panel-actions">
+        <button type="button" id="start" class="primary">Start new round</button>
+        <button type="button" id="reset-stats" class="ghost danger">Reset saved progress</button>
+      </div>
+    </section>
+
+    <section id="study" aria-live="polite">
+      <div class="progress">
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div class="tally">
+          <span id="count-remaining">0 left</span>
+          <span class="right-count" title="Right">✓ <b id="count-right">0</b></span>
+          <span class="wrong-count" title="Wrong">✗ <b id="count-wrong">0</b></span>
+          <span class="skip-count" title="Skipped">↷ <b id="count-skip">0</b></span>
+        </div>
+      </div>
+
+      <div id="card" class="card" tabindex="0" role="button" aria-label="Flashcard. Press to reveal the answer.">
+        <div class="card-meta">
+          <span id="card-chapter"></span>
+          <span id="card-pos"></span>
+        </div>
+        <div class="card-front">
+          <div id="prompt" class="prompt"></div>
+          <div id="hint" class="hint">Tap or press Space to reveal</div>
+        </div>
+        <div id="answer" class="card-back" hidden></div>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="btn-wrong" class="wrong" disabled>
+          <span class="icon">✗</span> Wrong <kbd>1</kbd>
+        </button>
+        <button type="button" id="btn-skip" class="skip">
+          <span class="icon">↷</span> Skip <kbd>2</kbd>
+        </button>
+        <button type="button" id="btn-right" class="right" disabled>
+          <span class="icon">✓</span> Right <kbd>3</kbd>
+        </button>
+      </div>
+    </section>
+
+    <section id="summary" class="panel" hidden>
+      <h2>Round complete</h2>
+      <p id="summary-text"></p>
+      <ul id="missed-list" class="missed"></ul>
+      <div class="panel-actions">
+        <button type="button" id="practice-missed" class="primary">Practice missed words</button>
+        <button type="button" id="restart" class="ghost">New round</button>
+      </div>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+  </main>
+
+  <footer>
+    <p id="source"></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
