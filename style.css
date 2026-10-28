@@ -170,6 +170,8 @@ legend { font-weight: 600; margin-bottom: 8px; }
   user-select: none;
 }
 .chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.chip .count { font-size: 0.75rem; opacity: 0.75; margin-left: 4px; }
+.chip.empty span { opacity: 0.45; }
 .chip input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* Progress */
@@ -224,6 +226,7 @@ legend { font-weight: 600; margin-bottom: 8px; }
 .prompt { font-size: clamp(1.75rem, 7vw, 2.75rem); line-height: 1.25; overflow-wrap: anywhere; }
 .prompt.greek { font-family: var(--greek); }
 .prompt.english { font-size: clamp(1.25rem, 5vw, 1.75rem); }
+.case-tag { margin-top: 6px; color: var(--highlight); font-weight: 500; }
 .hint { margin-top: 16px; color: var(--muted); font-size: 0.9rem; }
 .revealed .hint { display: none; }
 
@@ -235,6 +238,7 @@ legend { font-weight: 600; margin-bottom: 8px; }
 .cases dd { margin: 0; font-size: 1.15rem; }
 .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; font-size: 0.9rem; color: var(--muted); margin: 0; }
 .details .greek { font-family: var(--greek); color: var(--text); }
+.also { font-size: 0.9rem; color: var(--muted); margin: 0 0 12px; }
 .parts { font-family: var(--greek); font-size: 1rem; margin: 8px 0 0; color: var(--text); overflow-wrap: anywhere; }
 .record { font-size: 0.8rem; color: var(--muted); margin-top: 12px; }
 

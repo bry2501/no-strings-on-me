@@ -9,6 +9,16 @@
   var COMBOS = ["", "combo-186", "combo-187", "combo-188"];
   var CASE_ABBR = { nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
 
+  // Filter chips in this order; any other part of speech in the data is added after these.
+  var PARTS = [
+    ["noun", "Nouns"], ["verb", "Verbs"], ["adjective", "Adjectives"], ["pronoun", "Pronouns"],
+    ["article", "Article"], ["preposition", "Prepositions"], ["adverb", "Adverbs"],
+    ["conjunction", "Conjunctions"], ["particle", "Particles"], ["numeral", "Numbers"]
+  ];
+
+  // Track Two in the textbook takes chapters 15-18 and 21 before 10-14.
+  var TRACK_TWO = [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 21, 10, 11, 12, 13, 14, 19, 20];
+
   // Leitner boxes: days until the next review, indexed by box. Box 0 means new.
   var INTERVALS = [0, 1, 3, 7, 14, 30];
   var MAX_BOX = INTERVALS.length - 1;
@@ -19,6 +29,7 @@
     settings: $("settings"),
     settingsToggle: $("settings-toggle"),
     chapterList: $("chapter-list"),
+    partList: $("part-list"),
     shuffle: $("opt-shuffle"),
     repeat: $("opt-repeat"),
     newPerRound: $("opt-new"),
@@ -30,6 +41,7 @@
     caughtUpText: $("caught-up-text"),
     card: $("card"),
     prompt: $("prompt"),
+    caseTag: $("case-tag"),
     answer: $("answer"),
     cardChapter: $("card-chapter"),
     cardPos: $("card-pos"),
@@ -49,10 +61,13 @@
   };
 
   var words = [];
-  var byId = {};
+  var cards = [];
+  var cardById = {};
   var chapters = [];
+  var parts = [];
   var settings = {
-    chapters: null, mode: "review", newPerRound: 20, direction: "greek", shuffle: true, repeat: true
+    chapters: null, parts: null, mode: "review", newPerRound: 20, track: "one",
+    direction: "greek", shuffle: true, repeat: true
   };
   var stats = {};
   var round = null;
@@ -89,6 +104,8 @@
     return node;
   }
 
+  function plural(n, word) { return n + " " + word + (n === 1 ? "" : "s"); }
+
   function sortedCases(word) {
     if (!word.cases) return [];
     return Object.keys(word.cases).sort(function (a, b) {
@@ -96,14 +113,62 @@
     });
   }
 
-  // English meaning as a single line, used for prompts and the missed list.
-  function meaning(word) {
-    var parts = [];
-    if (word.gloss) parts.push(word.gloss);
-    sortedCases(word).forEach(function (c) {
-      parts.push("(" + CASE_ABBR[c] + ") " + word.cases[c]);
+  // ---------- cards ----------
+
+  // One card per meaning. A preposition gets a card for each case it takes, and a
+  // word like ἕως ("until"; + gen. "as far as") gets one for each use.
+  function buildCards() {
+    words.forEach(function (word) {
+      if (word.gloss) {
+        addCard({ id: String(word.id), word: word, pos: word.part_of_speech, kase: null, meaning: word.gloss });
+      }
+      sortedCases(word).forEach(function (c) {
+        addCard({ id: word.id + ":" + c, word: word, pos: "preposition", kase: c, meaning: word.cases[c] });
+      });
     });
-    return parts.join("; ");
+  }
+
+  function addCard(card) {
+    card.order = cards.length;
+    cards.push(card);
+    cardById[card.id] = card;
+  }
+
+  function siblings(card) {
+    return cards.filter(function (c) { return c.word === card.word && c !== card; });
+  }
+
+  function caseLabel(card) { return card.kase ? "+ " + card.kase : ""; }
+
+  // Progress saved before prepositions were split was stored under the word's id;
+  // give each of the word's new cards a copy so nothing is lost.
+  function migrateStats() {
+    var changed = false;
+    words.forEach(function (word) {
+      var key = String(word.id);
+      if (!stats[key] || cardById[key]) return;
+      cards.forEach(function (card) {
+        if (card.word === word && !stats[card.id]) stats[card.id] = JSON.parse(JSON.stringify(stats[key]));
+      });
+      delete stats[key];
+      changed = true;
+    });
+    if (changed) save(STATS_KEY, stats);
+  }
+
+  function chapterRank(chapter) {
+    if (settings.track !== "two") return chapter;
+    var i = TRACK_TWO.indexOf(chapter);
+    return i === -1 ? chapter : i;
+  }
+
+  function inChapters(card) { return settings.chapters.indexOf(card.word.chapter) !== -1; }
+  function inParts(card) { return settings.parts.indexOf(card.pos) !== -1; }
+
+  function selectedIds() {
+    return cards
+      .filter(function (card) { return inChapters(card) && inParts(card); })
+      .map(function (card) { return card.id; });
   }
 
   // ---------- spaced repetition ----------
@@ -125,8 +190,8 @@
     return !isNew(id) && stats[id].due <= (day === undefined ? today() : day);
   }
 
-  // Only the first answer to a word in a round moves it between boxes.
-  // Practicing a word that isn't due yet never pushes it further out,
+  // Only the first answer to a card in a round moves it between boxes.
+  // Practicing a card that isn't due yet never pushes it further out,
   // but missing it still brings it back tomorrow.
   function schedule(id, correct) {
     if (round.graded[id]) return;
@@ -141,17 +206,9 @@
     s.due = today() + INTERVALS[s.box];
   }
 
-  function selectedIds() {
-    return words
-      .filter(function (w) { return settings.chapters.indexOf(w.chapter) !== -1; })
-      .map(function (w) { return w.id; });
-  }
-
   function countSelected(test) {
     return selectedIds().filter(test).length;
   }
-
-  function plural(n, word) { return n + " " + word + (n === 1 ? "" : "s"); }
 
   function renderSrsStatus() {
     var ids = selectedIds();
@@ -169,7 +226,7 @@
 
   function nextReviewText() {
     var tomorrow = countSelected(function (id) { return isDue(id, today() + 1); });
-    if (tomorrow) return plural(tomorrow, "word") + " will be due for review tomorrow.";
+    if (tomorrow) return plural(tomorrow, "card") + " will be due for review tomorrow.";
     var upcoming = selectedIds()
       .filter(function (id) { return !isNew(id); })
       .map(function (id) { return stats[id].due; });
@@ -180,48 +237,76 @@
 
   // ---------- settings UI ----------
 
-  function renderChapterChips() {
-    el.chapterList.textContent = "";
-    chapters.forEach(function (ch) {
-      var label = make("label", "chip");
+  function renderChips(container, items, selected, onChange) {
+    container.textContent = "";
+    items.forEach(function (item) {
+      var label = make("label", "chip" + (item.count === 0 ? " empty" : ""));
       var input = make("input");
       input.type = "checkbox";
-      input.value = ch.chapter;
-      input.checked = settings.chapters.indexOf(ch.chapter) !== -1;
-      input.addEventListener("change", readChapterChips);
+      input.value = item.value;
+      input.checked = selected.indexOf(item.value) !== -1;
+      input.addEventListener("change", onChange);
       label.appendChild(input);
-      var span = make("span", null, "Ch. " + ch.chapter);
-      span.title = ch.words.length + " words";
+      var span = make("span", null, item.label);
+      if (item.count !== undefined) span.appendChild(make("span", "count", String(item.count)));
       label.appendChild(span);
-      el.chapterList.appendChild(label);
+      container.appendChild(label);
     });
   }
 
+  function checkedValues(container) {
+    return Array.prototype.map.call(container.querySelectorAll("input:checked"), function (input) {
+      return input.value;
+    });
+  }
+
+  function renderChapterChips() {
+    renderChips(el.chapterList, chapters.map(function (ch) {
+      return { value: ch.chapter, label: "Ch. " + ch.chapter };
+    }), settings.chapters, readChapterChips);
+  }
+
+  // Part-of-speech chips show how many cards each has in the selected chapters.
+  function renderPartChips() {
+    renderChips(el.partList, parts.map(function (part) {
+      var count = cards.filter(function (card) { return card.pos === part[0] && inChapters(card); }).length;
+      return { value: part[0], label: part[1], count: count };
+    }), settings.parts, readPartChips);
+  }
+
   function readChapterChips() {
-    settings.chapters = Array.prototype.map.call(
-      el.chapterList.querySelectorAll("input:checked"),
-      function (input) { return Number(input.value); }
-    );
+    settings.chapters = checkedValues(el.chapterList).map(Number);
+    save(SETTINGS_KEY, settings);
+    renderPartChips();
+    renderSrsStatus();
+  }
+
+  function readPartChips() {
+    settings.parts = checkedValues(el.partList);
     save(SETTINGS_KEY, settings);
     renderSrsStatus();
   }
 
-  function setAllChapters(checked) {
-    el.chapterList.querySelectorAll("input").forEach(function (input) { input.checked = checked; });
-    readChapterChips();
+  function setAll(container, checked, read) {
+    container.querySelectorAll("input").forEach(function (input) { input.checked = checked; });
+    read();
+  }
+
+  function setRadio(name, value) {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function (input) {
+      input.checked = input.value === value;
+    });
   }
 
   function applySettingsToForm() {
-    document.querySelectorAll('input[name="direction"]').forEach(function (input) {
-      input.checked = input.value === settings.direction;
-    });
-    document.querySelectorAll('input[name="mode"]').forEach(function (input) {
-      input.checked = input.value === settings.mode;
-    });
+    setRadio("direction", settings.direction);
+    setRadio("mode", settings.mode);
+    setRadio("track", settings.track);
     el.newPerRound.value = settings.newPerRound;
     el.shuffle.checked = settings.shuffle;
     el.repeat.checked = settings.repeat;
     renderChapterChips();
+    renderPartChips();
   }
 
   function toggleSettings(open) {
@@ -234,11 +319,14 @@
 
   // ---------- round ----------
 
-  // Due words first, then up to newPerRound new words in chapter order.
+  // Due cards first, then up to newPerRound new cards in the chosen chapter order.
   function reviewDeck() {
     var ids = selectedIds();
     var due = ids.filter(function (id) { return isDue(id); });
-    var fresh = ids.filter(isNew).slice(0, settings.newPerRound);
+    var fresh = ids.filter(isNew).sort(function (a, b) {
+      var ca = cardById[a], cb = cardById[b];
+      return chapterRank(ca.word.chapter) - chapterRank(cb.word.chapter) || ca.order - cb.order;
+    }).slice(0, settings.newPerRound);
     if (settings.shuffle) {
       shuffle(due);
       shuffle(fresh);
@@ -252,12 +340,14 @@
     el.caughtUp.hidden = true;
   }
 
-  // With no ids, builds the deck from the settings. Otherwise studies exactly those words.
+  // With no ids, builds the deck from the settings. Otherwise studies exactly those cards.
   function startRound(ids) {
     hidePanels();
-    if (!settings.chapters.length) {
+    if (!ids && !selectedIds().length) {
       toggleSettings(true);
-      showError("Select at least one chapter to study.");
+      showError(settings.chapters.length && settings.parts.length
+        ? "None of the selected chapters have cards for the selected parts of speech."
+        : "Select at least one chapter and one part of speech to study.");
       return;
     }
     showError("");
@@ -273,10 +363,10 @@
     if (!ids.length) {
       toggleSettings(false);
       var fresh = countSelected(isNew);
-      el.caughtUpText.textContent = "Nothing is due in the selected chapters. " +
-        (fresh ? plural(fresh, "new word") + (fresh === 1 ? " is" : " are") +
-                 " waiting, but new words per round is set to 0. "
-               : "You have started every word in them. ") +
+      el.caughtUpText.textContent = "Nothing is due in your selection. " +
+        (fresh ? plural(fresh, "new card") + (fresh === 1 ? " is" : " are") +
+                 " waiting, but new cards per round is set to 0. "
+               : "You have started every card in it. ") +
         nextReviewText();
       el.caughtUp.hidden = false;
       return;
@@ -298,20 +388,21 @@
     showCard();
   }
 
-  function currentWord() {
-    return round && round.queue.length ? byId[round.queue[0]] : null;
+  function currentCard() {
+    return round && round.queue.length ? cardById[round.queue[0]] : null;
   }
 
   function showCard() {
-    var word = currentWord();
+    var card = currentCard();
     updateProgress();
-    if (!word) {
+    if (!card) {
       finishRound();
       return;
     }
+    var word = card.word;
     round.revealed = false;
     el.card.classList.remove("revealed", "flash-right", "flash-wrong", "combo-186", "combo-187", "combo-188");
-    var combo = COMBOS[word.id % COMBOS.length];
+    var combo = COMBOS[card.order % COMBOS.length];
     if (combo) el.card.classList.add(combo);
     el.card.setAttribute("aria-label", "Flashcard. Press to reveal the answer.");
     el.answer.hidden = true;
@@ -320,20 +411,23 @@
     el.btnWrong.disabled = true;
 
     el.cardChapter.textContent = "Chapter " + word.chapter;
-    el.cardPos.textContent = word.part_of_speech;
+    el.cardPos.textContent = card.pos;
 
     var english = settings.direction === "english";
     el.prompt.className = english ? "prompt english" : "prompt greek";
     el.prompt.lang = english ? "en" : "grc";
-    el.prompt.textContent = english ? meaning(word) : word.lemma;
+    el.prompt.textContent = english ? card.meaning : word.lemma;
+    el.caseTag.textContent = caseLabel(card);
+    el.caseTag.hidden = !card.kase;
 
     // Keep focus on the card so Space flips it rather than re-pressing a button.
     if (el.settings.hidden) el.card.focus({ preventScroll: true });
   }
 
   function reveal() {
-    var word = currentWord();
-    if (!word || round.revealed) return;
+    var card = currentCard();
+    if (!card || round.revealed) return;
+    var word = card.word;
     round.revealed = true;
     el.card.classList.add("revealed");
     el.card.setAttribute("aria-label", "Flashcard, answer shown.");
@@ -344,17 +438,14 @@
       greek.lang = "grc";
       el.answer.appendChild(greek);
     } else {
-      if (word.gloss) el.answer.appendChild(make("p", "answer-main", word.gloss));
-      var cases = sortedCases(word);
-      if (cases.length) {
-        var dl = make("dl", "cases");
-        cases.forEach(function (c) {
-          dl.appendChild(make("dt", null, "+ " + c));
-          dl.appendChild(make("dd", null, word.cases[c]));
-        });
-        el.answer.appendChild(dl);
-      }
+      el.answer.appendChild(make("p", "answer-main", card.meaning));
     }
+
+    // The word's other meanings, so each card is seen in context.
+    var others = siblings(card).map(function (other) {
+      return (other.kase ? "+ " + CASE_ABBR[other.kase] + " " : "") + other.meaning;
+    });
+    if (others.length) el.answer.appendChild(make("p", "also", "Also: " + others.join("; ")));
 
     var details = make("p", "details");
     if (word.root) {
@@ -368,14 +459,14 @@
     if (details.childNodes.length) el.answer.appendChild(details);
 
     if (word.principal_parts && word.principal_parts.length) {
-      var parts = make("p", "parts", word.principal_parts.join(", "));
-      parts.lang = "grc";
-      parts.title = "Principal parts";
-      el.answer.appendChild(parts);
+      var pp = make("p", "parts", word.principal_parts.join(", "));
+      pp.lang = "grc";
+      pp.title = "Principal parts";
+      el.answer.appendChild(pp);
     }
 
-    var s = stats[word.id];
-    var history = isNew(word.id) ? "New word" : "Box " + boxOf(word.id) + " of " + MAX_BOX;
+    var s = stats[card.id];
+    var history = isNew(card.id) ? "New card" : "Box " + boxOf(card.id) + " of " + MAX_BOX;
     if (s && (s.right || s.wrong)) history += " · " + s.right + " right, " + s.wrong + " wrong";
     el.answer.appendChild(make("p", "record", history));
 
@@ -392,9 +483,9 @@
   }
 
   function markRight() {
-    var word = currentWord();
-    if (!word || !round.revealed) return;
-    record(word.id, true);
+    var card = currentCard();
+    if (!card || !round.revealed) return;
+    record(card.id, true);
     round.right += 1;
     round.done += 1;
     round.queue.shift();
@@ -402,16 +493,16 @@
   }
 
   function markWrong() {
-    var word = currentWord();
-    if (!word || !round.revealed) return;
-    record(word.id, false);
+    var card = currentCard();
+    if (!card || !round.revealed) return;
+    record(card.id, false);
     round.wrong += 1;
-    if (round.missed.indexOf(word.id) === -1) round.missed.push(word.id);
+    if (round.missed.indexOf(card.id) === -1) round.missed.push(card.id);
     round.queue.shift();
     if (settings.repeat) {
       // Bring the card back a few cards later so it gets another try this round.
       var gap = Math.min(round.queue.length, 3 + Math.floor(Math.random() * 3));
-      round.queue.splice(gap, 0, word.id);
+      round.queue.splice(gap, 0, card.id);
     } else {
       round.done += 1;
     }
@@ -419,8 +510,8 @@
   }
 
   function skip() {
-    var word = currentWord();
-    if (!word) return;
+    var card = currentCard();
+    if (!card) return;
     round.skip += 1;
     round.queue.push(round.queue.shift());
     advance();
@@ -451,19 +542,19 @@
 
     var firstTry = round.total - round.missed.length;
     el.summaryText.textContent =
-      "You went through " + round.total + (round.total === 1 ? " word" : " words") + ". " +
+      "You went through " + plural(round.total, "card") + ". " +
       firstTry + " right on the first try, " + round.missed.length + " missed at least once" +
       (round.skip ? ", " + round.skip + " skips." : ".");
     el.summaryNext.textContent = nextReviewText();
 
     el.missedList.textContent = "";
     round.missed.forEach(function (id) {
-      var word = byId[id];
+      var card = cardById[id];
       var li = make("li");
-      var greek = make("span", "greek", word.lemma);
+      var greek = make("span", "greek", card.word.lemma + (card.kase ? " " + caseLabel(card) : ""));
       greek.lang = "grc";
       li.appendChild(greek);
-      li.appendChild(make("span", "gloss", meaning(word)));
+      li.appendChild(make("span", "gloss", card.meaning));
       el.missedList.appendChild(li);
     });
     el.practiceMissed.hidden = round.missed.length === 0;
@@ -477,23 +568,27 @@
 
   // ---------- events ----------
 
+  function onRadio(name, apply) {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(function (input) {
+      input.addEventListener("change", function () {
+        apply(input.value);
+        save(SETTINGS_KEY, settings);
+      });
+    });
+  }
+
   function bindEvents() {
     el.settingsToggle.addEventListener("click", function () { toggleSettings(); });
-    $("chapters-all").addEventListener("click", function () { setAllChapters(true); });
-    $("chapters-none").addEventListener("click", function () { setAllChapters(false); });
-    document.querySelectorAll('input[name="direction"]').forEach(function (input) {
-      input.addEventListener("change", function () {
-        settings.direction = input.value;
-        save(SETTINGS_KEY, settings);
-        if (round && !el.study.hidden) showCard();
-      });
+    $("chapters-all").addEventListener("click", function () { setAll(el.chapterList, true, readChapterChips); });
+    $("chapters-none").addEventListener("click", function () { setAll(el.chapterList, false, readChapterChips); });
+    $("parts-all").addEventListener("click", function () { setAll(el.partList, true, readPartChips); });
+    $("parts-none").addEventListener("click", function () { setAll(el.partList, false, readPartChips); });
+    onRadio("direction", function (value) {
+      settings.direction = value;
+      if (round && !el.study.hidden) showCard();
     });
-    document.querySelectorAll('input[name="mode"]').forEach(function (input) {
-      input.addEventListener("change", function () {
-        settings.mode = input.value;
-        save(SETTINGS_KEY, settings);
-      });
-    });
+    onRadio("mode", function (value) { settings.mode = value; });
+    onRadio("track", function (value) { settings.track = value; });
     el.newPerRound.addEventListener("change", function () {
       var n = Math.round(Number(el.newPerRound.value));
       settings.newPerRound = isFinite(n) ? Math.max(0, Math.min(200, n)) : 20;
@@ -510,7 +605,7 @@
     });
     $("start").addEventListener("click", function () { startRound(); });
     $("reset-stats").addEventListener("click", function () {
-      if (!confirm("Clear your saved history and review schedule for every word?")) return;
+      if (!confirm("Clear your saved history and review schedule for every card?")) return;
       stats = {};
       save(STATS_KEY, stats);
       renderSrsStatus();
@@ -561,12 +656,18 @@
   function init(data) {
     chapters = data.chapters;
     chapters.forEach(function (ch) {
-      ch.words.forEach(function (w) {
-        words.push(w);
-        byId[w.id] = w;
-      });
+      ch.words.forEach(function (w) { words.push(w); });
     });
-    el.source.textContent = data.source + " · " + words.length + " words";
+    buildCards();
+    el.source.textContent = data.source + " · " + words.length + " words, " + cards.length + " cards";
+
+    parts = PARTS.filter(function (part) {
+      return cards.some(function (card) { return card.pos === part[0]; });
+    });
+    cards.forEach(function (card) {
+      var known = parts.some(function (part) { return part[0] === card.pos; });
+      if (!known) parts.push([card.pos, card.pos.charAt(0).toUpperCase() + card.pos.slice(1)]);
+    });
 
     var savedSettings = load(SETTINGS_KEY);
     if (savedSettings) {
@@ -574,10 +675,15 @@
         if (Object.prototype.hasOwnProperty.call(savedSettings, key)) settings[key] = savedSettings[key];
       }
     }
-    var known = chapters.map(function (ch) { return ch.chapter; });
-    if (!Array.isArray(settings.chapters)) settings.chapters = known.slice();
-    settings.chapters = settings.chapters.filter(function (c) { return known.indexOf(c) !== -1; });
+    var knownChapters = chapters.map(function (ch) { return ch.chapter; });
+    if (!Array.isArray(settings.chapters)) settings.chapters = knownChapters.slice();
+    settings.chapters = settings.chapters.filter(function (c) { return knownChapters.indexOf(c) !== -1; });
+    var knownParts = parts.map(function (part) { return part[0]; });
+    if (!Array.isArray(settings.parts)) settings.parts = knownParts.slice();
+    settings.parts = settings.parts.filter(function (p) { return knownParts.indexOf(p) !== -1; });
+
     stats = load(STATS_KEY) || {};
+    migrateStats();
 
     applySettingsToForm();
     bindEvents();

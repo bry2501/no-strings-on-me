@@ -28,13 +28,19 @@
     <section id="settings" class="panel" hidden>
       <fieldset>
         <legend>Round</legend>
-        <label class="radio"><input type="radio" name="mode" value="review" checked> Review due words (spaced repetition)</label>
-        <label class="radio"><input type="radio" name="mode" value="all"> All words in the selected chapters</label>
-        <label class="number">New words per review round
+        <label class="radio"><input type="radio" name="mode" value="review" checked> Review due cards (spaced repetition)</label>
+        <label class="radio"><input type="radio" name="mode" value="all"> All cards in the selected chapters</label>
+        <label class="number">New cards per review round
           <input type="number" id="opt-new" min="0" max="200" step="5" value="20">
         </label>
-        <p class="help">Words you get right come back after 1, 3, 7, 14, then 30 days. Words you miss come back the next day.</p>
+        <p class="help">Cards you get right come back after 1, 3, 7, 14, then 30 days. Cards you miss come back the next day.</p>
         <p id="srs-status" class="srs-status"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Order of new cards</legend>
+        <label class="radio"><input type="radio" name="track" value="one" checked> Track One: chapters in book order</label>
+        <label class="radio"><input type="radio" name="track" value="two"> Track Two: chapters 15–18 and 21 before 10–14</label>
       </fieldset>
 
       <fieldset>
@@ -44,6 +50,16 @@
           <button type="button" class="link" id="chapters-none">None</button>
         </div>
         <div id="chapter-list" class="chips"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Parts of speech</legend>
+        <div class="chip-actions">
+          <button type="button" class="link" id="parts-all">All</button>
+          <button type="button" class="link" id="parts-none">None</button>
+        </div>
+        <div id="part-list" class="chips"></div>
+        <p class="help">Prepositions get one card per case, so διά + genitive and διά + accusative are separate cards.</p>
       </fieldset>
 
       <fieldset>
@@ -83,6 +99,7 @@
         </div>
         <div class="card-front">
           <div id="prompt" class="prompt"></div>
+          <div id="case-tag" class="case-tag" hidden></div>
           <div id="hint" class="hint">Tap or press Space to reveal</div>
         </div>
         <div id="answer" class="card-back" hidden></div>
@@ -105,7 +122,7 @@
       <h2>All caught up</h2>
       <p id="caught-up-text"></p>
       <div class="panel-actions">
-        <button type="button" id="practice-all" class="primary">Practice all selected words</button>
+        <button type="button" id="practice-all" class="primary">Practice all selected cards</button>
         <button type="button" id="caught-up-settings" class="ghost">Settings</button>
       </div>
     </section>
@@ -116,7 +133,7 @@
       <p id="summary-next" class="srs-status"></p>
       <ul id="missed-list" class="missed"></ul>
       <div class="panel-actions">
-        <button type="button" id="practice-missed" class="primary">Practice missed words</button>
+        <button type="button" id="practice-missed" class="primary">Practice missed cards</button>
         <button type="button" id="restart" class="ghost">Next round</button>
       </div>
     </section>
