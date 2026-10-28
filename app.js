@@ -584,6 +584,31 @@
     startRound();
   }
 
+  // ---------- offline support and install ----------
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () { /* offline mode is optional */ });
+    });
+  }
+
+  // Chrome, Edge and Android offer an install prompt we can trigger from a button.
+  // Safari has no such event; there people use Share > Add to Home Screen.
+  var installPrompt = null;
+  var installButton = $("install");
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    installPrompt = e;
+    installButton.hidden = false;
+  });
+  installButton.addEventListener("click", function () {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    installPrompt = null;
+    installButton.hidden = true;
+  });
+  window.addEventListener("appinstalled", function () { installButton.hidden = true; });
+
   fetch(DATA_URL)
     .then(function (res) {
       if (!res.ok) throw new Error("HTTP " + res.status);

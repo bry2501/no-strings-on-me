@@ -15,6 +15,14 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   number of new words per round, choose chapters, flip to English→Greek, and turn off shuffling.
 - Your settings, history and review schedule are saved in your browser.
 
+## Offline and on your phone
+
+After the site has been opened once, it keeps working without an internet connection.
+You can also install it like an app: use **Install app** in Settings (Chrome, Edge, Android),
+or **Share → Add to Home Screen** in Safari on iPhone and iPad.
+
+When you change the list of files the site needs, bump `VERSION` in `sw.js`.
+
 ## Run locally
 
 The page loads the JSON with `fetch`, so serve the folder over HTTP rather than opening the file directly:
