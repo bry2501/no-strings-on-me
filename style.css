@@ -1,36 +1,69 @@
+/*
+ * Palette: A Dictionary of Color Combinations, combinations 185-188
+ * (see the palette image in this repository).
+ */
 :root {
-  --bg: #f6f3ee;
-  --surface: #ffffff;
-  --text: #22201c;
-  --muted: #6d675e;
-  --border: #e2ddd4;
-  --accent: #2f5d8a;
-  --right: #2e7d4f;
-  --right-bg: #e6f3eb;
-  --wrong: #b23b3b;
-  --wrong-bg: #f8e7e7;
-  --skip: #6d675e;
-  --skip-bg: #eeebe5;
-  --shadow: 0 8px 24px rgba(40, 30, 10, 0.08);
+  --pale-lemon-yellow: #ffff8e;
+  --light-brown-drab: #916874;
+  --etruscan-red: #97240b;
+  --hays-russet: #46170c;
+  --blue-bird: #172d93;
+  --ochraceous-salmon: #c1783e;
+  --grayish-lavender: #b4929d;
+  --helvetia-blue: #092365;
+  --aconite-violet: #7a3281;
+  --cobalt-green: #90b982;
+  --rainette-green: #565830;
+  --salvia-blue: #857e9e;
+
+  --bg: #fbf8e2;
+  --surface: #fffef4;
+  --text: var(--hays-russet);
+  --muted: #7a5662;
+  --border: #e4d7d6;
+  --accent: var(--helvetia-blue);
+  --on-accent: var(--pale-lemon-yellow);
+  --highlight: var(--aconite-violet);
+  --progress: var(--ochraceous-salmon);
+  --track: #ece2d6;
+  --header-bg: var(--helvetia-blue);
+  --header-text: var(--pale-lemon-yellow);
+  --right: var(--rainette-green);
+  --right-border: var(--cobalt-green);
+  --right-bg: #e6efdc;
+  --wrong: var(--etruscan-red);
+  --wrong-bg: #f6e2d8;
+  --skip: #5c5577;
+  --skip-border: var(--salvia-blue);
+  --skip-bg: #ece8f0;
+  --shadow: 0 8px 24px rgba(70, 23, 12, 0.10);
   --greek: "Noto Serif", "Gentium Plus", "SBL Greek", "Times New Roman", serif;
   --ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #17181b;
-    --surface: #222429;
-    --text: #ecebe8;
-    --muted: #a19d96;
-    --border: #34363c;
-    --accent: #7fb0e0;
-    --right: #6fcf97;
-    --right-bg: #1f3329;
-    --wrong: #ef8a8a;
-    --wrong-bg: #3a2324;
-    --skip: #b5b1aa;
-    --skip-bg: #2c2e33;
-    --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --bg: #07123a;
+    --surface: #11205a;
+    --text: #fbf8d8;
+    --muted: #cfb3bc;
+    --border: #2a3a78;
+    --accent: #e0a070;
+    --on-accent: var(--hays-russet);
+    --highlight: #d9a3de;
+    --progress: var(--ochraceous-salmon);
+    --track: #23336e;
+    --header-bg: #040b28;
+    --header-text: var(--pale-lemon-yellow);
+    --right: #b3d6a6;
+    --right-border: var(--cobalt-green);
+    --right-bg: #22381f;
+    --wrong: #f0937a;
+    --wrong-bg: #3f1810;
+    --skip: #c4bedb;
+    --skip-border: var(--salvia-blue);
+    --skip-bg: #232a5e;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -66,24 +99,32 @@ button {
   padding: 10px 16px;
 }
 button:disabled { opacity: 0.4; cursor: not-allowed; }
-button:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+input[type="radio"], input[type="checkbox"] { accent-color: var(--accent); }
 
-.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
 .ghost { background: transparent; }
 .danger { color: var(--wrong); }
 .link { border: none; background: none; padding: 0; color: var(--accent); text-decoration: underline; }
 
 /* Header */
 .topbar {
-  width: 100%;
+  background: var(--header-bg);
+  color: var(--header-text);
+  margin-bottom: 16px;
+}
+.topbar-inner {
   max-width: 640px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .topbar h1 { font-size: 1.25rem; margin: 0; font-weight: 600; }
+.topbar button { color: var(--header-text); border-color: rgba(255, 255, 142, 0.45); }
+.topbar button:focus-visible { outline-color: var(--header-text); }
 
 /* Panels */
 .panel {
@@ -115,13 +156,13 @@ legend { font-weight: 600; margin-bottom: 8px; }
   cursor: pointer;
   user-select: none;
 }
-.chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .chip input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* Progress */
 .progress { margin-bottom: 12px; }
-.progress-bar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
-#progress-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.25s ease; }
+.progress-bar { height: 6px; background: var(--track); border-radius: 999px; overflow: hidden; }
+#progress-fill { height: 100%; width: 0; background: var(--progress); transition: width 0.25s ease; }
 .tally { display: flex; gap: 16px; margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
 .tally span:first-child { margin-right: auto; }
 .right-count b { color: var(--right); }
@@ -134,17 +175,35 @@ legend { font-weight: 600; margin-bottom: 8px; }
   border-radius: 20px;
   box-shadow: var(--shadow);
   min-height: 320px;
-  padding: 16px 20px 24px;
+  padding: 22px 20px 24px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: border-color 0.2s;
+  --c1: var(--pale-lemon-yellow);
+  --c2: var(--light-brown-drab);
+  --c3: var(--etruscan-red);
 }
+/* Three-color stripe: one of the palette's combinations, rotating per card. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(to right,
+    var(--c1) 0 33.33%, var(--c2) 33.33% 66.67%, var(--c3) 66.67% 100%);
+}
+.card.combo-186 { --c1: var(--hays-russet); --c2: var(--blue-bird); --c3: var(--ochraceous-salmon); }
+.card.combo-187 { --c1: var(--grayish-lavender); --c2: var(--helvetia-blue); --c3: var(--aconite-violet); }
+.card.combo-188 { --c1: var(--cobalt-green); --c2: var(--rainette-green); --c3: var(--salvia-blue); }
 .card.revealed { cursor: default; }
-.card.flash-right { border-color: var(--right); }
+.card.flash-right { border-color: var(--right-border); }
 .card.flash-wrong { border-color: var(--wrong); }
 
 .card-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+#card-pos { color: var(--highlight); }
 
 .card-front { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px 0; }
 .revealed .card-front { flex: 0; padding-bottom: 8px; }
@@ -171,8 +230,8 @@ legend { font-weight: 600; margin-bottom: 8px; }
 .controls button { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px 8px; font-weight: 600; }
 .controls .icon { font-size: 1.1rem; }
 .controls .wrong { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
-.controls .skip { background: var(--skip-bg); color: var(--skip); }
-.controls .right { background: var(--right-bg); border-color: var(--right); color: var(--right); }
+.controls .skip { background: var(--skip-bg); border-color: var(--skip-border); color: var(--skip); }
+.controls .right { background: var(--right-bg); border-color: var(--right-border); color: var(--right); }
 kbd { font-family: var(--ui); font-size: 0.7rem; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; opacity: 0.6; }
 @media (hover: none) { kbd { display: none; } }
 
@@ -185,4 +244,4 @@ kbd { font-family: var(--ui); font-size: 0.7rem; border: 1px solid currentColor;
 .error { color: var(--wrong); }
 
 footer { text-align: center; font-size: 0.8rem; color: var(--muted); padding: 16px; }
-footer p { margin: 0; }
+footer p { margin: 0 0 4px; }

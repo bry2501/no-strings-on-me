@@ -5,7 +5,9 @@
   var SETTINGS_KEY = "greekFlashcards.settings";
   var STATS_KEY = "greekFlashcards.stats";
   var CASE_ORDER = ["nominative", "genitive", "dative", "accusative", "vocative"];
-  var CASE_ABBR = { nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
+  // Card stripe classes from style.css; "" is the default combination (185).
+  var COMBOS = ["", "combo-186", "combo-187", "combo-188"];
+  var CASE_ABBR ={ nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
 
   var $ = function (id) { return document.getElementById(id); };
   var el = {
@@ -187,7 +189,9 @@
       return;
     }
     round.revealed = false;
-    el.card.classList.remove("revealed", "flash-right", "flash-wrong");
+    el.card.classList.remove("revealed", "flash-right", "flash-wrong", "combo-186", "combo-187", "combo-188");
+    var combo = COMBOS[word.id % COMBOS.length];
+    if (combo) el.card.classList.add(combo);
     el.card.setAttribute("aria-label", "Flashcard. Press to reveal the answer.");
     el.answer.hidden = true;
     el.answer.textContent = "";
