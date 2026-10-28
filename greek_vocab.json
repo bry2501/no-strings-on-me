@@ -19,7 +19,7 @@
           "chapter": 4,
           "lemma": "ἀμήν",
           "gloss": "verily, truly, amen, so let it be",
-          "part_of_speech": "other",
+          "part_of_speech": "particle",
           "frequency": 128
         },
         {
@@ -72,7 +72,7 @@
           "chapter": 4,
           "lemma": "ἐγώ",
           "gloss": "I",
-          "part_of_speech": "verb",
+          "part_of_speech": "pronoun",
           "frequency": 1800
         },
         {
@@ -107,7 +107,7 @@
           "chapter": 4,
           "lemma": "καί",
           "gloss": "and; even, also; namely",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 9162
         },
         {
@@ -265,7 +265,7 @@
           "chapter": 6,
           "lemma": "αὐτός, –ή, –ό",
           "gloss": "singular: he, she, it (him, her); plural: they (them)",
-          "part_of_speech": "adjective",
+          "part_of_speech": "pronoun",
           "root": "αὐτο",
           "frequency": 5597
         },
@@ -283,15 +283,17 @@
           "chapter": 6,
           "lemma": "δέ ( δ᾿ )",
           "gloss": "but; and",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 2791
         },
         {
           "id": 32,
           "chapter": 6,
           "lemma": "ἐν",
-          "gloss": "in; on; among",
-          "part_of_speech": "other",
+          "cases": {
+            "dative": "in, on, among"
+          },
+          "part_of_speech": "preposition",
           "frequency": 2752
         },
         {
@@ -317,7 +319,7 @@
           "chapter": 6,
           "lemma": "νῦν",
           "gloss": "adverb: now; noun: the present",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 147
         },
         {
@@ -325,7 +327,7 @@
           "chapter": 6,
           "lemma": "ὁ, ἡ, τό",
           "gloss": "the",
-          "part_of_speech": "noun",
+          "part_of_speech": "article",
           "frequency": 19865
         },
         {
@@ -333,7 +335,7 @@
           "chapter": 6,
           "lemma": "ὅτι",
           "gloss": "that; since; because; “ ”",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 1294
         },
         {
@@ -341,7 +343,7 @@
           "chapter": 6,
           "lemma": "οὐ (οὐκ, οὐχ)",
           "gloss": "not",
-          "part_of_speech": "other",
+          "part_of_speech": "particle",
           "frequency": 1624
         },
         {
@@ -382,7 +384,7 @@
           "chapter": 7,
           "lemma": "γάρ",
           "gloss": "for; then",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 1041
         },
         {
@@ -390,15 +392,17 @@
           "chapter": 7,
           "lemma": "εἶπεν",
           "gloss": "he/she/it said",
-          "part_of_speech": "other",
+          "part_of_speech": "verb",
           "frequency": 613
         },
         {
           "id": 44,
           "chapter": 7,
           "lemma": "εἰς",
-          "gloss": "into; in",
-          "part_of_speech": "other",
+          "cases": {
+            "accusative": "into, in; among"
+          },
+          "part_of_speech": "preposition",
           "frequency": 1767
         },
         {
@@ -442,7 +446,7 @@
           "chapter": 7,
           "lemma": "μή",
           "gloss": "not, lest",
-          "part_of_speech": "other",
+          "part_of_speech": "particle",
           "frequency": 1042
         },
         {
@@ -459,7 +463,7 @@
           "chapter": 7,
           "lemma": "οὗτος, αὕτη, τοῦτο",
           "gloss": "singular: this (one); plural: these",
-          "part_of_speech": "adjective",
+          "part_of_speech": "pronoun",
           "root": "τουτο",
           "frequency": 1387
         },
@@ -468,7 +472,7 @@
           "chapter": 7,
           "lemma": "σύ",
           "gloss": "you (singular)",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "frequency": 1067
         },
         {
@@ -485,7 +489,7 @@
           "chapter": 7,
           "lemma": "ὥστε",
           "gloss": "therefore, so that",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 83
         }
       ]
@@ -499,7 +503,7 @@
           "chapter": 8,
           "lemma": "ἀλλά (ἀλλ᾿)",
           "gloss": "but, yet; rather",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 638
         },
         {
@@ -564,7 +568,7 @@
           "chapter": 8,
           "lemma": "ἦν",
           "gloss": "he/she/it was",
-          "part_of_speech": "other",
+          "part_of_speech": "verb",
           "frequency": 315
         },
         {
@@ -590,7 +594,7 @@
           "chapter": 8,
           "lemma": "ἵνα",
           "gloss": "in order that; that; so that",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 663
         },
         {
@@ -738,7 +742,7 @@
           "chapter": 9,
           "lemma": "ἀλλήλων",
           "gloss": "one another",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "root": "ἀλληλο",
           "frequency": 100
         },
@@ -747,7 +751,7 @@
           "chapter": 9,
           "lemma": "ἀπεκρίθη",
           "gloss": "he/she/it answered",
-          "part_of_speech": "other"
+          "part_of_speech": "verb"
         },
         {
           "id": 81,
@@ -763,7 +767,7 @@
           "chapter": 9,
           "lemma": "ἐάν",
           "gloss": "if; when",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 349
         },
         {
@@ -789,7 +793,7 @@
           "chapter": 9,
           "lemma": "καθώς",
           "gloss": "as, even as",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 182
         },
         {
@@ -806,7 +810,7 @@
           "chapter": 9,
           "lemma": "μου (ἐμοῦ)",
           "gloss": "my",
-          "part_of_speech": "other"
+          "part_of_speech": "pronoun"
         },
         {
           "id": 88,
@@ -864,7 +868,7 @@
           "chapter": 10,
           "lemma": "εἰ",
           "gloss": "if",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 502
         },
         {
@@ -872,7 +876,7 @@
           "chapter": 10,
           "lemma": "εἰ μή",
           "gloss": "except; if not",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 86
         },
         {
@@ -880,7 +884,7 @@
           "chapter": 10,
           "lemma": "εἷς, μία, ἕν",
           "gloss": "one",
-          "part_of_speech": "other",
+          "part_of_speech": "numeral",
           "root": "ἑν/μια",
           "frequency": 345
         },
@@ -889,7 +893,7 @@
           "chapter": 10,
           "lemma": "ἤδη",
           "gloss": "now, already",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 61
         },
         {
@@ -906,7 +910,7 @@
           "chapter": 10,
           "lemma": "οὐδείς, οὐδεμία, οὐδέν",
           "gloss": "no one, none, nothing",
-          "part_of_speech": "other",
+          "part_of_speech": "adjective",
           "root": "οὐ(δε) + ἑν/μια",
           "frequency": 227
         },
@@ -915,7 +919,7 @@
           "chapter": 10,
           "lemma": "πᾶς, πᾶσα, πᾶν",
           "gloss": "singular: each, every; plural: all",
-          "part_of_speech": "other",
+          "part_of_speech": "adjective",
           "root": "παντ/πασα",
           "frequency": 1243
         },
@@ -972,7 +976,7 @@
           "chapter": 10,
           "lemma": "τίς, τί",
           "gloss": "who? what? which? why?",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "root": "τιν",
           "frequency": 555
         },
@@ -981,7 +985,7 @@
           "chapter": 10,
           "lemma": "τις, τι",
           "gloss": "someone/thing; certain one/thing; anyone/thing",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "root": "τιν",
           "frequency": 525
         }
@@ -1005,7 +1009,7 @@
           "chapter": 11,
           "lemma": "ἄν",
           "gloss": "an untranslatable, uninflected particle, used to make a definite statement contingent upon something, e.g., changing “who” to “whoever.” You usually cannot translate it.",
-          "part_of_speech": "other",
+          "part_of_speech": "particle",
           "frequency": 166
         },
         {
@@ -1040,8 +1044,11 @@
           "chapter": 11,
           "lemma": "ἔξω",
           "gloss": "adverb: without",
-          "part_of_speech": "verb",
-          "frequency": 63
+          "part_of_speech": "adverb",
+          "frequency": 63,
+          "cases": {
+            "genitive": "outside"
+          }
         },
         {
           "id": 113,
@@ -1060,7 +1067,7 @@
           "chapter": 11,
           "lemma": "ἡμεῖς",
           "gloss": "we",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "frequency": 863
         },
         {
@@ -1077,14 +1084,14 @@
           "chapter": 11,
           "lemma": "ἴδε",
           "gloss": "See! Behold! (29; interjection)",
-          "part_of_speech": "other"
+          "part_of_speech": "particle"
         },
         {
           "id": 117,
           "chapter": 11,
           "lemma": "ἰδού",
           "gloss": "See! Behold! (200; interjection)",
-          "part_of_speech": "other"
+          "part_of_speech": "particle"
         },
         {
           "id": 118,
@@ -1109,7 +1116,7 @@
           "chapter": 11,
           "lemma": "οὐδέ",
           "gloss": "and not, not even; neither, nor",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 143
         },
         {
@@ -1144,7 +1151,7 @@
           "chapter": 11,
           "lemma": "ὑμεῖς",
           "gloss": "you (plural)",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "frequency": 1840
         },
         {
@@ -1170,7 +1177,7 @@
           "chapter": 11,
           "lemma": "ὧδε",
           "gloss": "here",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 61
         }
       ]
@@ -1202,7 +1209,7 @@
           "chapter": 12,
           "lemma": "εὐθύς",
           "gloss": "immediately",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 51
         },
         {
@@ -1210,7 +1217,7 @@
           "chapter": 12,
           "lemma": "ἕως",
           "gloss": "conj: until",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 146,
           "cases": {
             "genitive": "as far as"
@@ -1230,7 +1237,7 @@
           "chapter": 12,
           "lemma": "μέν",
           "gloss": "on the one hand; indeed",
-          "part_of_speech": "other",
+          "part_of_speech": "particle",
           "frequency": 179
         },
         {
@@ -1238,7 +1245,7 @@
           "chapter": 12,
           "lemma": "μηδείς, μηδεμία, μηδέν",
           "gloss": "no one/thing",
-          "part_of_speech": "other",
+          "part_of_speech": "adjective",
           "root": "μη(δε) + ἑν/μια",
           "frequency": 90
         },
@@ -1256,7 +1263,7 @@
           "chapter": 12,
           "lemma": "ὅπως",
           "gloss": "how; (in order) that",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 53
         },
         {
@@ -1273,7 +1280,7 @@
           "chapter": 12,
           "lemma": "οὖν",
           "gloss": "therefore, accordingly; then",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 498
         },
         {
@@ -1290,7 +1297,7 @@
           "chapter": 12,
           "lemma": "πάλιν",
           "gloss": "again",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 141
         },
         {
@@ -1342,7 +1349,7 @@
           "chapter": 13,
           "lemma": "δώδεκα",
           "gloss": "twelve",
-          "part_of_speech": "other",
+          "part_of_speech": "numeral",
           "root": "δωδεκα",
           "frequency": 75
         },
@@ -1351,7 +1358,7 @@
           "chapter": 13,
           "lemma": "ἑαυτοῦ, –ῆς, –οῦ",
           "gloss": "singular: himself/herself/itself; plural: themselves",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "root": "ἑαυτο",
           "frequency": 319
         },
@@ -1360,7 +1367,7 @@
           "chapter": 13,
           "lemma": "ἐκεῖνος, –η, –ο",
           "gloss": "singular: that man/woman/thing; plural: those men/women/things",
-          "part_of_speech": "adjective",
+          "part_of_speech": "pronoun",
           "root": "ἐκεινο",
           "frequency": 265
         },
@@ -1369,7 +1376,7 @@
           "chapter": 13,
           "lemma": "ἤ",
           "gloss": "or; than",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 343
         },
         {
@@ -1377,7 +1384,7 @@
           "chapter": 13,
           "lemma": "κἀγώ",
           "gloss": "and I, but I",
-          "part_of_speech": "verb",
+          "part_of_speech": "pronoun",
           "root": "καί + ἐγω",
           "frequency": 76
         },
@@ -1395,7 +1402,7 @@
           "chapter": 13,
           "lemma": "μέγας, μεγάλη, μέγα",
           "gloss": "large; great",
-          "part_of_speech": "other",
+          "part_of_speech": "adjective",
           "root": "μεγαλο",
           "frequency": 243
         },
@@ -1413,7 +1420,7 @@
           "chapter": 13,
           "lemma": "πολύς, πολλή, πολύ",
           "gloss": "singular: much; plural: many; adverb: often",
-          "part_of_speech": "other",
+          "part_of_speech": "adjective",
           "root": "πολλο",
           "frequency": 416
         },
@@ -1422,7 +1429,7 @@
           "chapter": 13,
           "lemma": "πῶς",
           "gloss": "how?",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 118
         },
         {
@@ -1482,7 +1489,7 @@
           "chapter": 14,
           "lemma": "ἑπτά",
           "gloss": "seven",
-          "part_of_speech": "other",
+          "part_of_speech": "numeral",
           "root": "ἑπτα",
           "frequency": 88
         },
@@ -1538,7 +1545,7 @@
           "chapter": 14,
           "lemma": "ὅς, ἥ, ὅ",
           "gloss": "who (whom), which",
-          "part_of_speech": "noun",
+          "part_of_speech": "pronoun",
           "root": "ὁς",
           "frequency": 1399
         },
@@ -1547,7 +1554,7 @@
           "chapter": 14,
           "lemma": "ὅτε",
           "gloss": "when",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 103
         },
         {
@@ -1555,7 +1562,7 @@
           "chapter": 14,
           "lemma": "οὕτως",
           "gloss": "thus, so; in this manner",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 208
         },
         {
@@ -1581,7 +1588,7 @@
           "chapter": 14,
           "lemma": "τέ",
           "gloss": "and (so), so",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 215
         },
         {
@@ -1707,7 +1714,7 @@
           "chapter": 16,
           "lemma": "ὅπου",
           "gloss": "where",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 82
         },
         {
@@ -1741,7 +1748,7 @@
           "chapter": 16,
           "lemma": "τότε",
           "gloss": "then; thereafter",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 160
         },
         {
@@ -1866,7 +1873,7 @@
           "chapter": 17,
           "lemma": "ὅταν",
           "gloss": "whenever",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 123
         },
         {
@@ -1942,7 +1949,14 @@
           "gloss": "I answer",
           "part_of_speech": "verb",
           "root": "ἀπό + κριν",
-          "frequency": 231
+          "frequency": 231,
+          "principal_parts": [
+            "–",
+            "ἀπεκρινάμην",
+            "–",
+            "–",
+            "ἀπεκρίθην"
+          ]
         },
         {
           "id": 198,
@@ -2009,7 +2023,7 @@
           "chapter": 18,
           "lemma": "ὅστις, ἥτις, ὅτι",
           "gloss": "whoever, whichever, whatever",
-          "part_of_speech": "other",
+          "part_of_speech": "pronoun",
           "root": "ὁ + τιν",
           "frequency": 152
         },
@@ -2060,7 +2074,7 @@
           "chapter": 18,
           "lemma": "ὡς",
           "gloss": "as, like; that; approximately; when, after",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 504
         }
       ]
@@ -2317,7 +2331,7 @@
           "chapter": 20,
           "lemma": "ἐκεῖ",
           "gloss": "there, in that place",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 105
         },
         {
@@ -2447,7 +2461,10 @@
           "principal_parts": [
             "(ἐδίδασκον)",
             "διδάξω",
-            "16"
+            "ἐδίδαξα",
+            "–",
+            "–",
+            "ἐδιδάχθην"
           ],
           "frequency": 97
         },
@@ -2608,10 +2625,18 @@
           "id": 246,
           "chapter": 22,
           "lemma": "γίνομαι",
-          "gloss": "I become, take place; am, exist; am born, am created (ἐγινόμην), γενήσομαι, ἐγενόμην, γέγονα, γεγένημαι, ἐγενήθην",
+          "gloss": "I become, take place; am, exist; am born, am created",
           "part_of_speech": "verb",
           "root": "γεν",
-          "frequency": 669
+          "frequency": 669,
+          "principal_parts": [
+            "(ἐγινόμην)",
+            "γενήσομαι",
+            "ἐγενόμην",
+            "γέγονα",
+            "γεγένημαι",
+            "ἐγενήθην"
+          ]
         },
         {
           "id": 247,
@@ -2623,7 +2648,9 @@
           "principal_parts": [
             "εἰσελεύσομαι",
             "εἰσῆλθον",
-            "11"
+            "εἰσελήλυθα",
+            "–",
+            "–"
           ],
           "frequency": 194
         },
@@ -2638,7 +2665,9 @@
             "(ἐξηρχόμην)",
             "ἐξελεύσομαι",
             "ἐξῆλθον",
-            "12"
+            "ἐξελήλυθα",
+            "–",
+            "–"
           ],
           "frequency": 218
         },
@@ -2647,7 +2676,7 @@
           "chapter": 22,
           "lemma": "ἔτι",
           "gloss": "still, yet, even",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 93
         },
         {
@@ -2660,7 +2689,10 @@
           "principal_parts": [
             "(εὕρισκον or ηὕρισκον)",
             "εὑρήσω",
-            "14"
+            "εὗρον",
+            "εὕρηκα",
+            "–",
+            "εὑρέθην"
           ],
           "frequency": 176
         },
@@ -2674,7 +2706,10 @@
           "principal_parts": [
             "(ἐλάμβανον)",
             "λήμψομαι",
-            "15"
+            "ἔλαβον",
+            "εἴληφα",
+            "εἴλημμαι",
+            "ἐλήμφθην"
           ],
           "frequency": 258
         },
@@ -2683,7 +2718,7 @@
           "chapter": 22,
           "lemma": "οὔτε",
           "gloss": "and not, neither, nor",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 87
         },
         {
@@ -2697,7 +2732,9 @@
             "(προσηρχόμην)",
             "–",
             "προσῆλθον",
-            "16"
+            "προσελήλυθα",
+            "–",
+            "–"
           ],
           "frequency": 86
         },
@@ -2787,7 +2824,7 @@
           "chapter": 23,
           "lemma": "διό",
           "gloss": "therefore, for this reason",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 53
         },
         {
@@ -2867,7 +2904,9 @@
             "(ἦγον)",
             "ἄξω",
             "ἤγαγον",
-            "13"
+            "–",
+            "–",
+            "ἤχθην"
           ],
           "frequency": 67
         },
@@ -2937,7 +2976,7 @@
             "–",
             "–",
             "–",
-            "ἐφοβήθην19"
+            "ἐφοβήθην"
           ],
           "frequency": 95
         },
@@ -2954,7 +2993,7 @@
             "–",
             "–",
             "–",
-            "ἐχάρην21"
+            "ἐχάρην"
           ],
           "frequency": 74
         }
@@ -2986,7 +3025,7 @@
           "chapter": 25,
           "lemma": "μᾶλλον",
           "gloss": "more, rather",
-          "part_of_speech": "other",
+          "part_of_speech": "adverb",
           "frequency": 81
         },
         {
@@ -3052,7 +3091,7 @@
           "chapter": 27,
           "lemma": "δύο",
           "gloss": "two",
-          "part_of_speech": "other",
+          "part_of_speech": "numeral",
           "frequency": 135
         },
         {
@@ -3103,7 +3142,7 @@
           "chapter": 27,
           "lemma": "Ἱεροσόλυμα, τά",
           "gloss": "Jerusalem",
-          "part_of_speech": "other",
+          "part_of_speech": "noun",
           "root": "ἱεροσολυμα",
           "frequency": 62
         },
@@ -3146,7 +3185,7 @@
           "chapter": 27,
           "lemma": "οὗ",
           "gloss": "where (23; adverb)",
-          "part_of_speech": "other"
+          "part_of_speech": "adverb"
         },
         {
           "id": 286,
@@ -3187,7 +3226,7 @@
           "chapter": 27,
           "lemma": "τρεῖς, τρία",
           "gloss": "three",
-          "part_of_speech": "other",
+          "part_of_speech": "numeral",
           "root": "τρες",
           "frequency": 69
         }
@@ -3228,7 +3267,7 @@
           "chapter": 28,
           "lemma": "ἔφη",
           "gloss": "He/she/it was saying; he/she/it said",
-          "part_of_speech": "other"
+          "part_of_speech": "verb"
         },
         {
           "id": 292,
@@ -3261,7 +3300,7 @@
           "chapter": 28,
           "lemma": "οὐχί",
           "gloss": "not (54, adverb)",
-          "part_of_speech": "other"
+          "part_of_speech": "particle"
         },
         {
           "id": 295,
@@ -3279,7 +3318,14 @@
           "gloss": "I sow",
           "part_of_speech": "verb",
           "root": "σπερ",
-          "frequency": 52
+          "frequency": 52,
+          "principal_parts": [
+            "–",
+            "ἔσπειρα",
+            "–",
+            "ἔσπαρμαι",
+            "ἐσπάρην"
+          ]
         }
       ]
     },
@@ -3381,7 +3427,7 @@
           "chapter": 30,
           "lemma": "μηδέ",
           "gloss": "but not, nor, not even",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 56
         },
         {
@@ -3494,7 +3540,7 @@
           "chapter": 33,
           "lemma": "εἴτε",
           "gloss": "if, whether",
-          "part_of_speech": "other",
+          "part_of_speech": "conjunction",
           "frequency": 65
         }
       ]
@@ -3611,7 +3657,14 @@
           "gloss": "I consecrate, sanctify",
           "part_of_speech": "verb",
           "root": "ἁγιαδ",
-          "frequency": 28
+          "frequency": 28,
+          "principal_parts": [
+            "–",
+            "ἡγίασα",
+            "–",
+            "ἡγίασμαι",
+            "ἡγιάσθην"
+          ]
         },
         {
           "id": 319,
