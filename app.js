@@ -74,7 +74,6 @@
     vocabView: $("vocab-view"),
     parseView: $("parse-view"),
     homeView: $("home-view"),
-    homeToday: $("home-today"),
     homeScope: $("home-scope"),
     lessonTitle: $("lesson-title"),
     lessonSub: $("lesson-sub"),
@@ -354,7 +353,9 @@
     el.settings.hidden = !open;
     if (open) renderSrsStatus();
     el.settingsToggle.setAttribute("aria-expanded", String(open));
-    el.settingsToggle.textContent = open ? "Close settings" : "Settings";
+    el.settingsToggle.classList.toggle("active", open);
+    if (open) window.scrollTo(0, 0);
+    else if (!el.homeView.hidden && words.length) renderHome();
   }
 
   // ---------- round ----------
@@ -389,6 +390,8 @@
     el.homeView.hidden = name !== "home";
     el.vocabView.hidden = name !== "vocab";
     el.parseView.hidden = name !== "parse";
+    $("nav-home").classList.toggle("active", name !== "parse");
+    $("nav-parse").classList.toggle("active", name === "parse");
     showError("");
     window.scrollTo(0, 0);
   }
@@ -978,7 +981,9 @@
       $("lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
     });
     $("lesson-parse").addEventListener("click", openParsing);
-    ["home-link", "vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
+    $("nav-parse").addEventListener("click", openParsing);
+    $("home-go").addEventListener("click", function () { startLesson($("home-go").dataset.lesson); });
+    ["home-link", "nav-home", "vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
       $(id).addEventListener("click", showHome);
     });
     $("home-change").addEventListener("click", function () { toggleSettings(true); });
@@ -1081,46 +1086,54 @@
   // ---------- home ----------
 
   function describeScope() {
-    var allChapters = settings.chapters.length === chapters.length;
-    var chapterText = allChapters ? "all chapters" :
-      settings.chapters.length === 1 ? "chapter " + settings.chapters[0] :
+    var chapterText = settings.chapters.length === chapters.length ? "All chapters" :
+      settings.chapters.length === 1 ? "Chapter " + settings.chapters[0] :
       plural(settings.chapters.length, "chapter");
-    var partText = settings.parts.length === parts.length ? "all parts of speech" :
-      parts.filter(function (p) { return settings.parts.indexOf(p[0]) !== -1; })
-        .map(function (p) { return p[1].toLowerCase(); }).join(", ") || "no parts of speech";
-    return "Studying " + chapterText + ", " + partText + ".";
+    var chosen = parts.filter(function (p) { return settings.parts.indexOf(p[0]) !== -1; });
+    var partText = chosen.length === parts.length ? "all words" :
+      chosen.length <= 2 ? chosen.map(function (p) { return p[1].toLowerCase(); }).join(" & ") || "no words" :
+      plural(chosen.length, "kind") + " of words";
+    return chapterText + " · " + partText;
   }
 
-  function setMeta(id, text, disabled) {
+  function setBadge(id, text, disabled) {
     $("meta-" + id).textContent = text;
     $("lesson-" + id).disabled = !!disabled;
   }
+
+  function homeLesson(due, fresh) {
+    return due ? "review" : fresh ? "learn" : "practice";
+  }
+
+  var RING = 2 * Math.PI * 52;
 
   function renderHome() {
     var ids = selectedIds();
     var due = ids.filter(function (id) { return isDue(id); }).length;
     var fresh = ids.filter(isNew).length;
-    var learning = ids.length - fresh;
-    el.homeToday.textContent = "";
-    [[due, "due for review"], [fresh, "new to learn"], [learning, "in your reviews"]].forEach(function (pair) {
-      var stat = make("span", "stat");
-      stat.appendChild(make("b", null, String(pair[0])));
-      stat.appendChild(make("span", null, pair[1]));
-      el.homeToday.appendChild(stat);
-    });
+    var started = ids.length - fresh;
+    var pct = ids.length ? Math.round(started / ids.length * 100) : 0;
+    $("ring-fill").style.strokeDasharray = RING;
+    $("ring-fill").style.strokeDashoffset = RING * (1 - pct / 100);
+    $("ring-pct").textContent = pct + "%";
+    $("home-ring").setAttribute("aria-label", started + " of " + ids.length + " cards started");
+    $("stat-due").textContent = due;
+    $("stat-new").textContent = fresh;
     el.homeScope.textContent = describeScope();
 
     var batch = Math.min(fresh, settings.newPerRound || 20);
-    var answer = EXERCISE_LABELS[settings.exercise];
-    setMeta("review", due ? plural(due, "card") + " · " + answer : "All caught up · " + (nextReviewText() || "learn some new words first"), !due);
-    setMeta("learn", fresh ? plural(batch, "new word") + " · " + answer : "No new words left", !fresh);
-    setMeta("practice", ids.length ? plural(ids.length, "card") + " · " + answer : "Nothing selected", !ids.length);
-    setMeta("match", ids.length ? plural(Math.min(ids.length, MATCH_GAME_SIZE), "card") + " in groups of five" : "Nothing selected", !ids.length);
-    // Point to the most useful lesson.
-    var primary = due ? "review" : fresh ? "learn" : "practice";
-    ["review", "learn", "practice", "match"].forEach(function (lesson) {
-      $("lesson-" + lesson).classList.toggle("primary-lesson", lesson === primary);
-    });
+    setBadge("review", due ? String(due) : "✓", !due);
+    setBadge("learn", fresh ? String(batch) : "✓", !fresh);
+    setBadge("practice", String(ids.length), !ids.length);
+    setBadge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), !ids.length);
+
+    // One big button for the most useful lesson right now.
+    var lesson = homeLesson(due, fresh);
+    $("go-label").textContent = { review: "Review", learn: "Learn new words", practice: "Practice" }[lesson];
+    $("go-sub").textContent = lesson === "review" ? plural(due, "card") + " due" :
+      lesson === "learn" ? plural(batch, "new word") : ids.length ? plural(ids.length, "card") : "Nothing selected";
+    $("home-go").disabled = !ids.length;
+    $("home-go").dataset.lesson = lesson;
   }
 
   function showHome() {

@@ -20,7 +20,6 @@
   <header class="topbar">
     <div class="topbar-inner">
       <h1><button type="button" id="home-link" class="brand">Greek Flashcards</button></h1>
-      <button id="settings-toggle" class="ghost" aria-expanded="false" aria-controls="settings">Settings</button>
     </div>
   </header>
 
@@ -91,44 +90,45 @@
     </section>
 
     <div id="home-view">
-      <section class="today">
-        <h2>Today</h2>
-        <p id="home-today" class="today-numbers"></p>
-        <p class="help"><span id="home-scope"></span>
-          <button type="button" class="link" id="home-change">Change</button></p>
+      <section class="hero">
+        <div class="ring" id="home-ring" role="img">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+            <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="ring-text"><b id="ring-pct">0%</b><span>started</span></div>
+        </div>
+        <div class="hero-side">
+          <div class="pills">
+            <span class="pill pill-due"><b id="stat-due">0</b> due</span>
+            <span class="pill pill-new"><b id="stat-new">0</b> new</span>
+          </div>
+          <button type="button" class="go" id="home-go">
+            <span class="go-label" id="go-label">Start</span>
+            <span class="go-sub" id="go-sub"></span>
+          </button>
+        </div>
       </section>
 
-      <h2 class="section-title">Choose a lesson</h2>
-      <div class="lessons">
-        <button type="button" class="lesson" id="lesson-review">
-          <span class="lesson-icon" aria-hidden="true">↻</span>
-          <span class="lesson-text"><span class="lesson-title">Today's review</span>
-            <span class="lesson-desc">Words that are due, so you don't forget them.</span>
-            <span class="lesson-meta" id="meta-review"></span></span>
+      <button type="button" class="scope-chip" id="home-change">
+        <span id="home-scope"></span><span class="scope-edit" aria-hidden="true">Edit</span>
+      </button>
+
+      <div class="tiles">
+        <button type="button" class="tile-lesson t-review" id="lesson-review" title="Cards that are due today">
+          <span class="ti" aria-hidden="true">↻</span><span class="tt">Review</span><span class="badge" id="meta-review"></span>
         </button>
-        <button type="button" class="lesson" id="lesson-learn">
-          <span class="lesson-icon" aria-hidden="true">＋</span>
-          <span class="lesson-text"><span class="lesson-title">Learn new words</span>
-            <span class="lesson-desc">The next words in your book order, starting with multiple choice.</span>
-            <span class="lesson-meta" id="meta-learn"></span></span>
+        <button type="button" class="tile-lesson t-learn" id="lesson-learn" title="The next new words in book order">
+          <span class="ti" aria-hidden="true">＋</span><span class="tt">Learn</span><span class="badge" id="meta-learn"></span>
         </button>
-        <button type="button" class="lesson" id="lesson-practice">
-          <span class="lesson-icon" aria-hidden="true">✎</span>
-          <span class="lesson-text"><span class="lesson-title">Practice</span>
-            <span class="lesson-desc">Every card in your chosen chapters and parts of speech.</span>
-            <span class="lesson-meta" id="meta-practice"></span></span>
+        <button type="button" class="tile-lesson t-practice" id="lesson-practice" title="Every card in your chapters and parts of speech">
+          <span class="ti" aria-hidden="true">✎</span><span class="tt">Practice</span><span class="badge" id="meta-practice"></span>
         </button>
-        <button type="button" class="lesson" id="lesson-match">
-          <span class="lesson-icon" aria-hidden="true">⇄</span>
-          <span class="lesson-text"><span class="lesson-title">Matching game</span>
-            <span class="lesson-desc">Pair Greek words with their meanings, five at a time.</span>
-            <span class="lesson-meta" id="meta-match"></span></span>
+        <button type="button" class="tile-lesson t-match" id="lesson-match" title="Pair words with meanings, five at a time">
+          <span class="ti" aria-hidden="true">⇄</span><span class="tt">Match</span><span class="badge" id="meta-match"></span>
         </button>
-        <button type="button" class="lesson" id="lesson-parse">
-          <span class="lesson-icon" aria-hidden="true">α</span>
-          <span class="lesson-text"><span class="lesson-title">Parsing drill</span>
-            <span class="lesson-desc">Identify New Testament forms: case, tense, voice and mood.</span>
-            <span class="lesson-meta">Forms you have studied so far</span></span>
+        <button type="button" class="tile-lesson t-parse wide" id="lesson-parse" title="Identify New Testament forms">
+          <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge">NT forms</span>
         </button>
       </div>
     </div>
@@ -276,6 +276,12 @@
 
     <p id="error" class="error" hidden></p>
   </main>
+
+  <nav class="bottom-nav" aria-label="Main">
+    <button type="button" id="nav-home" class="nav-item active"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
+    <button type="button" id="nav-parse" class="nav-item"><span class="nav-icon" aria-hidden="true">α</span>Parsing</button>
+    <button type="button" id="settings-toggle" class="nav-item" aria-expanded="false" aria-controls="settings"><span class="nav-icon" aria-hidden="true">⚙</span>Settings</button>
+  </nav>
 
   <footer>
     <p id="source"></p>

@@ -5,14 +5,11 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
 
 ## Use
 
-- The **home page** shows what is due today and offers five lessons:
-  - **Today's review**: the cards that are due.
-  - **Learn new words**: the next words in your chapter order (20 by default).
-  - **Practice**: every card in your chosen chapters and parts of speech.
-  - **Matching game**: 15 cards, paired five at a time.
-  - **Parsing drill**: New Testament forms of your vocabulary words.
-
-  During a lesson, the bar at the top names the lesson and how you answer; **← Home** goes back.
+- The **home page** shows how much you have started (the ring), what is due and new, and one
+  big **Start** button for the most useful lesson right now. Below it are lesson tiles:
+  **Review** (due cards), **Learn** (the next new words in chapter order), **Practice** (every
+  card in your selection), **Match** (15 cards, five at a time) and **Parsing drill**.
+  The bar at the bottom goes to **Home**, **Parsing** or **Settings** from anywhere.
 - **Exercises** (Settings → Exercise):
   - **Mixed** (default): multiple choice while a card is new, typing the meaning once you
     know it (box 3 and up).
