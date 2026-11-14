@@ -3,6 +3,20 @@
 
   var DATA_URL = "greek_vocab.json";
   var EXAMPLES_URL = "examples.json";
+  var TOPICS_URL = "topics.json";
+  var CHART_ROWS = 15;        // long lists (nouns, verbs) start collapsed to this many
+  var CHART_COLLAPSE_OVER = 30;
+
+  // An example word and a color for each part of speech's tile.
+  var PART_LOOK = {
+    noun: ["λόγος", "t-review"], verb: ["λύω", "t-learn"], adjective: ["ἀγαθός", "t-practice"],
+    pronoun: ["αὐτός", "t-match"], article: ["ὁ", "t-parse"], preposition: ["ἐν", "t-review"],
+    adverb: ["νῦν", "t-learn"], conjunction: ["καί", "t-practice"], particle: ["οὐ", "t-match"],
+    numeral: ["εἷς", "t-parse"]
+  };
+  // Parts of speech that inflect, so they have forms to parse.
+  var PARSABLE = ["noun", "verb", "adjective", "pronoun", "article", "numeral"];
+  var PRONOUN_KINDS = ["personal", "reflexive", "reciprocal", "demonstrative", "relative", "interrogative", "indefinite"];
   var MATCH_SIZE = 5;
   var MATCH_GAME_SIZE = 15;
 
@@ -106,6 +120,9 @@
   };
   var stats = {};
   var examples = {};
+  var topics = { pronoun_kinds: {}, counts: {}, extras: {} };
+  var topic = null;        // part of speech being studied on its own page, or null
+  var chartExpanded = false;
   var round = null;
 
   // ---------- storage (best effort; the app works without it) ----------
@@ -200,7 +217,9 @@
   }
 
   function inChapters(card) { return settings.chapters.indexOf(card.word.chapter) !== -1; }
-  function inParts(card) { return settings.parts.indexOf(card.pos) !== -1; }
+  function inParts(card) {
+    return topic ? card.pos === topic : settings.parts.indexOf(card.pos) !== -1;
+  }
 
   function selectedIds() {
     return cards
@@ -316,14 +335,14 @@
     save(SETTINGS_KEY, settings);
     renderPartChips();
     renderSrsStatus();
-    if (!el.homeView.hidden) renderHome();
+    refreshPage();
   }
 
   function readPartChips() {
     settings.parts = checkedValues(el.partList);
     save(SETTINGS_KEY, settings);
     renderSrsStatus();
-    if (!el.homeView.hidden) renderHome();
+    refreshPage();
   }
 
   function setAll(container, checked, read) {
@@ -355,7 +374,7 @@
     el.settingsToggle.setAttribute("aria-expanded", String(open));
     el.settingsToggle.classList.toggle("active", open);
     if (open) window.scrollTo(0, 0);
-    else if (!el.homeView.hidden && words.length) renderHome();
+    else if (words.length) refreshPage();
   }
 
   // ---------- round ----------
@@ -390,6 +409,7 @@
     el.homeView.hidden = name !== "home";
     el.vocabView.hidden = name !== "vocab";
     el.parseView.hidden = name !== "parse";
+    $("topic-view").hidden = name !== "topic";
     $("nav-home").classList.toggle("active", name !== "parse");
     $("nav-parse").classList.toggle("active", name === "parse");
     showError("");
@@ -402,7 +422,7 @@
 
   function updateLessonBar() {
     if (!round) return;
-    el.lessonTitle.textContent = LESSONS[round.lesson].title;
+    el.lessonTitle.textContent = (round.topic ? partLabel(round.topic) + " · " : "") + LESSONS[round.lesson].title;
     el.lessonSub.textContent = EXERCISE_LABELS[exerciseMode()];
   }
 
@@ -430,8 +450,9 @@
     } else {
       ids = lessonDeck(lesson);
     }
-    round = { lesson: lesson };
+    round = { lesson: lesson, topic: topic };
     updateLessonBar();
+    $("vocab-home").textContent = "← " + (topic ? partLabel(topic) : "Home");
     if (!ids.length) {
       el.caughtUpText.textContent = LESSONS[lesson].empty + nextReviewText();
       el.caughtUp.hidden = false;
@@ -441,6 +462,7 @@
 
     round = {
       lesson: lesson,
+      topic: topic,
       graded: {},
       queue: ids,
       total: ids.length,
@@ -980,16 +1002,26 @@
     ["review", "learn", "practice", "match"].forEach(function (lesson) {
       $("lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
     });
-    $("lesson-parse").addEventListener("click", openParsing);
-    $("nav-parse").addEventListener("click", openParsing);
+    $("lesson-parse").addEventListener("click", function () { topic = null; openParsing(); });
+    $("nav-parse").addEventListener("click", function () { topic = null; openParsing(); });
+    ["review", "learn", "practice", "match"].forEach(function (lesson) {
+      $("topic-lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
+    });
+    $("topic-lesson-parse").addEventListener("click", openParsing);
+    $("topic-home").addEventListener("click", showHome);
+    $("chart-more").addEventListener("click", function () {
+      chartExpanded = !chartExpanded;
+      renderChart();
+    });
     $("home-go").addEventListener("click", function () { startLesson($("home-go").dataset.lesson); });
-    ["home-link", "nav-home", "vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
-      $(id).addEventListener("click", showHome);
+    ["home-link", "nav-home"].forEach(function (id) { $(id).addEventListener("click", showHome); });
+    // Inside a lesson, "back" returns to the part-of-speech page it was started from.
+    ["vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
+      $(id).addEventListener("click", goBack);
     });
     $("home-change").addEventListener("click", function () { toggleSettings(true); });
     $("settings-done").addEventListener("click", function () {
       toggleSettings(false);
-      if (!el.homeView.hidden) renderHome();
     });
     el.typeForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -1121,6 +1153,7 @@
     $("stat-new").textContent = fresh;
     el.homeScope.textContent = describeScope();
 
+    renderPosGrid();
     var batch = Math.min(fresh, settings.newPerRound || 20);
     setBadge("review", due ? String(due) : "✓", !due);
     setBadge("learn", fresh ? String(batch) : "✓", !fresh);
@@ -1136,19 +1169,190 @@
     $("home-go").dataset.lesson = lesson;
   }
 
+  function renderPosGrid() {
+    var grid = $("pos-grid");
+    grid.textContent = "";
+    parts.forEach(function (part) {
+      var pos = part[0];
+      var ids = cards.filter(function (c) { return c.pos === pos && inChapters(c); }).map(function (c) { return c.id; });
+      var started = ids.filter(function (id) { return !isNew(id); }).length;
+      var look = PART_LOOK[pos] || ["·", "t-review"];
+      var b = make("button", "pos-tile " + look[1]);
+      b.type = "button";
+      var icon = make("span", "pos-icon", look[0]);
+      icon.lang = "grc";
+      icon.setAttribute("aria-hidden", "true");
+      b.appendChild(icon);
+      var text = make("span", "pos-text");
+      text.appendChild(make("span", "pos-name", part[1]));
+      text.appendChild(make("span", "pos-count", plural(ids.length, "card")));
+      var bar = make("span", "pos-bar");
+      var fill = make("span", "pos-fill");
+      fill.style.width = (ids.length ? started / ids.length * 100 : 0) + "%";
+      bar.appendChild(fill);
+      text.appendChild(bar);
+      b.appendChild(text);
+      b.disabled = !ids.length;
+      b.setAttribute("aria-label", part[1] + ": " + ids.length + " cards, " + started + " started");
+      b.addEventListener("click", function () { showTopic(pos); });
+      grid.appendChild(b);
+    });
+  }
+
+  function partLabel(pos) {
+    var part = parts.filter(function (p) { return p[0] === pos; })[0];
+    return part ? part[1] : pos;
+  }
+
+  function refreshPage() {
+    if (!el.homeView.hidden) renderHome();
+    if (!$("topic-view").hidden) renderTopic();
+  }
+
   function showHome() {
     if (round) returnGroup();
+    topic = null;
     toggleSettings(false);
     showView("home");
     renderHome();
   }
 
+  function goBack() {
+    if (round) returnGroup();
+    var from = el.parseView.hidden ? round && round.topic : parseTopic;
+    if (from) showTopic(from);
+    else showHome();
+  }
+
+  var parseTopic = null;
+
   function openParsing() {
     toggleSettings(false);
+    parseTopic = topic;
+    $("parse-home").textContent = "← " + (topic ? partLabel(topic) : "Home");
     showView("parse");
     if (window.ParseDrill) {
-      window.ParseDrill.open({ words: words, chapterRank: chapterRank, showError: showError });
+      window.ParseDrill.open({ words: words, chapterRank: chapterRank, showError: showError },
+        topic ? { pos: topic, label: partLabel(topic) } : null);
     }
+  }
+
+  // ---------- part-of-speech pages ----------
+
+  function showTopic(pos) {
+    if (round) returnGroup();
+    topic = pos;
+    chartExpanded = false;
+    toggleSettings(false);
+    showView("topic");
+    renderTopic();
+  }
+
+  function renderTopic() {
+    var ids = selectedIds();
+    var due = ids.filter(function (id) { return isDue(id); }).length;
+    var fresh = ids.filter(isNew).length;
+    var wordCount = words.filter(function (w) {
+      return cards.some(function (c) { return c.word === w && c.pos === topic && inChapters(c); });
+    }).length;
+    $("topic-title").textContent = partLabel(topic);
+    $("topic-sub").textContent = plural(wordCount, "word") + " · " + plural(ids.length, "card") +
+      (settings.chapters.length === chapters.length ? "" : " in your chapters");
+    var badge = function (lesson, text, off) {
+      $("topic-meta-" + lesson).textContent = text;
+      $("topic-lesson-" + lesson).disabled = !!off;
+    };
+    badge("review", due ? String(due) : "✓", !due);
+    badge("learn", fresh ? String(Math.min(fresh, settings.newPerRound || 20)) : "✓", !fresh);
+    badge("practice", String(ids.length), !ids.length);
+    badge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), ids.length < 2);
+    $("topic-lesson-parse").hidden = PARSABLE.indexOf(topic) === -1;
+    renderChart();
+  }
+
+  // How well a word is known, from its cards: new, learning, or known well (box 4+).
+  function wordStatus(word) {
+    var own = cards.filter(function (c) { return c.word === word && c.pos === topic; });
+    if (own.every(function (c) { return isNew(c.id); })) return "new";
+    return own.every(function (c) { return boxOf(c.id) >= 4; }) ? "known" : "learning";
+  }
+
+  function chartRows() {
+    var rows = [];
+    words.forEach(function (word) {
+      var own = cards.filter(function (c) { return c.word === word && c.pos === topic; });
+      if (!own.length || settings.chapters.indexOf(word.chapter) === -1) return;
+      rows.push({
+        lemma: word.lemma.split(/[,(]/)[0].trim(),
+        count: word.frequency || topics.counts[word.id] || 0,
+        status: wordStatus(word),
+        cases: own.filter(function (c) { return c.kase; }).map(function (c) { return c.kase; }),
+        meaning: own.map(function (c) { return (c.kase ? "+ " + CASE_ABBR[c.kase] + " " : "") + c.meaning; }).join("; "),
+        detail: plural(own.length, "card") + " · chapter " + word.chapter,
+        kind: topics.pronoun_kinds[word.id] || "other"
+      });
+    });
+    (topics.extras[topic] || []).forEach(function (extra) {
+      rows.push({ lemma: extra.lemma, count: extra.count, status: "extra", cases: [],
+        meaning: extra.gloss, detail: "Not in your list", kind: extra.kind || "other" });
+    });
+    rows.sort(function (a, b) { return b.count - a.count; });
+    return rows;
+  }
+
+  function renderChart() {
+    var chart = $("topic-chart");
+    var rows = chartRows();
+    var max = Math.max.apply(null, rows.map(function (r) { return r.count; }).concat([1]));
+    chart.textContent = "";
+    var groups;
+    if (topic === "pronoun") {
+      // Pronouns are grouped by kind, as in reference grammars.
+      groups = PRONOUN_KINDS.concat(["other"]).map(function (kind) {
+        return { title: kind, rows: rows.filter(function (r) { return r.kind === kind; }) };
+      }).filter(function (g) { return g.rows.length; });
+    } else {
+      var collapsible = rows.length > CHART_COLLAPSE_OVER;
+      var shown = chartExpanded || !collapsible ? rows : rows.slice(0, CHART_ROWS);
+      groups = [{ title: null, rows: shown }];
+      $("chart-more").hidden = !collapsible;
+      $("chart-more").textContent = chartExpanded ? "Show fewer" : "Show all " + rows.length;
+    }
+    if (topic === "pronoun") $("chart-more").hidden = true;
+    groups.forEach(function (group) {
+      if (group.title) chart.appendChild(make("h3", "chart-group", group.title));
+      group.rows.forEach(function (row) { chart.appendChild(chartRow(row, max)); });
+    });
+  }
+
+  function chartRow(row, max) {
+    var item = make("div", "chart-item");
+    var b = make("button", "bar-row status-" + row.status);
+    b.type = "button";
+    b.setAttribute("aria-expanded", "false");
+    var label = make("span", "bar-label");
+    var greek = make("span", "greek", row.lemma);
+    greek.lang = "grc";
+    label.appendChild(greek);
+    row.cases.forEach(function (c) { label.appendChild(make("span", "case-dot case-" + c, CASE_ABBR[c].charAt(0).toUpperCase())); });
+    b.appendChild(label);
+    var track = make("span", "bar-track");
+    var fill = make("span", "bar-fill");
+    fill.style.width = Math.max(1.5, row.count / max * 100) + "%";
+    track.appendChild(fill);
+    track.appendChild(make("span", "bar-count", row.count ? String(row.count) : "–"));
+    b.appendChild(track);
+    var info = make("div", "bar-info");
+    info.hidden = true;
+    info.appendChild(make("span", null, row.meaning));
+    info.appendChild(make("span", "bar-detail", row.detail));
+    b.addEventListener("click", function () {
+      info.hidden = !info.hidden;
+      b.setAttribute("aria-expanded", String(!info.hidden));
+    });
+    item.appendChild(b);
+    item.appendChild(info);
+    return item;
   }
 
   // ---------- init ----------
@@ -1214,6 +1418,16 @@
     installButton.hidden = true;
   });
   window.addEventListener("appinstalled", function () { installButton.hidden = true; });
+
+  // Part-of-speech chart extras are optional too.
+  fetch(TOPICS_URL)
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (data) {
+      if (!data) return;
+      topics = data;
+      if (words.length && !$("topic-view").hidden) renderTopic();
+    })
+    .catch(function () { /* charts show only your words */ });
 
   // Example verses are optional: cards work without them.
   fetch(EXAMPLES_URL)

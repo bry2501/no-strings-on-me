@@ -11,6 +11,9 @@ https://github.com/morphgnt/sblgnt (the MorphGNT: SBLGNT edition).
   their parsings, for the parsing drill. Derived from the MorphGNT parsing,
   so it is under the same CC BY-SA license.
 - examples.json: one short SBLGNT verse per flashcard, with the word marked.
+- topics.json: for the part-of-speech pages: pronoun kinds, New Testament
+  counts for words without one, and common prepositions and pronouns that
+  are not in the vocabulary list.
 """
 import collections
 import glob
@@ -72,6 +75,24 @@ SPECIAL = {
 # Single inflected forms: they get example verses but no parsing drill items.
 FORM_ENTRIES = {43, 61, 80, 87, 198, 291}
 PERSONAL_PRONOUNS = {8, 52, 114, 124}
+
+
+# Words shown on the part-of-speech pages that are not in the vocabulary list.
+# ἀνά, ἀντί and πρό complete the seventeen proper prepositions every grammar lists;
+# the pronouns complete the usual lexical list (ἐμαυτοῦ, σεαυτοῦ, ὅδε, ποῖος, πόσος).
+EXTRA_WORDS = {
+    "preposition": [("ἀνά", "+ acc. up; each (with numbers)"), ("ἀντί", "+ gen. instead of, for"),
+                    ("πρό", "+ gen. before")],
+    "pronoun": [("ἐμαυτοῦ", "myself", "reflexive"), ("σεαυτοῦ", "yourself", "reflexive"),
+                ("ὅδε", "this (here)", "demonstrative"), ("ποῖος", "what kind of? which?", "interrogative"),
+                ("πόσος", "how much? how many?", "interrogative")],
+}
+# Kinds of pronoun, by vocabulary id.
+PRONOUN_KINDS = {
+    8: "personal", 52: "personal", 114: "personal", 124: "personal", 87: "personal", 149: "personal",
+    29: "personal", 146: "reflexive", 79: "reciprocal", 51: "demonstrative", 147: "demonstrative",
+    166: "relative", 202: "relative", 105: "interrogative", 106: "indefinite",
+}
 
 
 def load_morphgnt(directory):
@@ -221,6 +242,30 @@ def main(directory):
                                  "text": [t["text"] for t in verses[bcv]],
                                  "hl": hits}
 
+    # ----- topics.json -----
+    lemma_count = collections.Counter(t["lemma"] for t in tokens)
+    counts = {}
+    for word in words:
+        if word.get("frequency"):
+            continue
+        test = matcher(word)
+        if word["id"] == 94:
+            continue
+        n = sum(1 for t in tokens if test(t))
+        if n:
+            counts[str(word["id"])] = n
+    extras = {}
+    for pos, items in EXTRA_WORDS.items():
+        extras[pos] = []
+        for item in items:
+            lemma, gloss = nfc(item[0]), item[1]
+            entry = {"lemma": lemma, "gloss": gloss, "count": lemma_count[lemma]}
+            if len(item) > 2:
+                entry["kind"] = item[2]
+            extras[pos].append(entry)
+    topics = {"pronoun_kinds": {str(k): v for k, v in PRONOUN_KINDS.items()},
+              "counts": counts, "extras": extras}
+
     meta = {
         "source": "MorphGNT: SBLGNT Edition (Tauber, ed.), https://github.com/morphgnt/sblgnt",
     }
@@ -231,6 +276,9 @@ def main(directory):
         json.dump(dict(meta, license="Greek text: SBL Greek New Testament, "
                        "Copyright 2010 Society of Biblical Literature and Logos Bible Software",
                        examples=examples), f, ensure_ascii=False, separators=(",", ":"))
+    with open(os.path.join(ROOT, "topics.json"), "w", encoding="utf-8") as f:
+        json.dump(dict(meta, license="Counts from MorphGNT (CC BY-SA 3.0)", **topics),
+                  f, ensure_ascii=False, separators=(",", ":"))
     print("forms:", len(forms), "| examples:", len(examples),
           "| distinct verses:", len({e["ref"] for e in examples.values()}),
           "| cards without an example:", unmatched)

@@ -55,6 +55,7 @@
   var forms = null;
   var loading = null;
   var settings = { chapter: null, nominal: true, verbs: true };
+  var only = null;       // { pos, label } when drilling one part of speech
   var round = null;
 
   function load() {
@@ -81,8 +82,11 @@
   function eligible() {
     var limit = rank(settings.chapter);
     return forms.filter(function (item) {
-      var verb = isVerb(item);
-      if (verb ? !settings.verbs : !settings.nominal) return false;
+      if (only) {
+        if (wordById[item.w].part_of_speech !== only.pos) return false;
+      } else if (isVerb(item) ? !settings.verbs : !settings.nominal) {
+        return false;
+      }
       return rank(wordById[item.w].chapter) <= limit && rank(item.g) <= limit;
     });
   }
@@ -101,12 +105,15 @@
     });
     el.nominal.checked = settings.nominal;
     el.verbs.checked = settings.verbs;
+    el.nominal.closest("fieldset").hidden = !!only;
+    el.setup.querySelector("h2").textContent = only ? "Parsing drill · " + only.label : "Parsing drill";
     updateCount();
   }
 
   function updateCount() {
     var n = eligible().length;
-    el.count.textContent = n ? n + " forms to practice." :
+    el.count.textContent = n ? n + " forms to practice." : only ?
+      "No " + only.label.toLowerCase() + " forms by this chapter yet." :
       "No forms yet: nouns start in chapter 6 and verbs in chapter 16.";
     el.start.disabled = n === 0;
   }
@@ -377,7 +384,15 @@
   }
 
   window.ParseDrill = {
-    open: function (app) {
+    open: function (app, options) {
+      // Each visit starts at the setup screen for its own selection.
+      var nextOnly = options || null;
+      if ((nextOnly && nextOnly.pos) !== (only && only.pos)) {
+        el.study.hidden = true;
+        el.summary.hidden = true;
+        el.setup.hidden = false;
+      }
+      only = nextOnly;
       if (!api) {
         api = app;
         app.words.forEach(function (w) { wordById[w.id] = w; });
@@ -386,7 +401,7 @@
         bind();
       }
       if (forms) {
-        if (!el.setup.hidden) renderSetup();
+        renderSetup();
         return;
       }
       if (loading) return;

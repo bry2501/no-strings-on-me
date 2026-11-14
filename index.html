@@ -131,6 +131,45 @@
           <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge">NT forms</span>
         </button>
       </div>
+
+      <h2 class="section-title">By part of speech</h2>
+      <div class="pos-grid" id="pos-grid"></div>
+    </div>
+
+    <div id="topic-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="topic-home">← Home</button>
+        <div class="lesson-name"><strong id="topic-title"></strong><span id="topic-sub"></span></div>
+      </div>
+
+      <div class="tiles topic-tiles">
+        <button type="button" class="tile-lesson t-review" id="topic-lesson-review" data-lesson="review" title="Cards that are due today">
+          <span class="ti" aria-hidden="true">↻</span><span class="tt">Review</span><span class="badge" id="topic-meta-review"></span>
+        </button>
+        <button type="button" class="tile-lesson t-learn" id="topic-lesson-learn" data-lesson="learn" title="The next new words in book order">
+          <span class="ti" aria-hidden="true">＋</span><span class="tt">Learn</span><span class="badge" id="topic-meta-learn"></span>
+        </button>
+        <button type="button" class="tile-lesson t-practice" id="topic-lesson-practice" data-lesson="practice" title="Every card in this group">
+          <span class="ti" aria-hidden="true">✎</span><span class="tt">Practice</span><span class="badge" id="topic-meta-practice"></span>
+        </button>
+        <button type="button" class="tile-lesson t-match" id="topic-lesson-match" data-lesson="match" title="Pair words with meanings, five at a time">
+          <span class="ti" aria-hidden="true">⇄</span><span class="tt">Match</span><span class="badge" id="topic-meta-match"></span>
+        </button>
+        <button type="button" class="tile-lesson t-parse wide" id="topic-lesson-parse" title="Identify New Testament forms of these words">
+          <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge" id="topic-meta-parse">NT forms</span>
+        </button>
+      </div>
+
+      <section class="chart-panel">
+        <h2 class="section-title">How often they occur in the New Testament</h2>
+        <div class="legend" aria-hidden="true">
+          <span><i class="key key-new"></i>New</span><span><i class="key key-learning"></i>Learning</span>
+          <span><i class="key key-known"></i>Known well</span><span><i class="key key-extra"></i>Not in your list</span>
+        </div>
+        <div id="topic-chart" class="chart"></div>
+        <button type="button" class="link chart-more" id="chart-more" hidden></button>
+        <p class="help">Tap a word to see its meaning.</p>
+      </section>
     </div>
 
    <div id="vocab-view" hidden>

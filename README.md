@@ -10,6 +10,12 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   **Review** (due cards), **Learn** (the next new words in chapter order), **Practice** (every
   card in your selection), **Match** (15 cards, five at a time) and **Parsing drill**.
   The bar at the bottom goes to **Home**, **Parsing** or **Settings** from anywhere.
+- **By part of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
+  own page with Review, Learn, Practice and Match for just those words, a Parsing drill for
+  the ones that inflect, and a chart of how often each word occurs in the New Testament,
+  colored by how well you know it. Prepositions show which cases they take; pronouns are
+  grouped by kind. The charts also include common prepositions and pronouns that are not in
+  the vocabulary list (ἀνά, ἀντί, πρό; ἐμαυτοῦ, σεαυτοῦ, ὅδε, ποῖος, πόσος), marked as such.
 - **Exercises** (Settings → Exercise):
   - **Mixed** (default): multiple choice while a card is new, typing the meaning once you
     know it (box 3 and up).
@@ -58,7 +64,7 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
 ## Data
 
 - `greek_vocab.json`: the vocabulary list.
-- `forms.json` and `examples.json` are generated from
+- `forms.json`, `examples.json` and `topics.json` are generated from
   [MorphGNT: SBLGNT Edition](https://github.com/morphgnt/sblgnt) by `tools/build_data.py`:
 
   ```bash
