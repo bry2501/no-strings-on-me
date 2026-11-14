@@ -5,6 +5,14 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
 
 ## Use
 
+- The **home page** shows what is due today and offers five lessons:
+  - **Today's review**: the cards that are due.
+  - **Learn new words**: the next words in your chapter order (20 by default).
+  - **Practice**: every card in your chosen chapters and parts of speech.
+  - **Matching game**: 15 cards, paired five at a time.
+  - **Parsing drill**: New Testament forms of your vocabulary words.
+
+  During a lesson, the bar at the top names the lesson and how you answer; **← Home** goes back.
 - **Exercises** (Settings → Exercise):
   - **Mixed** (default): multiple choice while a card is new, typing the meaning once you
     know it (box 3 and up).
@@ -16,14 +24,13 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   - **Matching**: pair five Greek words with their meanings.
 - After each answer the card shows a New Testament verse that uses the word.
 - Missed cards come back later in the round. Skipped cards go to the end.
-- By default each round is a spaced-repetition review: the cards that are due, then up to
-  20 new cards in chapter order. Cards you get right come back after 1, 3, 7, 14, then 30 days;
-  cards you miss come back the next day. Only your first answer to a card in a round counts.
+- Spaced repetition: cards you get right come back after 1, 3, 7, 14, then 30 days; cards you
+  miss come back the next day. Only your first answer to a card in a round counts.
 - Prepositions get one card per case (διά + genitive, διά + accusative), and words like ἕως
   get one card per use, so each meaning is learned and scheduled on its own.
 - Under **Settings** you can study only some parts of speech (for example just prepositions),
   choose chapters, follow the textbook's Track One or Track Two chapter order for new cards,
-  switch to studying every card in your selection, change the number of new cards per round,
+  change the number of new words per lesson,
   flip to English→Greek, and turn off shuffling.
 - Your settings, history and review schedule are saved in your browser.
 - **Parsing** tab: parse New Testament forms of your vocabulary words (case, number and gender;

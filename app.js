@@ -4,6 +4,22 @@
   var DATA_URL = "greek_vocab.json";
   var EXAMPLES_URL = "examples.json";
   var MATCH_SIZE = 5;
+  var MATCH_GAME_SIZE = 15;
+
+  // What each lesson on the home page studies, and how it is described during the lesson.
+  var LESSONS = {
+    review: { title: "Today's review", empty: "Nothing is due right now. " },
+    learn: { title: "Learn new words", empty: "There are no new words left in your chapters and parts of speech. " },
+    practice: { title: "Practice", empty: "" },
+    match: { title: "Matching game", empty: "" }
+  };
+  var EXERCISE_LABELS = {
+    auto: "Multiple choice, then typing once you know a word",
+    flip: "Flip cards: reveal, then mark yourself right or wrong",
+    choice: "Multiple choice",
+    type: "Type the meaning",
+    match: "Match words with their meanings"
+  };
   var SETTINGS_KEY = "greekFlashcards.settings";
   var STATS_KEY = "greekFlashcards.stats";
   var CASE_ORDER = ["nominative", "genitive", "dative", "accusative", "vocative"];
@@ -57,8 +73,11 @@
     btnOverride: $("btn-override"),
     vocabView: $("vocab-view"),
     parseView: $("parse-view"),
-    tabVocab: $("tab-vocab"),
-    tabParse: $("tab-parse"),
+    homeView: $("home-view"),
+    homeToday: $("home-today"),
+    homeScope: $("home-scope"),
+    lessonTitle: $("lesson-title"),
+    lessonSub: $("lesson-sub"),
     answer: $("answer"),
     cardChapter: $("card-chapter"),
     cardPos: $("card-pos"),
@@ -83,7 +102,7 @@
   var chapters = [];
   var parts = [];
   var settings = {
-    chapters: null, parts: null, mode: "review", newPerRound: 20, track: "one", exercise: "auto",
+    chapters: null, parts: null, newPerRound: 20, track: "one", exercise: "auto",
     direction: "greek", shuffle: true, repeat: true
   };
   var stats = {};
@@ -298,12 +317,14 @@
     save(SETTINGS_KEY, settings);
     renderPartChips();
     renderSrsStatus();
+    if (!el.homeView.hidden) renderHome();
   }
 
   function readPartChips() {
     settings.parts = checkedValues(el.partList);
     save(SETTINGS_KEY, settings);
     renderSrsStatus();
+    if (!el.homeView.hidden) renderHome();
   }
 
   function setAll(container, checked, read) {
@@ -319,7 +340,6 @@
 
   function applySettingsToForm() {
     setRadio("direction", settings.direction);
-    setRadio("mode", settings.mode);
     setRadio("track", settings.track);
     setRadio("exercise", settings.exercise);
     el.newPerRound.value = settings.newPerRound;
@@ -339,19 +359,24 @@
 
   // ---------- round ----------
 
-  // Due cards first, then up to newPerRound new cards in the chosen chapter order.
-  function reviewDeck() {
-    var ids = selectedIds();
-    var due = ids.filter(function (id) { return isDue(id); });
-    var fresh = ids.filter(isNew).sort(function (a, b) {
+  function newIdsInOrder() {
+    return selectedIds().filter(isNew).sort(function (a, b) {
       var ca = cardById[a], cb = cardById[b];
       return chapterRank(ca.word.chapter) - chapterRank(cb.word.chapter) || ca.order - cb.order;
-    }).slice(0, settings.newPerRound);
-    if (settings.shuffle) {
-      shuffle(due);
-      shuffle(fresh);
+    });
+  }
+
+  function lessonDeck(lesson) {
+    var ids;
+    if (lesson === "review") {
+      ids = selectedIds().filter(function (id) { return isDue(id); });
+    } else if (lesson === "learn") {
+      ids = newIdsInOrder().slice(0, settings.newPerRound || 20);
+    } else {
+      ids = selectedIds();
     }
-    return due.concat(fresh);
+    if (settings.shuffle || lesson === "match") shuffle(ids);
+    return lesson === "match" ? ids.slice(0, MATCH_GAME_SIZE) : ids;
   }
 
   function hidePanels() {
@@ -360,39 +385,59 @@
     el.caughtUp.hidden = true;
   }
 
-  // With no ids, builds the deck from the settings. Otherwise studies exactly those cards.
-  function startRound(ids) {
+  function showView(name) {
+    el.homeView.hidden = name !== "home";
+    el.vocabView.hidden = name !== "vocab";
+    el.parseView.hidden = name !== "parse";
+    showError("");
+    window.scrollTo(0, 0);
+  }
+
+  function exerciseMode() {
+    return round && round.lesson === "match" ? "match" : settings.exercise;
+  }
+
+  function updateLessonBar() {
+    if (!round) return;
+    el.lessonTitle.textContent = LESSONS[round.lesson].title;
+    el.lessonSub.textContent = EXERCISE_LABELS[exerciseMode()];
+  }
+
+  function startLesson(lesson) {
+    startRound(null, lesson);
+  }
+
+  // With no ids, builds the lesson's deck. Otherwise studies exactly those cards.
+  function startRound(ids, lesson) {
+    lesson = lesson || (round && round.lesson) || "practice";
+    toggleSettings(false);
+    showView("vocab");
     hidePanels();
     if (!ids && !selectedIds().length) {
+      showView("home");
       toggleSettings(true);
       showError(settings.chapters.length && settings.parts.length
         ? "None of the selected chapters have cards for the selected parts of speech."
         : "Select at least one chapter and one part of speech to study.");
       return;
     }
-    showError("");
     if (ids) {
       ids = ids.slice();
       if (settings.shuffle) shuffle(ids);
-    } else if (settings.mode === "review") {
-      ids = reviewDeck();
     } else {
-      ids = selectedIds();
-      if (settings.shuffle) shuffle(ids);
+      ids = lessonDeck(lesson);
     }
+    round = { lesson: lesson };
+    updateLessonBar();
     if (!ids.length) {
-      toggleSettings(false);
-      var fresh = countSelected(isNew);
-      el.caughtUpText.textContent = "Nothing is due in your selection. " +
-        (fresh ? plural(fresh, "new card") + (fresh === 1 ? " is" : " are") +
-                 " waiting, but new cards per round is set to 0. "
-               : "You have started every card in it. ") +
-        nextReviewText();
+      el.caughtUpText.textContent = LESSONS[lesson].empty + nextReviewText();
       el.caughtUp.hidden = false;
+      $("caught-up-home").focus({ preventScroll: true });
       return;
     }
 
     round = {
+      lesson: lesson,
       graded: {},
       queue: ids,
       total: ids.length,
@@ -406,7 +451,6 @@
       revealed: false
     };
     el.study.hidden = false;
-    toggleSettings(false);
     showCard();
   }
 
@@ -417,7 +461,7 @@
   // ---------- exercises ----------
 
   function exerciseFor(card) {
-    var mode = settings.exercise;
+    var mode = exerciseMode();
     if (mode === "flip") return "flip";
     var english = settings.direction === "english";
     if (mode === "type") return english ? "choice" : "type";
@@ -572,7 +616,7 @@
 
   function showCard() {
     updateProgress();
-    if (settings.exercise === "match") {
+    if (exerciseMode() === "match") {
       showMatch();
       return;
     }
@@ -835,7 +879,7 @@
 
   function skip() {
     var card = currentCard();
-    if (!card || round.busy || round.answered || settings.exercise === "match") return;
+    if (!card || round.busy || round.answered || exerciseMode() === "match") return;
     round.skip += 1;
     round.queue.push(round.queue.shift());
     advance();
@@ -921,17 +965,27 @@
       settings.direction = value;
       if (round && !el.study.hidden) showCard();
     });
-    onRadio("mode", function (value) { settings.mode = value; });
     onRadio("track", function (value) { settings.track = value; });
     onRadio("exercise", function (value) {
       settings.exercise = value;
+      updateLessonBar();
       if (round && !el.study.hidden && !round.busy) {
         returnGroup();
         showCard();
       }
     });
-    el.tabVocab.addEventListener("click", function () { showTab("vocab"); });
-    el.tabParse.addEventListener("click", function () { showTab("parse"); });
+    ["review", "learn", "practice", "match"].forEach(function (lesson) {
+      $("lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
+    });
+    $("lesson-parse").addEventListener("click", openParsing);
+    ["home-link", "vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
+      $(id).addEventListener("click", showHome);
+    });
+    $("home-change").addEventListener("click", function () { toggleSettings(true); });
+    $("settings-done").addEventListener("click", function () {
+      toggleSettings(false);
+      if (!el.homeView.hidden) renderHome();
+    });
     el.typeForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (round && round.answered) continueCard();
@@ -948,7 +1002,7 @@
       var raw = el.newPerRound.value.trim();
       var n = Math.round(Number(raw));
       // Number("") is 0, so an emptied field would otherwise switch new cards off.
-      if (raw !== "" && isFinite(n)) settings.newPerRound = Math.max(0, Math.min(200, n));
+      if (raw !== "" && isFinite(n)) settings.newPerRound = Math.max(1, Math.min(200, n));
       el.newPerRound.value = settings.newPerRound;
       save(SETTINGS_KEY, settings);
     });
@@ -960,17 +1014,14 @@
       settings.repeat = el.repeat.checked;
       save(SETTINGS_KEY, settings);
     });
-    $("start").addEventListener("click", function () { startRound(); });
     $("reset-stats").addEventListener("click", function () {
       if (!confirm("Clear your saved history and review schedule for every card?")) return;
       stats = {};
       save(STATS_KEY, stats);
       renderSrsStatus();
     });
-    $("practice-all").addEventListener("click", function () { startRound(selectedIds()); });
-    $("caught-up-settings").addEventListener("click", function () { toggleSettings(true); });
-    $("restart").addEventListener("click", function () { startRound(); });
-    el.practiceMissed.addEventListener("click", function () { startRound(round.missed); });
+    $("restart").addEventListener("click", function () { startLesson(round.lesson); });
+    el.practiceMissed.addEventListener("click", function () { startRound(round.missed, round.lesson); });
 
     // Another tab or the installed app saved progress: pick it up.
     window.addEventListener("storage", function (e) {
@@ -986,7 +1037,7 @@
 
     document.addEventListener("keydown", function (e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
-      if (el.vocabView.hidden || el.study.hidden || !round || settings.exercise === "match") return;
+      if (el.vocabView.hidden || el.study.hidden || !round || exerciseMode() === "match") return;
       var tag = e.target.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       // Let Space/Enter activate a focused button natively.
@@ -1027,17 +1078,62 @@
     });
   }
 
-  // ---------- tabs ----------
+  // ---------- home ----------
 
-  function showTab(name) {
-    var parse = name === "parse";
-    el.vocabView.hidden = parse;
-    el.parseView.hidden = !parse;
-    el.settingsToggle.hidden = parse;
-    el.tabVocab.setAttribute("aria-pressed", String(!parse));
-    el.tabParse.setAttribute("aria-pressed", String(parse));
-    showError("");
-    if (parse && window.ParseDrill) {
+  function describeScope() {
+    var allChapters = settings.chapters.length === chapters.length;
+    var chapterText = allChapters ? "all chapters" :
+      settings.chapters.length === 1 ? "chapter " + settings.chapters[0] :
+      plural(settings.chapters.length, "chapter");
+    var partText = settings.parts.length === parts.length ? "all parts of speech" :
+      parts.filter(function (p) { return settings.parts.indexOf(p[0]) !== -1; })
+        .map(function (p) { return p[1].toLowerCase(); }).join(", ") || "no parts of speech";
+    return "Studying " + chapterText + ", " + partText + ".";
+  }
+
+  function setMeta(id, text, disabled) {
+    $("meta-" + id).textContent = text;
+    $("lesson-" + id).disabled = !!disabled;
+  }
+
+  function renderHome() {
+    var ids = selectedIds();
+    var due = ids.filter(function (id) { return isDue(id); }).length;
+    var fresh = ids.filter(isNew).length;
+    var learning = ids.length - fresh;
+    el.homeToday.textContent = "";
+    [[due, "due for review"], [fresh, "new to learn"], [learning, "in your reviews"]].forEach(function (pair) {
+      var stat = make("span", "stat");
+      stat.appendChild(make("b", null, String(pair[0])));
+      stat.appendChild(make("span", null, pair[1]));
+      el.homeToday.appendChild(stat);
+    });
+    el.homeScope.textContent = describeScope();
+
+    var batch = Math.min(fresh, settings.newPerRound || 20);
+    var answer = EXERCISE_LABELS[settings.exercise];
+    setMeta("review", due ? plural(due, "card") + " · " + answer : "All caught up · " + (nextReviewText() || "learn some new words first"), !due);
+    setMeta("learn", fresh ? plural(batch, "new word") + " · " + answer : "No new words left", !fresh);
+    setMeta("practice", ids.length ? plural(ids.length, "card") + " · " + answer : "Nothing selected", !ids.length);
+    setMeta("match", ids.length ? plural(Math.min(ids.length, MATCH_GAME_SIZE), "card") + " in groups of five" : "Nothing selected", !ids.length);
+    // Point to the most useful lesson.
+    var primary = due ? "review" : fresh ? "learn" : "practice";
+    ["review", "learn", "practice", "match"].forEach(function (lesson) {
+      $("lesson-" + lesson).classList.toggle("primary-lesson", lesson === primary);
+    });
+  }
+
+  function showHome() {
+    if (round) returnGroup();
+    toggleSettings(false);
+    showView("home");
+    renderHome();
+  }
+
+  function openParsing() {
+    toggleSettings(false);
+    showView("parse");
+    if (window.ParseDrill) {
       window.ParseDrill.open({ words: words, chapterRank: chapterRank, showError: showError });
     }
   }
@@ -1078,7 +1174,7 @@
 
     applySettingsToForm();
     bindEvents();
-    startRound();
+    showHome();
   }
 
   // ---------- offline support and install ----------
