@@ -5,7 +5,7 @@
 // offline or when the server errors. Google Fonts files never change, so they
 // are served cache-first. Bump VERSION when the list of app files changes.
 
-var VERSION = "v7";
+var VERSION = "v8";
 var PREFIX = "greek-flashcards-";
 var APP_CACHE = PREFIX + VERSION;
 var FONT_CACHE = PREFIX + "fonts-" + VERSION;
@@ -20,6 +20,7 @@ var APP_FILES = [
   "examples.json",
   "forms.json",
   "topics.json",
+  "phrases.json",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",

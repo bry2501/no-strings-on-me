@@ -404,6 +404,12 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .example mark { background: #fff2b3; color: inherit; border-radius: 3px; padding: 0 2px; }
 .example cite { display: block; font-family: var(--ui); font-style: normal; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 
+/* Words shown inside a New Testament phrase */
+.prompt.in-phrase { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
+.phrase-text mark { background: #fff2b3; color: inherit; border-radius: 4px; padding: 0 3px; }
+.tile .phrase-text mark { padding: 0 2px; }
+.phrase-gloss { display: block; font-family: var(--ui); font-size: 0.95rem; margin-top: 2px; }
+
 /* Matching */
 .match { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .match-col { display: grid; gap: 8px; align-content: start; }

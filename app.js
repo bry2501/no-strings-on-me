@@ -4,6 +4,7 @@
   var DATA_URL = "greek_vocab.json";
   var EXAMPLES_URL = "examples.json";
   var TOPICS_URL = "topics.json";
+  var PHRASES_URL = "phrases.json";
   var CHART_ROWS = 15;        // long lists (nouns, verbs) start collapsed to this many
   var CHART_COLLAPSE_OVER = 30;
 
@@ -121,6 +122,7 @@
   var stats = {};
   var examples = {};
   var topics = { pronoun_kinds: {}, counts: {}, extras: {} };
+  var phrases = {};          // card id -> New Testament phrases using the word
   var topic = null;        // part of speech being studied on its own page, or null
   var chartExpanded = false;
   var round = null;
@@ -672,9 +674,19 @@
     var english = settings.direction === "english";
     el.prompt.className = english ? "prompt english" : "prompt greek";
     el.prompt.lang = english ? "en" : "grc";
-    el.prompt.textContent = english ? card.meaning : word.lemma;
-    el.caseTag.textContent = caseLabel(card);
-    el.caseTag.hidden = !card.kase;
+    // Lessons from a part-of-speech page show the word inside a real phrase.
+    round.phrase = phraseFor(card);
+    if (round.phrase) {
+      el.prompt.textContent = "";
+      if (english) el.prompt.textContent = round.phrase.e;
+      else el.prompt.appendChild(phraseNode(round.phrase));
+      el.prompt.classList.add("in-phrase");
+      el.caseTag.hidden = true;
+    } else {
+      el.prompt.textContent = english ? card.meaning : word.lemma;
+      el.caseTag.textContent = caseLabel(card);
+      el.caseTag.hidden = !card.kase;
+    }
 
     el.flipControls.hidden = exercise !== "flip";
     el.answerControls.hidden = exercise === "flip";
@@ -747,7 +759,8 @@
     });
     if (others.length) el.answer.appendChild(make("p", "also", "Also: " + others.join("; ")));
 
-    renderExample(card);
+    if (round.phrase) renderPhrase(card, round.phrase);
+    else renderExample(card);
 
     var details = make("p", "details");
     if (word.root) {
@@ -772,6 +785,38 @@
     if (s && (s.right || s.wrong)) history += " · " + s.right + " right, " + s.wrong + " wrong";
     el.answer.appendChild(make("p", "record", history));
     el.answer.hidden = false;
+  }
+
+  // ---------- phrases ----------
+
+  // A random New Testament phrase for the card, in lessons started from a
+  // part-of-speech page; null elsewhere or when the card has none.
+  function phraseFor(card) {
+    var list = round && round.topic && phrases[card.id];
+    return list && list.length ? list[Math.floor(Math.random() * list.length)] : null;
+  }
+
+  function phraseNode(phrase) {
+    var node = make("span", "phrase-text");
+    phrase.t.forEach(function (token, i) {
+      if (i) node.appendChild(document.createTextNode(" "));
+      node.appendChild(phrase.h.indexOf(i) === -1 ? document.createTextNode(token) : make("mark", null, token));
+    });
+    return node;
+  }
+
+  function renderPhrase(card, phrase) {
+    var p = make("p", "example");
+    var greek = phraseNode(phrase);
+    greek.lang = "grc";
+    p.appendChild(greek);
+    var gloss = make("span", "phrase-gloss", phrase.e);
+    gloss.lang = "en";
+    p.appendChild(gloss);
+    var ref = make("cite", null, phrase.ref + (card.kase ? " · " + card.word.lemma.split(/[,(]/)[0].trim() + " + " + card.kase : ""));
+    ref.lang = "en";
+    p.appendChild(ref);
+    el.answer.appendChild(p);
   }
 
   // ---------- matching ----------
@@ -799,7 +844,9 @@
     el.matchEnglish.textContent = "";
     shuffle(round.group.slice()).forEach(function (id) {
       var card = cardById[id];
-      var label = card.word.lemma.split(",")[0] + (card.kase ? " + " + CASE_ABBR[card.kase] : "");
+      var phrase = phraseFor(card);
+      var label = phrase ? phraseNode(phrase) :
+        card.word.lemma.split(",")[0] + (card.kase ? " + " + CASE_ABBR[card.kase] : "");
       addTile(el.matchGreek, "greek", id, label);
     });
     shuffle(round.group.slice()).forEach(function (id) {
@@ -807,8 +854,9 @@
     });
   }
 
-  function addTile(column, side, id, text) {
-    var tile = make("button", "tile" + (side === "greek" ? " greek" : ""), text);
+  function addTile(column, side, id, label) {
+    var tile = make("button", "tile" + (side === "greek" ? " greek" : ""), typeof label === "string" ? label : null);
+    if (typeof label !== "string") tile.appendChild(label);
     tile.type = "button";
     if (side === "greek") tile.lang = "grc";
     tile.addEventListener("click", function () { pickTile(tile, side, id); });
@@ -1420,6 +1468,12 @@
   window.addEventListener("appinstalled", function () { installButton.hidden = true; });
 
   // Part-of-speech chart extras are optional too.
+  // Phrases are optional: without them, cards show the word alone.
+  fetch(PHRASES_URL)
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (data) { if (data && data.cards) phrases = data.cards; })
+    .catch(function () { /* no phrases */ });
+
   fetch(TOPICS_URL)
     .then(function (res) { return res.ok ? res.json() : null; })
     .then(function (data) {

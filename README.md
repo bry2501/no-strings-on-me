@@ -11,7 +11,9 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   card in your selection), **Match** (15 cards, five at a time) and **Parsing drill**.
   The bar at the bottom goes to **Home**, **Parsing** or **Settings** from anywhere.
 - **By part of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
-  own page with Review, Learn, Practice and Match for just those words, a Parsing drill for
+  own page with Review, Learn, Practice and Match for just those words (each card shows its
+  word inside a real New Testament phrase, e.g. a preposition with its object: διὰ τοῦ
+  προφήτου, παρὰ τῷ θεῷ), a Parsing drill for
   the ones that inflect, and a chart of how often each word occurs in the New Testament,
   colored by how well you know it. Prepositions show which cases they take; pronouns are
   grouped by kind. The charts also include common prepositions and pronouns that are not in
@@ -71,9 +73,20 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
   python3 tools/build_data.py path/to/morphgnt-files
   ```
 
+- `phrases.json` is generated from MACULA Greek's syntax trees for the whole New Testament
+  ([Nestle1904/lowfat](https://github.com/Clear-Bible/macula-greek)) by `tools/build_phrases.py`:
+  up to four common short phrases per card, with word-by-word English and a reference.
+
+  ```bash
+  python3 tools/build_phrases.py path/to/lowfat-directory
+  ```
+
 ## Credits
 
 - Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos
   Bible Software.
 - Parsing data: MorphGNT (J. K. Tauber, ed.), CC BY-SA 3.0; `forms.json` is shared under the
   same license.
+- Phrases: [MACULA Greek](https://github.com/Clear-Bible/macula-greek) (© Biblica, Inc.,
+  CC BY 4.0); Greek text from the Nestle 1904 Greek New Testament and English glosses from the
+  Berean Interlinear Bible, both public domain.
