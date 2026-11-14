@@ -75,7 +75,7 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
 
 - `phrases.json` is generated from MACULA Greek's syntax trees for the whole New Testament
   ([Nestle1904/lowfat](https://github.com/Clear-Bible/macula-greek)) by `tools/build_phrases.py`:
-  up to four common short phrases per card, with word-by-word English and a reference.
+  up to four common short Greek phrases per card, with a reference.
 
   ```bash
   python3 tools/build_phrases.py path/to/lowfat-directory
@@ -88,5 +88,4 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
 - Parsing data: MorphGNT (J. K. Tauber, ed.), CC BY-SA 3.0; `forms.json` is shared under the
   same license.
 - Phrases: [MACULA Greek](https://github.com/Clear-Bible/macula-greek) (© Biblica, Inc.,
-  CC BY 4.0); Greek text from the Nestle 1904 Greek New Testament and English glosses from the
-  Berean Interlinear Bible, both public domain.
+  CC BY 4.0); Greek text from the Nestle 1904 Greek New Testament (public domain).

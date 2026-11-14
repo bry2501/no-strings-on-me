@@ -4,8 +4,7 @@
 
 The directory holds MACULA Greek's "lowfat" syntax trees for the 27 books
 (https://github.com/Clear-Bible/macula-greek, Nestle1904/lowfat/*.xml;
-CC BY 4.0 by Biblica, Inc.; Nestle 1904 text and Berean glosses are public
-domain). The trees mark where each phrase begins and ends, so a card can
+CC BY 4.0 by Biblica, Inc.; the Nestle 1904 text is public domain). The trees mark where each phrase begins and ends, so a card can
 show its word inside a real phrase: a preposition with its object
 (διὰ τοῦ προφήτου), a noun with its article, and so on.
 """
@@ -113,9 +112,8 @@ def main(directory):
         if entry:
             entry["n"] += 1
             return True
-        gloss = " ".join(g for g in (w.get("gloss") for w in group_words) if g and g != "-")
         candidates[card_id][key] = {"t": tokens, "h": [group_words.index(t) for t in target],
-                                    "e": gloss, "ref": ref, "n": 1, "noun": noun}
+                                    "ref": ref, "n": 1, "noun": noun}
         return True
 
     def reference(w):
@@ -182,7 +180,7 @@ def main(directory):
             # (ἐν τῷ κόσμῳ), then the commonest of the rest (ἐν αὐτῷ).
             nouns = [e for e in ranked if e["noun"]][:PHRASES_PER_CARD // 2]
             ranked = nouns + [e for e in ranked if e not in nouns]
-        cards[card_id] = [{k: v for k, v in e.items() if k != "noun"} for e in ranked[:PHRASES_PER_CARD]]
+        cards[card_id] = [{k: v for k, v in e.items() if k not in ("noun", "n")} for e in ranked[:PHRASES_PER_CARD]]
 
     expected = []
     for word in words:
@@ -192,7 +190,7 @@ def main(directory):
             expected.append("%s:%s" % (word["id"], case))
     missing = [c for c in expected if c not in cards]
     with open(os.path.join(ROOT, "phrases.json"), "w", encoding="utf-8") as f:
-        json.dump({"source": "MACULA Greek (Biblica, CC BY 4.0); Nestle 1904 text and Berean glosses, public domain",
+        json.dump({"source": "MACULA Greek (Biblica, CC BY 4.0); Nestle 1904 text, public domain",
                    "cards": {c: cards[c] for c in expected if c in cards}},
                   f, ensure_ascii=False, separators=(",", ":"))
     print("cards with phrases:", len(expected) - len(missing), "of", len(expected), "| missing:", missing)

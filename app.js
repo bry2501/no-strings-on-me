@@ -674,12 +674,12 @@
     var english = settings.direction === "english";
     el.prompt.className = english ? "prompt english" : "prompt greek";
     el.prompt.lang = english ? "en" : "grc";
-    // Lessons from a part-of-speech page show the word inside a real phrase.
-    round.phrase = phraseFor(card);
+    // Lessons from a part-of-speech page show the Greek word inside a real
+    // phrase; the question is still just the word's meaning.
+    round.phrase = english ? null : phraseFor(card);
     if (round.phrase) {
       el.prompt.textContent = "";
-      if (english) el.prompt.textContent = round.phrase.e;
-      else el.prompt.appendChild(phraseNode(round.phrase));
+      el.prompt.appendChild(phraseNode(round.phrase));
       el.prompt.classList.add("in-phrase");
       el.caseTag.hidden = true;
     } else {
@@ -810,9 +810,6 @@
     var greek = phraseNode(phrase);
     greek.lang = "grc";
     p.appendChild(greek);
-    var gloss = make("span", "phrase-gloss", phrase.e);
-    gloss.lang = "en";
-    p.appendChild(gloss);
     var ref = make("cite", null, phrase.ref + (card.kase ? " · " + card.word.lemma.split(/[,(]/)[0].trim() + " + " + card.kase : ""));
     ref.lang = "en";
     p.appendChild(ref);
