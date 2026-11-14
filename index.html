@@ -148,9 +148,12 @@
         <button type="button" class="ghost" id="read-prev" aria-label="Previous chapter">‹</button>
         <select id="read-chapter" aria-label="Chapter"></select>
         <button type="button" class="ghost" id="read-next" aria-label="Next chapter">›</button>
-        <span class="toolbar-gap"></span>
-        <button type="button" class="toggle" id="t-structure" aria-pressed="true">Structure</button>
         <button type="button" class="toggle" id="t-gloss" aria-pressed="false">Interlinear</button>
+        <div class="seg" id="read-modes" role="group" aria-label="View">
+          <button type="button" data-mode="plain" aria-pressed="false">Read</button>
+          <button type="button" data-mode="structure" aria-pressed="true">Structure</button>
+          <button type="button" data-mode="test" aria-pressed="false">Test me</button>
+        </div>
       </div>
       <div id="read-legend" class="role-legend" aria-hidden="true">
         <span class="phrase r-s" data-label="Subject">S</span>

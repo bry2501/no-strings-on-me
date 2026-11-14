@@ -16,6 +16,10 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   the phrases by role (subject, verb, object, complement, prepositional phrase, …).
   **Interlinear** shows an English gloss under each word. **Translate** opens a box under a
   sentence for your own translation (saved on your device), with word-by-word glosses to check it.
+  **Test me** hides the structure so you analyze each sentence yourself: first tap where each
+  new clause line starts, then mark the words as subject, verb, object, complement,
+  prepositional phrase or adverbial. Each step is checked word by word, the answer can be
+  shown, and your best score per sentence is kept.
 - **By part of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
   own page with Review, Learn, Practice and Match for just those words, a Parsing drill for
   the ones that inflect, and a chart of how often each word occurs in the New Testament,

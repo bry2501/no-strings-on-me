@@ -6,6 +6,7 @@
 
   var STATE_KEY = "greekFlashcards.reader";
   var TRANSLATIONS_KEY = "greekFlashcards.translations";
+  var SCORES_KEY = "greekFlashcards.analysis";
   var CHAPTERS = 21;
 
   var ROLE_LABELS = {
@@ -19,13 +20,19 @@
   };
   var RELATIVES = ["ὅς", "ὅστις", "ὅσος", "οἷος"];
 
+  // Roles you mark yourself in "Test me", and which tree roles count as each.
+  var BRUSHES = [["s", "Subject"], ["v", "Verb"], ["o", "Object"], ["io", "Indirect object"],
+    ["p", "Complement"], ["pp", "Prep. phrase"], ["adv", "Adverbial"]];
+  var ROLE_GROUP = { s: "s", "s-pp": "s", v: "v", vc: "v", aux: "v", o: "o", o2: "o", io: "io",
+    p: "p", "p-pp": "p", "adv-pp": "pp", adv: "adv" };
+
   var $ = function (id) { return document.getElementById(id); };
   var el = {
     title: $("read-title"),
     chapter: $("read-chapter"),
     prev: $("read-prev"),
     next: $("read-next"),
-    structure: $("t-structure"),
+    modes: document.querySelectorAll("#read-modes button"),
     gloss: $("t-gloss"),
     legend: $("read-legend"),
     text: $("read-text"),
@@ -40,8 +47,10 @@
 
   var api = null;
   var cache = {};
-  var state = { chapter: 1, structure: true, gloss: false };
+  var state = { chapter: 1, mode: "structure", gloss: false };
   var translations = {};
+  var scores = {};
+  var exercises = {};   // sentence index -> exercise in progress
   var current = null;   // the loaded chapter
   var selected = null;  // the tapped word element
 
@@ -98,11 +107,11 @@
   // ---------- rendering ----------
 
   function render(data) {
+    if (current !== data) exercises = {};
     current = data;
     el.text.textContent = "";
-    el.text.classList.toggle("structured", state.structure);
     el.text.classList.toggle("interlinear", state.gloss);
-    el.legend.hidden = !state.structure;
+    el.legend.hidden = state.mode !== "structure";
     data.sentences.forEach(function (sentence, index) {
       el.text.appendChild(renderSentence(sentence, index));
     });
@@ -141,18 +150,39 @@
 
   function renderSentence(sentence, si) {
     var block = make("article", "sentence");
+    block.dataset.s = si;
     var head = make("div", "sentence-head");
     head.appendChild(make("span", "sentence-ref", verseRange(sentence)));
-    var translateBtn = make("button", "link translate-toggle", hasTranslation(si) ? "Your translation ✓" : "Translate");
+    var score = scores[translationKey(si)];
+    if (score !== undefined) head.appendChild(make("span", "score-badge", "★ " + score + "%"));
+    head.appendChild(make("span", "head-gap"));
+    if (state.mode === "test") {
+      var testBtn = make("button", "link analyze-toggle", exercises[si] ? "Stop" : "Analyze");
+      testBtn.type = "button";
+      testBtn.addEventListener("click", function () {
+        if (exercises[si]) delete exercises[si];
+        else exercises[si] = { stage: "clauses", marks: {}, paint: {}, brush: "s" };
+        block.replaceWith(renderSentence(sentence, si));
+      });
+      head.appendChild(testBtn);
+    }
+    var translateBtn = make("button", "link translate-toggle", hasTranslation(si) ? "Translation ✓" : "Translate");
     translateBtn.type = "button";
     head.appendChild(translateBtn);
     block.appendChild(head);
 
     var greek = make("div", "greek-text");
     greek.lang = "grc";
-    if (state.structure) renderStructure(greek, sentence, si);
-    else sentence.words.forEach(function (word, wi) { appendWord(greek, word, si, wi); });
-    block.appendChild(greek);
+    if (exercises[si]) {
+      block.classList.add("exercising");
+      renderExercise(block, greek, sentence, si);
+    } else if (state.mode === "structure") {
+      greek.classList.add("structured");
+      renderStructure(greek, sentence, si, true);
+    } else {
+      sentence.words.forEach(function (word, wi) { appendWord(greek, word, si, wi); });
+    }
+    if (!block.contains(greek)) block.appendChild(greek);
 
     var panel = make("div", "translate-panel");
     panel.hidden = true;
@@ -165,69 +195,205 @@
     return block;
   }
 
-  // Structure: each clause on its own line, indented under the clause it belongs
-  // to, with the phrases inside it marked by role. Conjunctions start the line
-  // they introduce.
-  function renderStructure(container, sentence, si) {
-    var words = sentence.words;
-    var line = null, phrase = null, lineClause = null, phraseKey = null;
-    var seenClause = {};
-    var pendingConj = [];
-
-    function newLine(clause) {
-      var info = clause >= 0 ? sentence.clauses[clause] : { d: 0, r: "" };
-      line = make("div", "line");
-      line.style.setProperty("--depth", info.d);
-      if (clause >= 0 && !seenClause[clause]) {
-        seenClause[clause] = true;
-        var first = words.filter(function (w) { return w.c === clause; })[0];
-        var label = CLAUSE_LABELS[info.r] ||
-          (info.d > 0 && first && RELATIVES.indexOf(first.l) !== -1 ? "relative clause" : "");
-        if (label) line.appendChild(make("span", "clause-tag", label));
-      }
-      container.appendChild(line);
-      lineClause = clause;
-      phrase = null;
-      phraseKey = null;
-    }
-
+  // The sentence's lines: one per clause stretch, in order. A new line starts
+  // whenever the clause changes (a new clause, or the main clause resuming
+  // after an inserted one). Conjunctions join the line they introduce.
+  function layoutLines(sentence) {
+    var words = sentence.words, lines = [], line = null, pending = [];
     words.forEach(function (word, wi) {
       var next = words[wi + 1];
       if (word.r === "conj" && next && next.c !== word.c) {
-        pendingConj.push(wi);
+        pending.push(wi);
         return;
       }
-      if (line === null || word.c !== lineClause) newLine(word.c);
-      pendingConj.forEach(function (ci) {
-        var conj = make("span", "phrase r-conj");
-        appendWord(conj, words[ci], si, ci);
-        line.appendChild(conj);
-        line.appendChild(document.createTextNode(" "));
-      });
-      if (pendingConj.length) phrase = null;
-      pendingConj = [];
-      var key = word.k !== undefined ? "k" + word.k : "r" + (word.r || "");
-      if (!phrase || key !== phraseKey) {
-        phrase = make("span", "phrase r-" + (word.r || "none"));
-        var label = ROLE_LABELS[word.r];
-        if (label) phrase.dataset.label = label;
-        // A space between phrases lets the line wrap there.
-        if (line.lastChild && line.lastChild.nodeType === 1) line.appendChild(document.createTextNode(" "));
-        line.appendChild(phrase);
-        phraseKey = key;
+      if (!line || word.c !== line.c) {
+        line = { c: word.c, items: [] };
+        lines.push(line);
       }
-      appendWord(phrase, word, si, wi);
-      // Keep short phrases (like "ὁ Λόγος") together; longer ones may wrap.
-      var letters = Array.prototype.reduce.call(phrase.querySelectorAll(".gk"), function (n, g) { return n + g.textContent.length; }, 0);
-      phrase.classList.toggle("short", letters <= 16);
+      line.items = line.items.concat(pending, [wi]);
+      pending = [];
     });
-    // A conjunction at the very end has no following line to join.
-    pendingConj.forEach(function (ci) {
-      if (!line) newLine(words[ci].c);
-      var conj = make("span", "phrase r-conj");
-      appendWord(conj, words[ci], si, ci);
-      line.appendChild(conj);
+    if (pending.length) {
+      if (!line) lines.push(line = { c: words[pending[0]].c, items: [] });
+      line.items = line.items.concat(pending);
+    }
+    return lines;
+  }
+
+  // Structure: each clause on its own line, indented under the clause it belongs
+  // to. With colors, the phrases inside are marked by role.
+  function renderStructure(container, sentence, si, colors) {
+    var words = sentence.words;
+    var seenClause = {};
+    layoutLines(sentence).forEach(function (spec) {
+      var info = spec.c >= 0 ? sentence.clauses[spec.c] : { d: 0, r: "" };
+      var line = make("div", "line");
+      line.style.setProperty("--depth", info.d);
+      if (spec.c >= 0 && !seenClause[spec.c]) {
+        seenClause[spec.c] = true;
+        var first = words.filter(function (w) { return w.c === spec.c; })[0];
+        var tag = CLAUSE_LABELS[info.r] ||
+          (info.d > 0 && first && RELATIVES.indexOf(first.l) !== -1 ? "relative clause" : "");
+        if (tag && colors) line.appendChild(make("span", "clause-tag", tag));
+      }
+      var phrase = null, phraseKey = null;
+      spec.items.forEach(function (wi) {
+        var word = words[wi];
+        var key = word.r === "conj" ? "conj" + wi : word.k !== undefined ? "k" + word.k : "r" + (word.r || "");
+        if (!phrase || key !== phraseKey) {
+          phrase = make("span", "phrase " + (colors ? "r-" + (word.r || "none") : "r-none"));
+          var label = ROLE_LABELS[word.r];
+          if (label && colors) phrase.dataset.label = label;
+          // A space between phrases lets the line wrap there.
+          if (line.lastChild && line.lastChild.nodeType === 1) line.appendChild(document.createTextNode(" "));
+          line.appendChild(phrase);
+          phraseKey = key;
+        }
+        appendWord(phrase, word, si, wi);
+        // Keep short phrases (like "ὁ Λόγος") together; longer ones may wrap.
+        var letters = Array.prototype.reduce.call(phrase.querySelectorAll(".gk"), function (n, g) { return n + g.textContent.length; }, 0);
+        phrase.classList.toggle("short", letters <= 16);
+      });
+      container.appendChild(line);
     });
+  }
+
+  // ---------- Test me: analyze a sentence yourself ----------
+
+  function clauseStarts(sentence) {
+    return layoutLines(sentence).slice(1).map(function (line) { return line.items[0]; });
+  }
+
+  function renderExercise(block, greek, sentence, si) {
+    var ex = exercises[si];
+    var steps = make("p", "ex-step");
+    var actions = make("div", "ex-actions");
+    var feedback = make("p", "ex-feedback");
+    feedback.hidden = !ex.feedback;
+    feedback.textContent = ex.feedback || "";
+    var button = function (label, cls, fn) {
+      var b = make("button", cls, label);
+      b.type = "button";
+      b.addEventListener("click", function () { fn(); block.replaceWith(renderSentence(sentence, si)); });
+      actions.appendChild(b);
+    };
+
+    if (ex.stage === "clauses" || ex.stage === "clauses-checked") {
+      steps.textContent = "Step 1 of 2 · Tap the word that starts each new clause line: where a new clause begins, " +
+        "or where the main clause picks up again after an inserted one.";
+      block.appendChild(steps);
+      greek.classList.add("ex-clauses");
+      sentence.words.forEach(function (word, wi) { appendWord(greek, word, si, wi); });
+      block.appendChild(greek);
+      var correct = clauseStarts(sentence);
+      Array.prototype.forEach.call(greek.querySelectorAll(".word"), function (node) {
+        var wi = Number(node.dataset.w);
+        if (ex.marks[wi]) node.classList.add("brk");
+        if (ex.stage === "clauses-checked") {
+          var right = correct.indexOf(wi) !== -1;
+          if (ex.marks[wi]) node.classList.add(right ? "hit" : "extra");
+          else if (right) node.classList.add("miss");
+        }
+      });
+      if (ex.stage === "clauses") {
+        button("Check", "primary", function () {
+          var marked = Object.keys(ex.marks).filter(function (k) { return ex.marks[k]; }).map(Number);
+          var hits = marked.filter(function (wi) { return correct.indexOf(wi) !== -1; }).length;
+          var extra = marked.length - hits;
+          ex.clauseScore = correct.length + extra ? Math.round(hits / (correct.length + extra) * 100) : 100;
+          ex.feedback = (correct.length ? "You found " + hits + " of " + correct.length + " clause breaks" :
+            "This sentence is a single clause") + (extra ? ", plus " + extra + " that aren't breaks." : ".") +
+            (correct.length > hits ? " Missed ones are outlined in blue." : "");
+          ex.stage = "clauses-checked";
+        });
+        button("Skip to phrases", "ghost", function () { ex.stage = "roles"; ex.feedback = ""; });
+      } else {
+        button("Next: mark the phrases", "primary", function () { ex.stage = "roles"; ex.feedback = ""; });
+      }
+    } else {
+      steps.textContent = "Step 2 of 2 · Choose a part, then tap the words that belong to it. Tap again to clear. " +
+        "Leave conjunctions unmarked.";
+      block.appendChild(steps);
+      if (ex.stage === "roles") {
+        var palette = make("div", "palette");
+        BRUSHES.forEach(function (b) {
+          var chip = make("button", "brush pt-" + b[0], b[1]);
+          chip.type = "button";
+          chip.setAttribute("aria-pressed", String(ex.brush === b[0]));
+          chip.addEventListener("click", function () {
+            ex.brush = b[0];
+            Array.prototype.forEach.call(palette.children, function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+          });
+          palette.appendChild(chip);
+        });
+        block.appendChild(palette);
+      }
+      greek.classList.add("structured", "ex-roles");
+      renderStructure(greek, sentence, si, false);
+      block.appendChild(greek);
+      paintWords(greek, sentence, ex);
+      if (ex.stage === "roles") {
+        button("Check", "primary", function () {
+          var scored = 0, right = 0;
+          sentence.words.forEach(function (word, wi) {
+            var group = ROLE_GROUP[word.r];
+            if (!group) return;
+            scored += 1;
+            if (ex.paint[wi] === group) right += 1;
+          });
+          ex.roleScore = scored ? Math.round(right / scored * 100) : 100;
+          ex.feedback = right + " of " + scored + " words marked correctly (" + ex.roleScore + "%).";
+          ex.stage = "roles-checked";
+          var key = translationKey(si);
+          var total = ex.clauseScore === undefined ? ex.roleScore : Math.round((ex.clauseScore + ex.roleScore) / 2);
+          if (!(scores[key] >= total)) {
+            scores[key] = total;
+            save(SCORES_KEY, scores);
+          }
+        });
+        button("Clear", "ghost", function () { ex.paint = {}; });
+      } else {
+        button("Show the answer", "primary", function () { ex.stage = "answer"; });
+        button("Try again", "ghost", function () {
+          exercises[si] = { stage: "clauses", marks: {}, paint: {}, brush: "s" };
+        });
+      }
+      if (ex.stage === "answer") {
+        var answer = make("div", "greek-text structured ex-answer");
+        answer.lang = "grc";
+        answer.appendChild(make("p", "ex-answer-title", "Answer"));
+        renderStructure(answer, sentence, si, true);
+        block.appendChild(answer);
+      }
+    }
+    block.appendChild(feedback);
+    block.appendChild(actions);
+  }
+
+  function paintWords(greek, sentence, ex) {
+    Array.prototype.forEach.call(greek.querySelectorAll(".word"), function (node) {
+      var wi = Number(node.dataset.w);
+      var paint = ex.paint[wi];
+      if (paint) node.classList.add("pt-" + paint);
+      if (ex.stage !== "roles") {
+        var group = ROLE_GROUP[sentence.words[wi].r];
+        if (group) node.classList.add(paint === group ? "ok" : "bad");
+      }
+    });
+  }
+
+  function exerciseTap(block, si, wi) {
+    var ex = exercises[si];
+    var sentence = current.sentences[si];
+    if (ex.stage === "clauses") {
+      if (wi === 0) return;  // the first word always starts the sentence
+      ex.marks[wi] = !ex.marks[wi];
+    } else if (ex.stage === "roles") {
+      ex.paint[wi] = ex.paint[wi] === ex.brush ? undefined : ex.brush;
+    } else {
+      return;
+    }
+    block.replaceWith(renderSentence(sentence, si));
   }
 
   // ---------- translation ----------
@@ -244,7 +410,7 @@
     area.addEventListener("input", function () {
       translations[translationKey(si)] = area.value;
       save(TRANSLATIONS_KEY, translations);
-      button.textContent = area.value.trim() ? "Your translation ✓" : "Translate";
+      button.textContent = area.value.trim() ? "Translation ✓" : "Translate";
     });
     panel.appendChild(area);
     var help = make("button", "ghost word-by-word", "Show word-by-word glosses");
@@ -287,6 +453,12 @@
 
   function setToggle(button, on) { button.setAttribute("aria-pressed", String(on)); }
 
+  function showMode() {
+    Array.prototype.forEach.call(el.modes, function (button) {
+      setToggle(button, button.dataset.mode === state.mode);
+    });
+  }
+
   function bind() {
     for (var c = 1; c <= CHAPTERS; c++) {
       var option = make("option", null, "Ch. " + c);
@@ -296,11 +468,13 @@
     el.chapter.addEventListener("change", function () { show(Number(el.chapter.value)); });
     el.prev.addEventListener("click", function () { show(state.chapter - 1); });
     el.next.addEventListener("click", function () { show(state.chapter + 1); });
-    el.structure.addEventListener("click", function () {
-      state.structure = !state.structure;
-      setToggle(el.structure, state.structure);
-      save(STATE_KEY, state);
-      if (current) render(current);
+    Array.prototype.forEach.call(el.modes, function (button) {
+      button.addEventListener("click", function () {
+        state.mode = button.dataset.mode;
+        showMode();
+        save(STATE_KEY, state);
+        if (current) render(current);
+      });
     });
     el.gloss.addEventListener("click", function () {
       state.gloss = !state.gloss;
@@ -308,15 +482,24 @@
       save(STATE_KEY, state);
       if (current) render(current);
     });
+    // Tapping a word looks it up, except while analyzing a sentence, where it marks it.
+    var tapWord = function (node) {
+      var block = node.closest(".sentence");
+      if (block && block.classList.contains("exercising")) {
+        exerciseTap(block, Number(block.dataset.s), Number(node.dataset.w));
+      } else {
+        openPop(node);
+      }
+    };
     el.text.addEventListener("click", function (e) {
       var node = e.target.closest(".word");
-      if (node) openPop(node);
+      if (node) tapWord(node);
     });
     el.text.addEventListener("keydown", function (e) {
       var node = e.target.closest && e.target.closest(".word");
       if (node && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
-        openPop(node);
+        tapWord(node);
       }
     });
     el.popClose.addEventListener("click", closePop);
@@ -331,9 +514,11 @@
         api = app;
         var saved = load(STATE_KEY) || {};
         Object.keys(state).forEach(function (k) { if (k in saved) state[k] = saved[k]; });
+        if (saved.structure === false && !saved.mode) state.mode = "plain";  // older saved setting
         translations = load(TRANSLATIONS_KEY) || {};
+        scores = load(SCORES_KEY) || {};
         bind();
-        setToggle(el.structure, state.structure);
+        showMode();
         setToggle(el.gloss, state.gloss);
       }
       show(state.chapter);
