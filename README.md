@@ -33,7 +33,7 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   change the number of new words per lesson,
   flip to English→Greek, and turn off shuffling.
 - Your settings, history and review schedule are saved in your browser.
-- **Parsing** tab: parse New Testament forms of your vocabulary words (case, number and gender;
+- **Parsing drill**: parse New Testament forms of your vocabulary words (case, number and gender;
   or tense, voice, mood and person). Choose the chapter you have studied through, and only
   forms taught by then are included (for example participles from chapter 27). In the
   present, imperfect and perfect, middle and passive are accepted interchangeably.
