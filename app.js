@@ -5,8 +5,6 @@
   var SETTINGS_KEY = "greekFlashcards.settings";
   var STATS_KEY = "greekFlashcards.stats";
   var CASE_ORDER = ["nominative", "genitive", "dative", "accusative", "vocative"];
-  // Card stripe classes from style.css; "" is the default combination (185).
-  var COMBOS = ["", "combo-186", "combo-187", "combo-188"];
   var CASE_ABBR = { nominative: "nom.", genitive: "gen.", dative: "dat.", accusative: "acc.", vocative: "voc." };
 
   // Filter chips in this order; any other part of speech in the data is added after these.
@@ -402,9 +400,7 @@
     }
     var word = card.word;
     round.revealed = false;
-    el.card.classList.remove("revealed", "flash-right", "flash-wrong", "combo-186", "combo-187", "combo-188");
-    var combo = COMBOS[card.order % COMBOS.length];
-    if (combo) el.card.classList.add(combo);
+    el.card.classList.remove("revealed", "flash-right", "flash-wrong");
     el.answer.hidden = true;
     el.answer.textContent = "";
     el.btnRight.disabled = true;
