@@ -2,6 +2,8 @@
   "use strict";
 
   var DATA_URL = "greek_vocab.json";
+  var EXAMPLES_URL = "examples.json";
+  var MATCH_SIZE = 5;
   var SETTINGS_KEY = "greekFlashcards.settings";
   var STATS_KEY = "greekFlashcards.stats";
   var CASE_ORDER = ["nominative", "genitive", "dative", "accusative", "vocative"];
@@ -40,6 +42,23 @@
     card: $("card"),
     prompt: $("prompt"),
     caseTag: $("case-tag"),
+    hint: $("hint"),
+    choices: $("choices"),
+    typeForm: $("type-form"),
+    typeInput: $("type-input"),
+    feedback: $("feedback"),
+    match: $("match"),
+    matchGreek: $("match-greek"),
+    matchEnglish: $("match-english"),
+    flipControls: $("flip-controls"),
+    answerControls: $("answer-controls"),
+    btnSkip2: $("btn-skip2"),
+    btnContinue: $("btn-continue"),
+    btnOverride: $("btn-override"),
+    vocabView: $("vocab-view"),
+    parseView: $("parse-view"),
+    tabVocab: $("tab-vocab"),
+    tabParse: $("tab-parse"),
     answer: $("answer"),
     cardChapter: $("card-chapter"),
     cardPos: $("card-pos"),
@@ -64,10 +83,11 @@
   var chapters = [];
   var parts = [];
   var settings = {
-    chapters: null, parts: null, mode: "review", newPerRound: 20, track: "one",
+    chapters: null, parts: null, mode: "review", newPerRound: 20, track: "one", exercise: "auto",
     direction: "greek", shuffle: true, repeat: true
   };
   var stats = {};
+  var examples = {};
   var round = null;
 
   // ---------- storage (best effort; the app works without it) ----------
@@ -301,6 +321,7 @@
     setRadio("direction", settings.direction);
     setRadio("mode", settings.mode);
     setRadio("track", settings.track);
+    setRadio("exercise", settings.exercise);
     el.newPerRound.value = settings.newPerRound;
     el.shuffle.checked = settings.shuffle;
     el.repeat.checked = settings.repeat;
@@ -380,6 +401,8 @@
       wrong: 0,
       skip: 0,
       missed: [],
+      group: [],
+      groupErrors: {},
       revealed: false
     };
     el.study.hidden = false;
@@ -391,16 +414,184 @@
     return round && round.queue.length ? cardById[round.queue[0]] : null;
   }
 
-  function showCard() {
+  // ---------- exercises ----------
+
+  function exerciseFor(card) {
+    var mode = settings.exercise;
+    if (mode === "flip") return "flip";
+    var english = settings.direction === "english";
+    if (mode === "type") return english ? "choice" : "type";
+    if (mode === "choice") return "choice";
+    // Mixed: multiple choice while a card is new, typing once it reaches box 3.
+    if (!english && boxOf(card.id) >= 3 && card.meaning.length <= 60) return "type";
+    return "choice";
+  }
+
+  function optionText(card) {
+    return settings.direction === "english" ? card.word.lemma : card.meaning;
+  }
+
+  // Wrong options: other words, preferably the same part of speech, never with the
+  // same meaning (οἰκία and οἶκος are both "house, home").
+  function distractors(card, n) {
+    var pool = cards.filter(function (c) {
+      return c.word !== card.word && c.meaning !== card.meaning && c.word.lemma !== card.word.lemma;
+    });
+    var ordered = shuffle(pool.filter(function (c) { return c.pos === card.pos; }))
+      .concat(shuffle(pool.filter(function (c) { return c.pos !== card.pos; })));
+    var picked = [];
+    ordered.forEach(function (c) {
+      var duplicate = picked.some(function (p) { return optionText(p) === optionText(c); });
+      if (picked.length < n && !duplicate) picked.push(c);
+    });
+    return picked;
+  }
+
+  function renderChoices(card) {
+    var english = settings.direction === "english";
+    el.choices.textContent = "";
+    shuffle(distractors(card, 3).concat([card])).forEach(function (option, i) {
+      var button = make("button", "choice");
+      button.type = "button";
+      button.appendChild(make("kbd", null, String(i + 1)));
+      var label = make("span", english ? "greek" : null, optionText(option));
+      if (english) label.lang = "grc";
+      button.appendChild(label);
+      button.addEventListener("click", function () { choose(option, button); });
+      button.dataset.correct = String(option === card);
+      el.choices.appendChild(button);
+    });
+  }
+
+  function choose(option, button) {
     var card = currentCard();
+    if (!card || round.answered || round.busy) return;
+    var correct = option === card;
+    Array.prototype.forEach.call(el.choices.children, function (b) {
+      b.disabled = true;
+      if (b.dataset.correct === "true") b.classList.add("right");
+    });
+    if (!correct) button.classList.add("wrong");
+    answered(card, correct);
+  }
+
+  // English answers are matched loosely: any listed meaning counts, ignoring case,
+  // punctuation, "I"/"to"/articles, and a typo or two in longer words.
+  function simplify(text) {
+    return text.toLowerCase()
+      .replace(/[’'"“”.?!]/g, "")
+      .replace(/[^a-z0-9/ ]+/g, " ")
+      .replace(/\s+/g, " ").trim()
+      .replace(/^(i|to|a|an|the) /, "")
+      .replace(/^(a|an|the) /, "");
+  }
+
+  function acceptedAnswers(meaning) {
+    var out = [];
+    meaning.split(";").forEach(function (part) {
+      part = part.replace(/^\s*[a-z ]+:\s*/i, "");  // "adverb: now" -> "now"
+      part.split(",").forEach(function (piece) {
+        [piece.replace(/\([^)]*\)/g, ""), piece.replace(/[()]/g, "")].forEach(function (variant) {
+          // "he/she/it said" -> "he said", "she said", "it said"
+          var options = [""];
+          variant.trim().split(/\s+/).forEach(function (w) {
+            var next = [];
+            w.split("/").forEach(function (alt) {
+              options.forEach(function (o) { if (next.length < 24) next.push((o + " " + alt).trim()); });
+            });
+            options = next;
+          });
+          options.concat([variant]).forEach(function (o) {
+            var simple = simplify(o);
+            if (simple && out.indexOf(simple) === -1) out.push(simple);
+          });
+        });
+      });
+    });
+    return out;
+  }
+
+  // Typos: insertions, deletions, substitutions and swapped neighbors each count as one.
+  function editDistance(a, b) {
+    var d = [], i, j;
+    for (i = 0; i <= a.length; i++) d[i] = [i];
+    for (j = 0; j <= b.length; j++) d[0][j] = j;
+    for (i = 1; i <= a.length; i++) {
+      for (j = 1; j <= b.length; j++) {
+        d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+          d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+        }
+      }
+    }
+    return d[a.length][b.length];
+  }
+
+  function typedMatches(value, meaning) {
+    var accepted = acceptedAnswers(meaning);
+    return value.split(/[;,]/).some(function (piece) {
+      var typed = simplify(piece);
+      if (!typed) return false;
+      return accepted.some(function (answer) {
+        var allowed = answer.length >= 9 ? 2 : answer.length >= 5 ? 1 : 0;
+        return editDistance(typed, answer) <= allowed;
+      });
+    });
+  }
+
+  function checkTyped() {
+    var card = currentCard();
+    if (!card || round.answered || round.busy) return;
+    var value = el.typeInput.value;
+    if (!value.trim()) return;
+    var correct = typedMatches(value, card.meaning);
+    el.typeInput.readOnly = true;
+    el.typeForm.classList.add(correct ? "right" : "wrong");
+    el.feedback.textContent = correct ? "Correct!" : "Not quite. The answer is on the card.";
+    el.feedback.className = "feedback " + (correct ? "right" : "wrong");
+    el.feedback.hidden = false;
+    el.btnOverride.hidden = correct;
+    answered(card, correct);
+  }
+
+  // Multiple choice and typing: show the answer, then wait for Continue.
+  function answered(card, correct) {
+    round.answered = true;
+    round.result = correct;
+    renderAnswer(card);
+    el.card.classList.add("revealed");
+    el.btnSkip2.hidden = true;
+    el.btnContinue.hidden = false;
+    if (round.exercise === "choice") el.btnContinue.focus({ preventScroll: true });
+  }
+
+  function continueCard() {
+    if (!round || !round.answered || round.busy) return;
+    finish(round.result);
+  }
+
+  function showCard() {
     updateProgress();
+    if (settings.exercise === "match") {
+      showMatch();
+      return;
+    }
+    el.match.hidden = true;
+    var card = currentCard();
     if (!card) {
       finishRound();
       return;
     }
     var word = card.word;
+    var exercise = exerciseFor(card);
+    round.exercise = exercise;
     round.revealed = false;
+    round.answered = false;
+    round.result = null;
+    el.card.hidden = false;
     el.card.classList.remove("revealed", "flash-right", "flash-wrong");
+    el.card.classList.toggle("flip", exercise === "flip");
+    el.hint.hidden = exercise !== "flip";
     el.answer.hidden = true;
     el.answer.textContent = "";
     el.btnRight.disabled = true;
@@ -416,16 +607,61 @@
     el.caseTag.textContent = caseLabel(card);
     el.caseTag.hidden = !card.kase;
 
-    // Keep focus on the card so Space flips it rather than re-pressing a button.
-    if (el.settings.hidden) el.card.focus({ preventScroll: true });
+    el.flipControls.hidden = exercise !== "flip";
+    el.answerControls.hidden = exercise === "flip";
+    el.btnSkip2.hidden = false;
+    el.btnContinue.hidden = true;
+    el.btnOverride.hidden = true;
+    el.feedback.hidden = true;
+    el.choices.hidden = exercise !== "choice";
+    el.typeForm.hidden = exercise !== "type";
+    if (exercise === "choice") renderChoices(card);
+    if (exercise === "type") {
+      el.typeInput.value = "";
+      el.typeInput.readOnly = false;
+      el.typeForm.classList.remove("right", "wrong");
+      if (el.settings.hidden) el.typeInput.focus({ preventScroll: true });
+    } else if (el.settings.hidden) {
+      // Keep focus on the card so keys go to the card rather than re-pressing a button.
+      el.card.focus({ preventScroll: true });
+    }
   }
 
   function reveal() {
     var card = currentCard();
-    if (!card || round.revealed) return;
-    var word = card.word;
+    if (!card || round.exercise !== "flip" || round.revealed) return;
     round.revealed = true;
     el.card.classList.add("revealed");
+    renderAnswer(card);
+    el.btnRight.disabled = false;
+    el.btnWrong.disabled = false;
+  }
+
+  function renderExample(card) {
+    var ex = examples[card.id];
+    if (!ex) return;
+    var p = make("p", "example");
+    p.lang = "grc";
+    ex.text.forEach(function (token, i) {
+      if (i) p.appendChild(document.createTextNode(" "));
+      if (ex.hl.indexOf(i) === -1) {
+        p.appendChild(document.createTextNode(token));
+        return;
+      }
+      // Highlight the word itself, not the punctuation attached to it.
+      var m = /^(\P{L}*)(.*?)(\P{L}*)$/u.exec(token);
+      p.appendChild(document.createTextNode(m[1]));
+      p.appendChild(make("mark", null, m[2]));
+      p.appendChild(document.createTextNode(m[3]));
+    });
+    var ref = make("cite", null, ex.ref);
+    ref.lang = "en";
+    p.appendChild(ref);
+    el.answer.appendChild(p);
+  }
+
+  function renderAnswer(card) {
+    var word = card.word;
     el.answer.textContent = "";
 
     if (settings.direction === "english") {
@@ -441,6 +677,8 @@
       return (other.kase ? "+ " + CASE_ABBR[other.kase] + " " : "") + other.meaning;
     });
     if (others.length) el.answer.appendChild(make("p", "also", "Also: " + others.join("; ")));
+
+    renderExample(card);
 
     var details = make("p", "details");
     if (word.root) {
@@ -464,10 +702,92 @@
     var history = isNew(card.id) ? "New card" : "Box " + boxOf(card.id) + " of " + MAX_BOX;
     if (s && (s.right || s.wrong)) history += " · " + s.right + " right, " + s.wrong + " wrong";
     el.answer.appendChild(make("p", "record", history));
-
     el.answer.hidden = false;
-    el.btnRight.disabled = false;
-    el.btnWrong.disabled = false;
+  }
+
+  // ---------- matching ----------
+
+  function showMatch() {
+    el.card.hidden = true;
+    el.choices.hidden = true;
+    el.typeForm.hidden = true;
+    el.feedback.hidden = true;
+    el.flipControls.hidden = true;
+    el.answerControls.hidden = true;
+    if (!round.group || !round.group.length) {
+      round.group = round.queue.splice(0, MATCH_SIZE);
+      round.groupErrors = {};
+    }
+    updateProgress();
+    if (!round.group.length) {
+      el.match.hidden = true;
+      finishRound();
+      return;
+    }
+    round.selected = null;
+    el.match.hidden = false;
+    el.matchGreek.textContent = "";
+    el.matchEnglish.textContent = "";
+    shuffle(round.group.slice()).forEach(function (id) {
+      var card = cardById[id];
+      var label = card.word.lemma.split(",")[0] + (card.kase ? " + " + CASE_ABBR[card.kase] : "");
+      addTile(el.matchGreek, "greek", id, label);
+    });
+    shuffle(round.group.slice()).forEach(function (id) {
+      addTile(el.matchEnglish, "english", id, cardById[id].meaning);
+    });
+  }
+
+  function addTile(column, side, id, text) {
+    var tile = make("button", "tile" + (side === "greek" ? " greek" : ""), text);
+    tile.type = "button";
+    if (side === "greek") tile.lang = "grc";
+    tile.addEventListener("click", function () { pickTile(tile, side, id); });
+    column.appendChild(tile);
+  }
+
+  function pickTile(tile, side, id) {
+    if (tile.disabled || round.busy) return;
+    var sel = round.selected;
+    if (!sel || sel.side === side) {
+      if (sel) sel.tile.classList.remove("selected");
+      round.selected = { tile: tile, side: side, id: id };
+      tile.classList.add("selected");
+      return;
+    }
+    sel.tile.classList.remove("selected");
+    round.selected = null;
+    var greekId = side === "greek" ? id : sel.id;
+    var englishId = side === "english" ? id : sel.id;
+    var pair = [tile, sel.tile];
+    // Compare meanings, not ids: two words can share a meaning.
+    if (cardById[greekId].meaning === cardById[englishId].meaning) {
+      pair.forEach(function (t) { t.disabled = true; t.classList.add("matched"); });
+      round.group.splice(round.group.indexOf(greekId), 1);
+      settle(greekId, !round.groupErrors[greekId]);
+      updateProgress();
+      if (!round.group.length) {
+        round.busy = true;
+        setTimeout(function () {
+          round.busy = false;
+          showCard();
+        }, 450);
+      }
+    } else {
+      round.groupErrors[greekId] = true;
+      pair.forEach(function (t) { t.classList.add("mismatch"); });
+      setTimeout(function () {
+        pair.forEach(function (t) { t.classList.remove("mismatch"); });
+      }, 450);
+    }
+  }
+
+  // Put an unfinished matching group back at the front of the queue.
+  function returnGroup() {
+    if (round && round.group && round.group.length) {
+      round.queue = round.group.concat(round.queue);
+      round.group = [];
+    }
   }
 
   function record(id, correct) {
@@ -479,36 +799,43 @@
     save(STATS_KEY, stats);
   }
 
-  function markRight() {
-    var card = currentCard();
-    if (!card || !round.revealed) return;
-    record(card.id, true);
-    round.right += 1;
-    round.done += 1;
-    round.queue.shift();
-    advance("flash-right");
-  }
-
-  function markWrong() {
-    var card = currentCard();
-    if (!card || !round.revealed) return;
-    record(card.id, false);
+  // Record an answer for a card that is already off the front of the queue.
+  function settle(id, correct) {
+    record(id, correct);
+    if (correct) {
+      round.right += 1;
+      round.done += 1;
+      return;
+    }
     round.wrong += 1;
-    if (round.missed.indexOf(card.id) === -1) round.missed.push(card.id);
-    round.queue.shift();
+    if (round.missed.indexOf(id) === -1) round.missed.push(id);
     if (settings.repeat) {
       // Bring the card back a few cards later so it gets another try this round.
       var gap = Math.min(round.queue.length, 3 + Math.floor(Math.random() * 3));
-      round.queue.splice(gap, 0, card.id);
+      round.queue.splice(gap, 0, id);
     } else {
       round.done += 1;
     }
-    advance("flash-wrong");
+  }
+
+  function finish(correct) {
+    settle(round.queue.shift(), correct);
+    advance(correct ? "flash-right" : "flash-wrong");
+  }
+
+  function markRight() {
+    if (!currentCard() || round.exercise !== "flip" || !round.revealed) return;
+    finish(true);
+  }
+
+  function markWrong() {
+    if (!currentCard() || round.exercise !== "flip" || !round.revealed) return;
+    finish(false);
   }
 
   function skip() {
     var card = currentCard();
-    if (!card || round.busy) return;
+    if (!card || round.busy || round.answered || settings.exercise === "match") return;
     round.skip += 1;
     round.queue.push(round.queue.shift());
     advance();
@@ -518,6 +845,7 @@
   // shown; otherwise a double press would grade a card the user never saw.
   function advance(flashClass) {
     round.revealed = false;
+    round.answered = false;
     el.btnRight.disabled = true;
     el.btnWrong.disabled = true;
     if (flashClass) {
@@ -536,7 +864,7 @@
     if (!round) return;
     var pct = round.total ? (round.done / round.total) * 100 : 0;
     el.progressFill.style.width = pct + "%";
-    el.countRemaining.textContent = round.queue.length + " left";
+    el.countRemaining.textContent = (round.queue.length + (round.group ? round.group.length : 0)) + " left";
     el.countRight.textContent = round.right;
     el.countWrong.textContent = round.wrong;
     el.countSkip.textContent = round.skip;
@@ -595,6 +923,27 @@
     });
     onRadio("mode", function (value) { settings.mode = value; });
     onRadio("track", function (value) { settings.track = value; });
+    onRadio("exercise", function (value) {
+      settings.exercise = value;
+      if (round && !el.study.hidden && !round.busy) {
+        returnGroup();
+        showCard();
+      }
+    });
+    el.tabVocab.addEventListener("click", function () { showTab("vocab"); });
+    el.tabParse.addEventListener("click", function () { showTab("parse"); });
+    el.typeForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (round && round.answered) continueCard();
+      else checkTyped();
+    });
+    el.btnContinue.addEventListener("click", continueCard);
+    el.btnSkip2.addEventListener("click", skip);
+    el.btnOverride.addEventListener("click", function () {
+      if (!round || !round.answered) return;
+      round.result = true;
+      continueCard();
+    });
     el.newPerRound.addEventListener("change", function () {
       var raw = el.newPerRound.value.trim();
       var n = Math.round(Number(raw));
@@ -637,11 +986,23 @@
 
     document.addEventListener("keydown", function (e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
-      if (el.study.hidden) return;
+      if (el.vocabView.hidden || el.study.hidden || !round || settings.exercise === "match") return;
       var tag = e.target.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       // Let Space/Enter activate a focused button natively.
       if (tag === "BUTTON" && (e.key === " " || e.key === "Enter")) return;
+      if (round.exercise === "choice" || round.exercise === "type") {
+        if ((e.key === "Enter" || e.key === " ") && round.answered) {
+          e.preventDefault();
+          continueCard();
+        } else if (round.exercise === "choice" && !round.answered && /^[1-4]$/.test(e.key)) {
+          var option = el.choices.children[Number(e.key) - 1];
+          if (option) option.click();
+        } else if (e.key === "s" && !round.answered) {
+          skip();
+        }
+        return;
+      }
       switch (e.key) {
         case " ":
         case "Enter":
@@ -664,6 +1025,21 @@
           break;
       }
     });
+  }
+
+  // ---------- tabs ----------
+
+  function showTab(name) {
+    var parse = name === "parse";
+    el.vocabView.hidden = parse;
+    el.parseView.hidden = !parse;
+    el.settingsToggle.hidden = parse;
+    el.tabVocab.setAttribute("aria-pressed", String(!parse));
+    el.tabParse.setAttribute("aria-pressed", String(parse));
+    showError("");
+    if (parse && window.ParseDrill) {
+      window.ParseDrill.open({ words: words, chapterRank: chapterRank, showError: showError });
+    }
   }
 
   // ---------- init ----------
@@ -729,6 +1105,12 @@
     installButton.hidden = true;
   });
   window.addEventListener("appinstalled", function () { installButton.hidden = true; });
+
+  // Example verses are optional: cards work without them.
+  fetch(EXAMPLES_URL)
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (data) { if (data && data.examples) examples = data.examples; })
+    .catch(function () { /* no examples */ });
 
   fetch(DATA_URL)
     .then(function (res) {

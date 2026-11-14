@@ -5,8 +5,16 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
 
 ## Use
 
-- Tap the card (or press **Space**) to reveal the answer.
-- Mark it **Wrong** (`1` / `←`), **Skip** (`2` / `↓` / `s`), or **Right** (`3` / `→`).
+- **Exercises** (Settings → Exercise):
+  - **Mixed** (default): multiple choice while a card is new, typing the meaning once you
+    know it (box 3 and up).
+  - **Flip cards**: tap the card (or press **Space**), then mark it **Wrong** (`1` / `←`),
+    **Skip** (`2` / `↓` / `s`) or **Right** (`3` / `→`).
+  - **Multiple choice**: pick the meaning from four (keys `1`–`4`, then **Enter**).
+  - **Type the meaning**: typed answers are matched loosely (any listed meaning, small typos
+    allowed); **I was right** overrides a miss.
+  - **Matching**: pair five Greek words with their meanings.
+- After each answer the card shows a New Testament verse that uses the word.
 - Missed cards come back later in the round. Skipped cards go to the end.
 - By default each round is a spaced-repetition review: the cards that are due, then up to
   20 new cards in chapter order. Cards you get right come back after 1, 3, 7, 14, then 30 days;
@@ -18,6 +26,10 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   switch to studying every card in your selection, change the number of new cards per round,
   flip to English→Greek, and turn off shuffling.
 - Your settings, history and review schedule are saved in your browser.
+- **Parsing** tab: parse New Testament forms of your vocabulary words (case, number and gender;
+  or tense, voice, mood and person). Choose the chapter you have studied through, and only
+  forms taught by then are included (for example participles from chapter 27). In the
+  present, imperfect and perfect, middle and passive are accepted interchangeably.
 
 ## Offline and on your phone
 
@@ -38,3 +50,20 @@ python3 -m http.server
 ## Publish
 
 In the repository settings on GitHub, go to **Pages** and deploy from the `main` branch, `/ (root)`.
+
+## Data
+
+- `greek_vocab.json`: the vocabulary list.
+- `forms.json` and `examples.json` are generated from
+  [MorphGNT: SBLGNT Edition](https://github.com/morphgnt/sblgnt) by `tools/build_data.py`:
+
+  ```bash
+  python3 tools/build_data.py path/to/morphgnt-files
+  ```
+
+## Credits
+
+- Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos
+  Bible Software.
+- Parsing data: MorphGNT (J. K. Tauber, ed.), CC BY-SA 3.0; `forms.json` is shared under the
+  same license.

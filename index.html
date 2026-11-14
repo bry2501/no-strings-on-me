@@ -22,10 +22,25 @@
       <h1>Greek Flashcards</h1>
       <button id="settings-toggle" class="ghost" aria-expanded="false" aria-controls="settings">Settings</button>
     </div>
+    <nav class="tabs" aria-label="Study mode">
+      <button type="button" class="tab" id="tab-vocab" aria-pressed="true">Vocabulary</button>
+      <button type="button" class="tab" id="tab-parse" aria-pressed="false">Parsing</button>
+    </nav>
   </header>
 
   <main>
+   <div id="vocab-view">
     <section id="settings" class="panel" hidden>
+      <fieldset>
+        <legend>Exercise</legend>
+        <label class="radio"><input type="radio" name="exercise" value="auto" checked> Mixed: multiple choice for new cards, typing once you know them</label>
+        <label class="radio"><input type="radio" name="exercise" value="flip"> Flip cards</label>
+        <label class="radio"><input type="radio" name="exercise" value="choice"> Multiple choice</label>
+        <label class="radio"><input type="radio" name="exercise" value="type"> Type the meaning</label>
+        <label class="radio"><input type="radio" name="exercise" value="match"> Matching: pair five words with their meanings</label>
+        <p class="help">Typing is for Greek → English; with English → Greek, typing cards use multiple choice instead.</p>
+      </fieldset>
+
       <fieldset>
         <legend>Round</legend>
         <label class="radio"><input type="radio" name="mode" value="review" checked> Review due cards (spaced repetition)</label>
@@ -105,7 +120,21 @@
         <div id="answer" class="card-back" hidden></div>
       </div>
 
-      <div class="controls">
+      <div id="choices" class="choices" hidden></div>
+
+      <form id="type-form" class="type-form" hidden autocomplete="off">
+        <label for="type-input" class="visually-hidden">Type the meaning</label>
+        <input id="type-input" type="text" placeholder="Type the meaning" autocapitalize="off" spellcheck="false">
+        <button type="submit" id="type-check" class="primary">Check</button>
+      </form>
+      <p id="feedback" class="feedback" hidden></p>
+
+      <div id="match" class="match" hidden>
+        <div id="match-greek" class="match-col"></div>
+        <div id="match-english" class="match-col"></div>
+      </div>
+
+      <div class="controls" id="flip-controls">
         <button type="button" id="btn-wrong" class="wrong" disabled>
           <span class="icon">✗</span> Wrong <kbd>1</kbd>
         </button>
@@ -115,6 +144,11 @@
         <button type="button" id="btn-right" class="right" disabled>
           <span class="icon">✓</span> Right <kbd>3</kbd>
         </button>
+      </div>
+      <div class="controls answer-controls" id="answer-controls" hidden>
+        <button type="button" id="btn-skip2" class="skip"><span class="icon">↷</span> Skip</button>
+        <button type="button" id="btn-override" class="ghost" hidden>I was right</button>
+        <button type="button" id="btn-continue" class="primary" hidden>Continue <kbd>Enter</kbd></button>
       </div>
     </section>
 
@@ -138,13 +172,71 @@
       </div>
     </section>
 
+   </div>
+
+    <div id="parse-view" hidden>
+      <section id="parse-setup" class="panel">
+        <h2>Parsing drill</h2>
+        <p class="help">Identify New Testament forms of your vocabulary words. Only forms you have studied are included.</p>
+        <label class="number">Studied through chapter
+          <select id="parse-chapter"></select>
+        </label>
+        <fieldset>
+          <legend>Include</legend>
+          <label class="check"><input type="checkbox" id="parse-nominal" checked> Nouns, adjectives, pronouns and the article</label>
+          <label class="check"><input type="checkbox" id="parse-verbs" checked> Verbs</label>
+        </fieldset>
+        <p id="parse-count" class="srs-status"></p>
+        <div class="panel-actions">
+          <button type="button" id="parse-start" class="primary">Start 20 forms</button>
+        </div>
+      </section>
+
+      <section id="parse-study" hidden>
+        <div class="progress">
+          <div class="progress-bar"><div id="parse-progress"></div></div>
+          <div class="tally">
+            <span id="parse-left">0 left</span>
+            <span class="right-count" title="Right">✓ <b id="parse-right">0</b></span>
+            <span class="wrong-count" title="Wrong">✗ <b id="parse-wrong">0</b></span>
+          </div>
+        </div>
+        <div id="parse-card" class="card parse-card">
+          <div class="card-meta"><span>Parse this form</span><span id="parse-pos"></span></div>
+          <div class="card-front">
+            <div id="parse-form" class="prompt greek" lang="grc"></div>
+          </div>
+          <div id="parse-answer" class="card-back" hidden></div>
+        </div>
+        <div id="parse-fields" class="parse-fields"></div>
+        <div class="controls answer-controls">
+          <button type="button" id="parse-skip" class="skip"><span class="icon">↷</span> Skip</button>
+          <button type="button" id="parse-check" class="primary">Check <kbd>Enter</kbd></button>
+          <button type="button" id="parse-next" class="primary" hidden>Continue <kbd>Enter</kbd></button>
+        </div>
+      </section>
+
+      <section id="parse-summary" class="panel" hidden>
+        <h2>Drill complete</h2>
+        <p id="parse-summary-text"></p>
+        <ul id="parse-missed" class="missed"></ul>
+        <div class="panel-actions">
+          <button type="button" id="parse-again" class="primary">Another 20</button>
+          <button type="button" id="parse-setup-btn" class="ghost">Change what's included</button>
+        </div>
+      </section>
+    </div>
+
     <p id="error" class="error" hidden></p>
   </main>
 
   <footer>
     <p id="source"></p>
+    <p>Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos Bible Software.
+      Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).</p>
   </footer>
 
   <script src="app.js"></script>
+  <script src="parse.js"></script>
 </body>
 </html>
