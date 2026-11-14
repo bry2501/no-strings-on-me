@@ -10,6 +10,12 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   **Review** (due cards), **Learn** (the next new words in chapter order), **Practice** (every
   card in your selection), **Match** (15 cards, five at a time) and **Parsing drill**.
   The bar at the bottom goes to **Home**, **Parsing** or **Settings** from anywhere.
+- **Read John**: the Gospel of John in Greek, chapter by chapter. Tap any word for its
+  dictionary form, gloss and parsing (and whether it is in your list). **Structure** puts each
+  clause on its own line, indents subordinate clauses under the line they belong to, and colors
+  the phrases by role (subject, verb, object, complement, prepositional phrase, …).
+  **Interlinear** shows an English gloss under each word. **Translate** opens a box under a
+  sentence for your own translation (saved on your device), with word-by-word glosses to check it.
 - **By part of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
   own page with Review, Learn, Practice and Match for just those words, a Parsing drill for
   the ones that inflect, and a chart of how often each word occurs in the New Testament,
@@ -70,6 +76,13 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
   ```bash
   python3 tools/build_data.py path/to/morphgnt-files
   ```
+- `john/01.json` … `john/21.json` are generated from MACULA Greek's syntax trees for John
+  ([Nestle1904/lowfat/04-john.xml](https://github.com/Clear-Bible/macula-greek)) by
+  `tools/build_john.py`:
+
+  ```bash
+  python3 tools/build_john.py path/to/04-john.xml
+  ```
 
 ## Credits
 
@@ -77,3 +90,6 @@ In the repository settings on GitHub, go to **Pages** and deploy from the `main`
   Bible Software.
 - Parsing data: MorphGNT (J. K. Tauber, ed.), CC BY-SA 3.0; `forms.json` is shared under the
   same license.
+- Reader: Greek text of John from the Nestle 1904 Greek New Testament (public domain); sentence
+  structure and morphology from [MACULA Greek](https://github.com/Clear-Bible/macula-greek)
+  (© Biblica, Inc., CC BY 4.0); English glosses from the Berean Interlinear Bible (public domain).

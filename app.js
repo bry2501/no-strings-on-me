@@ -410,7 +410,10 @@
     el.vocabView.hidden = name !== "vocab";
     el.parseView.hidden = name !== "parse";
     $("topic-view").hidden = name !== "topic";
-    $("nav-home").classList.toggle("active", name !== "parse");
+    $("read-view").hidden = name !== "read";
+    if (name !== "read" && window.Reader) window.Reader.close();
+    $("nav-home").classList.toggle("active", name !== "parse" && name !== "read");
+    $("nav-read").classList.toggle("active", name === "read");
     $("nav-parse").classList.toggle("active", name === "parse");
     showError("");
     window.scrollTo(0, 0);
@@ -1009,6 +1012,8 @@
     });
     $("topic-lesson-parse").addEventListener("click", openParsing);
     $("topic-home").addEventListener("click", showHome);
+    ["lesson-read", "nav-read"].forEach(function (id) { $(id).addEventListener("click", openReader); });
+    $("read-home").addEventListener("click", showHome);
     $("chart-more").addEventListener("click", function () {
       chartExpanded = !chartExpanded;
       renderChart();
@@ -1235,6 +1240,25 @@
       window.ParseDrill.open({ words: words, chapterRank: chapterRank, showError: showError },
         topic ? { pos: topic, label: partLabel(topic) } : null);
     }
+  }
+
+  // ---------- reader ----------
+
+  // "In your list" note for a word tapped in the reader.
+  function vocabStatus(id) {
+    var own = cards.filter(function (c) { return c.word.id === id; });
+    if (!own.length) return "In your list";
+    var word = own[0].word;
+    var where = "In your list · chapter " + word.chapter + " · ";
+    if (own.every(function (c) { return isNew(c.id); })) return where + "not studied yet";
+    return where + (own.every(function (c) { return boxOf(c.id) >= 4; }) ? "known well" : "learning");
+  }
+
+  function openReader() {
+    toggleSettings(false);
+    topic = null;
+    showView("read");
+    if (window.Reader) window.Reader.open({ vocabStatus: vocabStatus });
   }
 
   // ---------- part-of-speech pages ----------

@@ -127,6 +127,9 @@
         <button type="button" class="tile-lesson t-match" id="lesson-match" title="Pair words with meanings, five at a time">
           <span class="ti" aria-hidden="true">⇄</span><span class="tt">Match</span><span class="badge" id="meta-match"></span>
         </button>
+        <button type="button" class="tile-lesson t-read wide" id="lesson-read" title="Read and translate the Gospel of John">
+          <span class="ti" aria-hidden="true">¶</span><span class="tt">Read John</span><span class="badge">21 chapters</span>
+        </button>
         <button type="button" class="tile-lesson t-parse wide" id="lesson-parse" title="Identify New Testament forms">
           <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge">NT forms</span>
         </button>
@@ -134,6 +137,43 @@
 
       <h2 class="section-title">By part of speech</h2>
       <div class="pos-grid" id="pos-grid"></div>
+    </div>
+
+    <div id="read-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="read-home">← Home</button>
+        <div class="lesson-name"><strong id="read-title">John</strong><span>Tap a word for its meaning and parsing</span></div>
+      </div>
+      <div class="read-toolbar">
+        <button type="button" class="ghost" id="read-prev" aria-label="Previous chapter">‹</button>
+        <select id="read-chapter" aria-label="Chapter"></select>
+        <button type="button" class="ghost" id="read-next" aria-label="Next chapter">›</button>
+        <span class="toolbar-gap"></span>
+        <button type="button" class="toggle" id="t-structure" aria-pressed="true">Structure</button>
+        <button type="button" class="toggle" id="t-gloss" aria-pressed="false">Interlinear</button>
+      </div>
+      <div id="read-legend" class="role-legend" aria-hidden="true">
+        <span class="phrase r-s" data-label="Subject">S</span>
+        <span class="phrase r-v" data-label="Verb">V</span>
+        <span class="phrase r-o" data-label="Object">O</span>
+        <span class="phrase r-io" data-label="Indirect object">IO</span>
+        <span class="phrase r-p" data-label="Complement">C</span>
+        <span class="phrase r-adv-pp" data-label="Prep. phrase">PP</span>
+        <span class="phrase r-adv" data-label="Adverbial">A</span>
+        <span class="legend-note">Each clause starts a new line; indented lines belong to the line above.</span>
+      </div>
+      <div id="read-text" class="read-text"></div>
+      <p class="help read-credit">Greek text: Nestle 1904 (public domain). Sentence structure: MACULA Greek
+        (Biblica, CC BY 4.0). Glosses: Berean Interlinear Bible (public domain).</p>
+    </div>
+
+    <div id="word-pop" class="word-pop" role="dialog" aria-label="Word details" hidden>
+      <button type="button" class="pop-close" id="pop-close" aria-label="Close">×</button>
+      <p class="pop-word" id="pop-word" lang="grc"></p>
+      <p class="pop-lemma"><span>from</span> <b id="pop-lemma" lang="grc"></b></p>
+      <p class="pop-gloss" id="pop-gloss"></p>
+      <p class="pop-parse" id="pop-parse"></p>
+      <p class="pop-status" id="pop-status"></p>
     </div>
 
     <div id="topic-view" hidden>
@@ -318,6 +358,7 @@
 
   <nav class="bottom-nav" aria-label="Main">
     <button type="button" id="nav-home" class="nav-item active"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
+    <button type="button" id="nav-read" class="nav-item"><span class="nav-icon" aria-hidden="true">¶</span>Read</button>
     <button type="button" id="nav-parse" class="nav-item"><span class="nav-icon" aria-hidden="true">α</span>Parsing</button>
     <button type="button" id="settings-toggle" class="nav-item" aria-expanded="false" aria-controls="settings"><span class="nav-icon" aria-hidden="true">⚙</span>Settings</button>
   </nav>
@@ -325,10 +366,12 @@
   <footer>
     <p id="source"></p>
     <p>Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos Bible Software.
-      Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).</p>
+      Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).
+      Reader: <a href="https://github.com/Clear-Bible/macula-greek">MACULA Greek</a> (Biblica, CC BY 4.0).</p>
   </footer>
 
   <script src="app.js"></script>
   <script src="parse.js"></script>
+  <script src="reader.js"></script>
 </body>
 </html>
