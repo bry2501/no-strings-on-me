@@ -463,7 +463,7 @@ kbd { font-family: var(--ui); font-size: 0.7rem; border: 1px solid currentColor;
 .pop-status.in-list { color: var(--right); font-weight: 600; }
 
 /* Bottom navigation */
-body { padding-bottom: 72px; }
+body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .bottom-nav {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
   display: flex; justify-content: center; gap: 4px;
