@@ -28,7 +28,7 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   - **Multiple choice**: pick the meaning from four (keys `1`–`4`, then **Enter**).
   - **Type the meaning**: typed answers are matched loosely (any listed meaning, small typos
     allowed); **I was right** overrides a miss.
-  - **Matching**: pair five Greek words with their meanings.
+  - **Matching game** (its own lesson): pair Greek words with their meanings, five at a time.
 - After each answer the card shows a New Testament verse that uses the word.
 - Missed cards come back later in the round. Skipped cards go to the end.
 - Spaced repetition: cards you get right come back after 1, 3, 7, 14, then 30 days; cards you
