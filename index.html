@@ -100,47 +100,39 @@
     </section>
 
     <div id="home-view">
-      <section class="progress-card" aria-label="Your progress">
-        <div class="progress-head"><span>Your progress</span><b id="home-pct">0%</b></div>
-        <div class="progress-bar big"><div id="home-progress"></div></div>
-        <p class="help" id="home-progress-text"></p>
-      </section>
-
       <h2 class="menu-title">Vocabulary</h2>
-      <div class="menu">
-        <button type="button" class="menu-row" id="lesson-review">
-          <span class="mi t-review" aria-hidden="true">↻</span>
-          <span class="mt"><b>Today's review</b><small>Cards that are due today</small></span>
-          <span class="mb" id="meta-review"></span>
+      <div class="home-tiles">
+        <button type="button" class="home-tile t-review" id="lesson-review">
+          <span class="ti" aria-hidden="true">↻</span>
+          <span class="tt">Review</span><small>Cards due today</small>
+          <span class="badge" id="meta-review"></span>
         </button>
-        <button type="button" class="menu-row" id="lesson-learn">
-          <span class="mi t-learn" aria-hidden="true">＋</span>
-          <span class="mt"><b>Learn new words</b><small>The next words in your book</small></span>
-          <span class="mb" id="meta-learn"></span>
+        <button type="button" class="home-tile t-learn" id="lesson-learn">
+          <span class="ti" aria-hidden="true">＋</span>
+          <span class="tt">Learn</span><small>New words</small>
+          <span class="badge" id="meta-learn"></span>
         </button>
-        <button type="button" class="menu-row" id="lesson-practice">
-          <span class="mi t-practice" aria-hidden="true">✎</span>
-          <span class="mt"><b>Practice all</b><small>Every word, in any order</small></span>
-          <span class="mb" id="meta-practice"></span>
+        <button type="button" class="home-tile t-practice" id="lesson-practice">
+          <span class="ti" aria-hidden="true">✎</span>
+          <span class="tt">Practice</span><small>All words</small>
+          <span class="badge" id="meta-practice"></span>
         </button>
-        <button type="button" class="menu-row" id="lesson-match">
-          <span class="mi t-match" aria-hidden="true">⇄</span>
-          <span class="mt"><b>Matching game</b><small>Pair words with their meanings</small></span>
-          <span class="mb" id="meta-match"></span>
+        <button type="button" class="home-tile t-match" id="lesson-match">
+          <span class="ti" aria-hidden="true">⇄</span>
+          <span class="tt">Match</span><small>Pair words and meanings</small>
+          <span class="badge" id="meta-match"></span>
         </button>
       </div>
 
       <h2 class="menu-title">Focus</h2>
-      <div class="menu">
-        <button type="button" class="menu-row" id="open-parts">
-          <span class="mi t-parse" aria-hidden="true">≡</span>
-          <span class="mt"><b>Parts of speech</b><small>Prepositions, pronouns, verbs…</small></span>
-          <span class="chev" aria-hidden="true">›</span>
+      <div class="home-tiles">
+        <button type="button" class="home-tile t-parse" id="open-parts">
+          <span class="ti" aria-hidden="true">≡</span>
+          <span class="tt">Parts of speech</span><small>Prepositions, verbs…</small>
         </button>
-        <button type="button" class="menu-row" id="lesson-parse">
-          <span class="mi t-parse" aria-hidden="true">α</span>
-          <span class="mt"><b>Parsing drill</b><small>Identify New Testament forms</small></span>
-          <span class="chev" aria-hidden="true">›</span>
+        <button type="button" class="home-tile t-pink" id="lesson-parse">
+          <span class="ti" aria-hidden="true">α</span>
+          <span class="tt">Parsing</span><small>Identify NT forms</small>
         </button>
       </div>
     </div>

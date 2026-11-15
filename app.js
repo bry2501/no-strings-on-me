@@ -1158,17 +1158,6 @@
 
   // ---------- home ----------
 
-  function describeScope() {
-    var chapterText = settings.chapters.length === chapters.length ? "All chapters" :
-      settings.chapters.length === 1 ? "Chapter " + settings.chapters[0] :
-      plural(settings.chapters.length, "chapter");
-    var chosen = parts.filter(function (p) { return settings.parts.indexOf(p[0]) !== -1; });
-    var partText = chosen.length === parts.length ? "all words" :
-      chosen.length <= 2 ? chosen.map(function (p) { return p[1].toLowerCase(); }).join(" & ") || "no words" :
-      plural(chosen.length, "kind") + " of words";
-    return chapterText + " · " + partText;
-  }
-
   function setBadge(id, text, disabled) {
     $("meta-" + id).textContent = text;
     $("lesson-" + id).disabled = !!disabled;
@@ -1178,15 +1167,10 @@
     var ids = selectedIds();
     var due = ids.filter(function (id) { return isDue(id); }).length;
     var fresh = ids.filter(isNew).length;
-    var started = ids.length - fresh;
-    var pct = ids.length ? Math.round(started / ids.length * 100) : 0;
-    $("home-pct").textContent = pct + "%";
-    $("home-progress").style.width = pct + "%";
-    $("home-progress-text").textContent = started + " of " + plural(ids.length, "card") + " started · " + describeScope();
 
     var batch = Math.min(fresh, settings.newPerRound || 20);
-    setBadge("review", due ? String(due) : "Done", !due);
-    setBadge("learn", fresh ? String(batch) : "Done", !fresh);
+    setBadge("review", due ? String(due) : "✓", !due);
+    setBadge("learn", fresh ? String(batch) : "✓", !fresh);
     setBadge("practice", String(ids.length), !ids.length);
     setBadge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), ids.length < 2);
     // Highlight the one lesson to do next: reviews first, then new words.

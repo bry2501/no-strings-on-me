@@ -5,10 +5,10 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
 
 ## Use
 
-- The **home page** shows your progress and one list of lessons. **Vocabulary**: Today's
-  review (cards that are due), Learn new words (the next words in your chapter order), Practice
-  all, and the Matching game. **Focus**: Parts of speech and the Parsing drill. The lesson to do
-  next is marked **Next**. Settings (⚙) is in the header; every other screen has a back button.
+- The **home page** has two groups of tiles. **Vocabulary**: Review (cards that are due),
+  Learn (the next new words in your chapter order), Practice (all words) and Match. **Focus**:
+  Parts of speech and Parsing. The lesson to do next is marked **Next**. Settings (⚙) is in the
+  header; every other screen has a back button.
 - **Parts of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
   own page with Review, Learn, Practice and Match for just those words (each card shows its
   word inside a real New Testament phrase, e.g. a preposition with its object: διὰ τοῦ
