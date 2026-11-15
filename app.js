@@ -89,7 +89,6 @@
     vocabView: $("vocab-view"),
     parseView: $("parse-view"),
     homeView: $("home-view"),
-    homeScope: $("home-scope"),
     lessonTitle: $("lesson-title"),
     lessonSub: $("lesson-sub"),
     answer: $("answer"),
@@ -412,8 +411,7 @@
     el.vocabView.hidden = name !== "vocab";
     el.parseView.hidden = name !== "parse";
     $("topic-view").hidden = name !== "topic";
-    $("nav-home").classList.toggle("active", name !== "parse");
-    $("nav-parse").classList.toggle("active", name === "parse");
+    $("parts-view").hidden = name !== "parts";
     showError("");
     window.scrollTo(0, 0);
   }
@@ -1048,23 +1046,21 @@
       $("lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
     });
     $("lesson-parse").addEventListener("click", function () { topic = null; openParsing(); });
-    $("nav-parse").addEventListener("click", function () { topic = null; openParsing(); });
     ["review", "learn", "practice", "match"].forEach(function (lesson) {
       $("topic-lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
     });
     $("topic-lesson-parse").addEventListener("click", openParsing);
-    $("topic-home").addEventListener("click", showHome);
+    $("topic-home").addEventListener("click", showParts);
     $("chart-more").addEventListener("click", function () {
       chartExpanded = !chartExpanded;
       renderChart();
     });
-    $("home-go").addEventListener("click", function () { startLesson($("home-go").dataset.lesson); });
-    ["home-link", "nav-home"].forEach(function (id) { $(id).addEventListener("click", showHome); });
+    ["home-link", "parts-home"].forEach(function (id) { $(id).addEventListener("click", showHome); });
+    $("open-parts").addEventListener("click", showParts);
     // Inside a lesson, "back" returns to the part-of-speech page it was started from.
     ["vocab-home", "parse-home", "summary-home", "caught-up-home"].forEach(function (id) {
       $(id).addEventListener("click", goBack);
     });
-    $("home-change").addEventListener("click", function () { toggleSettings(true); });
     $("settings-done").addEventListener("click", function () {
       toggleSettings(false);
     });
@@ -1178,70 +1174,65 @@
     $("lesson-" + id).disabled = !!disabled;
   }
 
-  function homeLesson(due, fresh) {
-    return due ? "review" : fresh ? "learn" : "practice";
-  }
-
-  var RING = 2 * Math.PI * 52;
-
   function renderHome() {
     var ids = selectedIds();
     var due = ids.filter(function (id) { return isDue(id); }).length;
     var fresh = ids.filter(isNew).length;
     var started = ids.length - fresh;
     var pct = ids.length ? Math.round(started / ids.length * 100) : 0;
-    $("ring-fill").style.strokeDasharray = RING;
-    $("ring-fill").style.strokeDashoffset = RING * (1 - pct / 100);
-    $("ring-pct").textContent = pct + "%";
-    $("home-ring").setAttribute("aria-label", started + " of " + ids.length + " cards started");
-    $("stat-due").textContent = due;
-    $("stat-new").textContent = fresh;
-    el.homeScope.textContent = describeScope();
+    $("home-pct").textContent = pct + "%";
+    $("home-progress").style.width = pct + "%";
+    $("home-progress-text").textContent = started + " of " + plural(ids.length, "card") + " started · " + describeScope();
 
-    renderPosGrid();
     var batch = Math.min(fresh, settings.newPerRound || 20);
-    setBadge("review", due ? String(due) : "✓", !due);
-    setBadge("learn", fresh ? String(batch) : "✓", !fresh);
+    setBadge("review", due ? String(due) : "Done", !due);
+    setBadge("learn", fresh ? String(batch) : "Done", !fresh);
     setBadge("practice", String(ids.length), !ids.length);
-    setBadge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), !ids.length);
-
-    // One big button for the most useful lesson right now.
-    var lesson = homeLesson(due, fresh);
-    $("go-label").textContent = { review: "Review", learn: "Learn new words", practice: "Practice" }[lesson];
-    $("go-sub").textContent = lesson === "review" ? plural(due, "card") + " due" :
-      lesson === "learn" ? plural(batch, "new word") : ids.length ? plural(ids.length, "card") : "Nothing selected";
-    $("home-go").disabled = !ids.length;
-    $("home-go").dataset.lesson = lesson;
+    setBadge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), ids.length < 2);
+    // Highlight the one lesson to do next: reviews first, then new words.
+    var next = due ? "review" : fresh ? "learn" : null;
+    ["review", "learn"].forEach(function (lesson) {
+      $("lesson-" + lesson).classList.toggle("recommended", lesson === next);
+    });
   }
 
   function renderPosGrid() {
-    var grid = $("pos-grid");
-    grid.textContent = "";
+    var list = $("pos-grid");
+    list.textContent = "";
     parts.forEach(function (part) {
       var pos = part[0];
       var ids = cards.filter(function (c) { return c.pos === pos && inChapters(c); }).map(function (c) { return c.id; });
       var started = ids.filter(function (id) { return !isNew(id); }).length;
       var look = PART_LOOK[pos] || ["·", "t-review"];
-      var b = make("button", "pos-tile " + look[1]);
+      var b = make("button", "menu-row");
       b.type = "button";
-      var icon = make("span", "pos-icon", look[0]);
+      var icon = make("span", "mi pos-icon " + look[1], look[0]);
       icon.lang = "grc";
       icon.setAttribute("aria-hidden", "true");
       b.appendChild(icon);
-      var text = make("span", "pos-text");
-      text.appendChild(make("span", "pos-name", part[1]));
-      text.appendChild(make("span", "pos-count", plural(ids.length, "card")));
+      var text = make("span", "mt");
+      text.appendChild(make("b", null, part[1]));
       var bar = make("span", "pos-bar");
       var fill = make("span", "pos-fill");
       fill.style.width = (ids.length ? started / ids.length * 100 : 0) + "%";
       bar.appendChild(fill);
       text.appendChild(bar);
       b.appendChild(text);
+      b.appendChild(make("span", "mb", String(ids.length)));
+      b.appendChild(make("span", "chev", "›"));
       b.disabled = !ids.length;
       b.setAttribute("aria-label", part[1] + ": " + ids.length + " cards, " + started + " started");
       b.addEventListener("click", function () { showTopic(pos); });
-      grid.appendChild(b);
+      list.appendChild(b);
     });
+  }
+
+  function showParts() {
+    if (round) returnGroup();
+    topic = null;
+    toggleSettings(false);
+    showView("parts");
+    renderPosGrid();
   }
 
   function partLabel(pos) {
@@ -1251,6 +1242,7 @@
 
   function refreshPage() {
     if (!el.homeView.hidden) renderHome();
+    if (!$("parts-view").hidden) renderPosGrid();
     if (!$("topic-view").hidden) renderTopic();
   }
 

@@ -20,6 +20,8 @@
   <header class="topbar">
     <div class="topbar-inner">
       <h1><button type="button" id="home-link" class="brand">Greek Flashcards</button></h1>
+      <button type="button" id="settings-toggle" class="icon-btn" aria-expanded="false" aria-controls="settings"
+        aria-label="Settings" title="Settings"><span aria-hidden="true">⚙</span></button>
     </div>
   </header>
 
@@ -82,6 +84,14 @@
         <label class="check"><input type="checkbox" id="opt-repeat" checked> Repeat missed cards later in the round</label>
       </fieldset>
 
+      <details class="about">
+        <summary>About and credits</summary>
+        <p id="source"></p>
+        <p>Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos Bible Software.</p>
+        <p>Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).</p>
+        <p>Phrases: <a href="https://github.com/Clear-Bible/macula-greek">MACULA Greek</a> (Biblica, CC BY 4.0), Nestle 1904 text (public domain).</p>
+      </details>
+
       <div class="panel-actions">
         <button type="button" id="settings-done" class="primary">Done</button>
         <button type="button" id="install" class="ghost" hidden>Install app</button>
@@ -90,55 +100,62 @@
     </section>
 
     <div id="home-view">
-      <section class="hero">
-        <div class="ring" id="home-ring" role="img">
-          <svg viewBox="0 0 120 120" aria-hidden="true">
-            <circle class="ring-track" cx="60" cy="60" r="52"></circle>
-            <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"></circle>
-          </svg>
-          <div class="ring-text"><b id="ring-pct">0%</b><span>started</span></div>
-        </div>
-        <div class="hero-side">
-          <div class="pills">
-            <span class="pill pill-due"><b id="stat-due">0</b> due</span>
-            <span class="pill pill-new"><b id="stat-new">0</b> new</span>
-          </div>
-          <button type="button" class="go" id="home-go">
-            <span class="go-label" id="go-label">Start</span>
-            <span class="go-sub" id="go-sub"></span>
-          </button>
-        </div>
+      <section class="progress-card" aria-label="Your progress">
+        <div class="progress-head"><span>Your progress</span><b id="home-pct">0%</b></div>
+        <div class="progress-bar big"><div id="home-progress"></div></div>
+        <p class="help" id="home-progress-text"></p>
       </section>
 
-      <button type="button" class="scope-chip" id="home-change">
-        <span id="home-scope"></span><span class="scope-edit" aria-hidden="true">Edit</span>
-      </button>
-
-      <div class="tiles">
-        <button type="button" class="tile-lesson t-review" id="lesson-review" title="Cards that are due today">
-          <span class="ti" aria-hidden="true">↻</span><span class="tt">Review</span><span class="badge" id="meta-review"></span>
+      <h2 class="menu-title">Vocabulary</h2>
+      <div class="menu">
+        <button type="button" class="menu-row" id="lesson-review">
+          <span class="mi t-review" aria-hidden="true">↻</span>
+          <span class="mt"><b>Today's review</b><small>Cards that are due today</small></span>
+          <span class="mb" id="meta-review"></span>
         </button>
-        <button type="button" class="tile-lesson t-learn" id="lesson-learn" title="The next new words in book order">
-          <span class="ti" aria-hidden="true">＋</span><span class="tt">Learn</span><span class="badge" id="meta-learn"></span>
+        <button type="button" class="menu-row" id="lesson-learn">
+          <span class="mi t-learn" aria-hidden="true">＋</span>
+          <span class="mt"><b>Learn new words</b><small>The next words in your book</small></span>
+          <span class="mb" id="meta-learn"></span>
         </button>
-        <button type="button" class="tile-lesson t-practice" id="lesson-practice" title="Every card in your chapters and parts of speech">
-          <span class="ti" aria-hidden="true">✎</span><span class="tt">Practice</span><span class="badge" id="meta-practice"></span>
+        <button type="button" class="menu-row" id="lesson-practice">
+          <span class="mi t-practice" aria-hidden="true">✎</span>
+          <span class="mt"><b>Practice all</b><small>Every word, in any order</small></span>
+          <span class="mb" id="meta-practice"></span>
         </button>
-        <button type="button" class="tile-lesson t-match" id="lesson-match" title="Pair words with meanings, five at a time">
-          <span class="ti" aria-hidden="true">⇄</span><span class="tt">Match</span><span class="badge" id="meta-match"></span>
-        </button>
-        <button type="button" class="tile-lesson t-parse wide" id="lesson-parse" title="Identify New Testament forms">
-          <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge">NT forms</span>
+        <button type="button" class="menu-row" id="lesson-match">
+          <span class="mi t-match" aria-hidden="true">⇄</span>
+          <span class="mt"><b>Matching game</b><small>Pair words with their meanings</small></span>
+          <span class="mb" id="meta-match"></span>
         </button>
       </div>
 
-      <h2 class="section-title">By part of speech</h2>
-      <div class="pos-grid" id="pos-grid"></div>
+      <h2 class="menu-title">Focus</h2>
+      <div class="menu">
+        <button type="button" class="menu-row" id="open-parts">
+          <span class="mi t-parse" aria-hidden="true">≡</span>
+          <span class="mt"><b>Parts of speech</b><small>Prepositions, pronouns, verbs…</small></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <button type="button" class="menu-row" id="lesson-parse">
+          <span class="mi t-parse" aria-hidden="true">α</span>
+          <span class="mt"><b>Parsing drill</b><small>Identify New Testament forms</small></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="parts-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="parts-home">← Home</button>
+        <div class="lesson-name"><strong>Parts of speech</strong><span>Choose one to study it on its own</span></div>
+      </div>
+      <div class="menu" id="pos-grid"></div>
     </div>
 
     <div id="topic-view" hidden>
       <div class="lesson-bar">
-        <button type="button" class="back" id="topic-home">← Home</button>
+        <button type="button" class="back" id="topic-home">← Parts of speech</button>
         <div class="lesson-name"><strong id="topic-title"></strong><span id="topic-sub"></span></div>
       </div>
 
@@ -315,19 +332,6 @@
 
     <p id="error" class="error" hidden></p>
   </main>
-
-  <nav class="bottom-nav" aria-label="Main">
-    <button type="button" id="nav-home" class="nav-item active"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
-    <button type="button" id="nav-parse" class="nav-item"><span class="nav-icon" aria-hidden="true">α</span>Parsing</button>
-    <button type="button" id="settings-toggle" class="nav-item" aria-expanded="false" aria-controls="settings"><span class="nav-icon" aria-hidden="true">⚙</span>Settings</button>
-  </nav>
-
-  <footer>
-    <p id="source"></p>
-    <p>Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos Bible Software.
-      Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).
-      Phrases: <a href="https://github.com/Clear-Bible/macula-greek">MACULA Greek</a> (Biblica, CC BY 4.0), Nestle 1904 text (public domain).</p>
-  </footer>
 
   <script src="app.js"></script>
   <script src="parse.js"></script>
