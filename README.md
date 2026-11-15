@@ -9,6 +9,9 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   Learn (the next new words in your chapter order), Practice (all words) and Match. **Focus**:
   Parts of speech and Parsing. The lesson to do next is marked **Next**. Settings (⚙) is in the
   header; every other screen has a back button.
+- Tapping a lesson opens its **setup screen**: how to answer (Mixed, Choices, Typing, Flip),
+  which side to show first (Greek or English), how many cards, and which parts of speech and
+  chapters. It shows how many cards match, then **Start**. Your choices are remembered.
 - **Parts of speech**: each part of speech (nouns, verbs, pronouns, prepositions, …) has its
   own page with Review, Learn, Practice and Match for just those words (each card shows its
   word inside a real New Testament phrase, e.g. a preposition with its object: διὰ τοῦ
@@ -17,7 +20,7 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   colored by how well you know it. Prepositions show which cases they take; pronouns are
   grouped by kind. The charts also include common prepositions and pronouns that are not in
   the vocabulary list (ἀνά, ἀντί, πρό; ἐμαυτοῦ, σεαυτοῦ, ὅδε, ποῖος, πόσος), marked as such.
-- **Exercises** (Settings → Exercise):
+- **Ways to answer**:
   - **Mixed** (default): multiple choice while a card is new, typing the meaning once you
     know it (box 3 and up).
   - **Flip cards**: tap the card (or press **Space**), then mark it **Wrong** (`1` / `←`),
@@ -32,10 +35,8 @@ Static flashcards for the Biblical Greek vocabulary in `greek_vocab.json`
   miss come back the next day. Only your first answer to a card in a round counts.
 - Prepositions get one card per case (διά + genitive, διά + accusative), and words like ἕως
   get one card per use, so each meaning is learned and scheduled on its own.
-- Under **Settings** you can study only some parts of speech (for example just prepositions),
-  choose chapters, follow the textbook's Track One or Track Two chapter order for new cards,
-  change the number of new words per lesson,
-  flip to English→Greek, and turn off shuffling.
+- **Settings** holds what you rarely change: the textbook's Track One or Track Two chapter order
+  for new words, shuffling, and repeating missed cards within a round.
 - Your settings, history and review schedule are saved in your browser.
 - **Parsing drill**: parse New Testament forms of your vocabulary words (case, number and gender;
   or tense, voice, mood and person). Choose the chapter you have studied through, and only

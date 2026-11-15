@@ -19,7 +19,6 @@
   var PARSABLE = ["noun", "verb", "adjective", "pronoun", "article", "numeral"];
   var PRONOUN_KINDS = ["personal", "reflexive", "reciprocal", "demonstrative", "relative", "interrogative", "indefinite"];
   var MATCH_SIZE = 5;
-  var MATCH_GAME_SIZE = 15;
 
   // What each lesson on the home page studies, and how it is described during the lesson.
   var LESSONS = {
@@ -63,8 +62,6 @@
     partList: $("part-list"),
     shuffle: $("opt-shuffle"),
     repeat: $("opt-repeat"),
-    newPerRound: $("opt-new"),
-    srsStatus: $("srs-status"),
     study: $("study"),
     summary: $("summary"),
     summaryNext: $("summary-next"),
@@ -116,6 +113,7 @@
   var parts = [];
   var settings = {
     chapters: null, parts: null, newPerRound: 20, track: "one", exercise: "auto",
+    sizes: { review: 0, learn: 20, practice: 0, match: 15 },
     direction: "greek", shuffle: true, repeat: true
   };
   var stats = {};
@@ -267,20 +265,6 @@
     return selectedIds().filter(test).length;
   }
 
-  function renderSrsStatus() {
-    var ids = selectedIds();
-    var due = ids.filter(function (id) { return isDue(id); }).length;
-    var fresh = ids.filter(isNew).length;
-    var mastered = ids.filter(function (id) { return boxOf(id) === MAX_BOX; }).length;
-    el.srsStatus.textContent = "";
-    [["Due now", due], ["New", fresh], ["Learning", ids.length - fresh - mastered], ["In the last box", mastered]]
-      .forEach(function (pair, i) {
-        if (i) el.srsStatus.appendChild(document.createTextNode(" · "));
-        el.srsStatus.appendChild(document.createTextNode(pair[0] + ": "));
-        el.srsStatus.appendChild(make("b", null, String(pair[1])));
-      });
-  }
-
   function nextReviewText() {
     var tomorrow = countSelected(function (id) { return isDue(id, today() + 1); });
     if (tomorrow) return plural(tomorrow, "card") + " will be due for review tomorrow.";
@@ -335,14 +319,12 @@
     settings.chapters = checkedValues(el.chapterList).map(Number);
     save(SETTINGS_KEY, settings);
     renderPartChips();
-    renderSrsStatus();
     refreshPage();
   }
 
   function readPartChips() {
     settings.parts = checkedValues(el.partList);
     save(SETTINGS_KEY, settings);
-    renderSrsStatus();
     refreshPage();
   }
 
@@ -361,7 +343,6 @@
     setRadio("direction", settings.direction);
     setRadio("track", settings.track);
     setRadio("exercise", settings.exercise);
-    el.newPerRound.value = settings.newPerRound;
     el.shuffle.checked = settings.shuffle;
     el.repeat.checked = settings.repeat;
     renderChapterChips();
@@ -371,7 +352,6 @@
   function toggleSettings(open) {
     if (open === undefined) open = el.settings.hidden;
     el.settings.hidden = !open;
-    if (open) renderSrsStatus();
     el.settingsToggle.setAttribute("aria-expanded", String(open));
     el.settingsToggle.classList.toggle("active", open);
     if (open) window.scrollTo(0, 0);
@@ -387,17 +367,28 @@
     });
   }
 
+  // "How many" choices on the lesson setup screen; 0 means all.
+  var SIZE_OPTIONS = {
+    review: [10, 20, 50, 0], learn: [5, 10, 20, 30], practice: [10, 20, 50, 0], match: [10, 15, 30]
+  };
+
+  function lessonSize(lesson) {
+    var size = settings.sizes[lesson];
+    return SIZE_OPTIONS[lesson].indexOf(size) === -1 ? SIZE_OPTIONS[lesson][lesson === "learn" ? 2 : SIZE_OPTIONS[lesson].length - 1] : size;
+  }
+
   function lessonDeck(lesson) {
     var ids;
     if (lesson === "review") {
       ids = selectedIds().filter(function (id) { return isDue(id); });
     } else if (lesson === "learn") {
-      ids = newIdsInOrder().slice(0, settings.newPerRound || 20);
+      ids = newIdsInOrder();
     } else {
       ids = selectedIds();
     }
-    if (settings.shuffle || lesson === "match") shuffle(ids);
-    return lesson === "match" ? ids.slice(0, MATCH_GAME_SIZE) : ids;
+    if (settings.shuffle || lesson === "match" || lesson === "practice") shuffle(ids);
+    var size = lessonSize(lesson);
+    return size ? ids.slice(0, size) : ids;
   }
 
   function hidePanels() {
@@ -412,6 +403,7 @@
     el.parseView.hidden = name !== "parse";
     $("topic-view").hidden = name !== "topic";
     $("parts-view").hidden = name !== "parts";
+    $("setup-view").hidden = name !== "setup";
     showError("");
     window.scrollTo(0, 0);
   }
@@ -437,8 +429,7 @@
     showView("vocab");
     hidePanels();
     if (!ids && !selectedIds().length) {
-      showView("home");
-      toggleSettings(true);
+      showSetup(lesson);
       showError(settings.chapters.length && settings.parts.length
         ? "None of the selected chapters have cards for the selected parts of speech."
         : "Select at least one chapter and one part of speech to study.");
@@ -1037,17 +1028,18 @@
     onRadio("exercise", function (value) {
       settings.exercise = value;
       updateLessonBar();
+      updateSetup();
       if (round && !el.study.hidden && !round.busy) {
         returnGroup();
         showCard();
       }
     });
     ["review", "learn", "practice", "match"].forEach(function (lesson) {
-      $("lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
+      $("lesson-" + lesson).addEventListener("click", function () { topic = null; showSetup(lesson); });
     });
     $("lesson-parse").addEventListener("click", function () { topic = null; openParsing(); });
     ["review", "learn", "practice", "match"].forEach(function (lesson) {
-      $("topic-lesson-" + lesson).addEventListener("click", function () { startLesson(lesson); });
+      $("topic-lesson-" + lesson).addEventListener("click", function () { showSetup(lesson); });
     });
     $("topic-lesson-parse").addEventListener("click", openParsing);
     $("topic-home").addEventListener("click", showParts);
@@ -1076,14 +1068,6 @@
       round.result = true;
       continueCard();
     });
-    el.newPerRound.addEventListener("change", function () {
-      var raw = el.newPerRound.value.trim();
-      var n = Math.round(Number(raw));
-      // Number("") is 0, so an emptied field would otherwise switch new cards off.
-      if (raw !== "" && isFinite(n)) settings.newPerRound = Math.max(1, Math.min(200, n));
-      el.newPerRound.value = settings.newPerRound;
-      save(SETTINGS_KEY, settings);
-    });
     el.shuffle.addEventListener("change", function () {
       settings.shuffle = el.shuffle.checked;
       save(SETTINGS_KEY, settings);
@@ -1096,16 +1080,21 @@
       if (!confirm("Clear your saved history and review schedule for every card?")) return;
       stats = {};
       save(STATS_KEY, stats);
-      renderSrsStatus();
+      refreshPage();
     });
     $("restart").addEventListener("click", function () { startLesson(round.lesson); });
+    $("setup-start").addEventListener("click", function () { startLesson(setupLesson); });
+    $("setup-back").addEventListener("click", function () {
+      if (topic) showTopic(topic);
+      else showHome();
+    });
     el.practiceMissed.addEventListener("click", function () { startRound(round.missed, round.lesson); });
 
     // Another tab or the installed app saved progress: pick it up.
     window.addEventListener("storage", function (e) {
       if (e.key !== STATS_KEY) return;
       stats = load(STATS_KEY) || {};
-      if (!el.settings.hidden) renderSrsStatus();
+      refreshPage();
     });
 
     el.card.addEventListener("click", reveal);
@@ -1158,9 +1147,11 @@
 
   // ---------- home ----------
 
-  function setBadge(id, text, disabled) {
+  // A lesson with nothing to do looks finished but still opens, so its
+  // choices (chapters, parts of speech) can be changed on the setup screen.
+  function setBadge(id, text, done) {
     $("meta-" + id).textContent = text;
-    $("lesson-" + id).disabled = !!disabled;
+    $("lesson-" + id).classList.toggle("done", !!done);
   }
 
   function renderHome() {
@@ -1168,11 +1159,11 @@
     var due = ids.filter(function (id) { return isDue(id); }).length;
     var fresh = ids.filter(isNew).length;
 
-    var batch = Math.min(fresh, settings.newPerRound || 20);
+    var batch = Math.min(fresh, lessonSize("learn"));
     setBadge("review", due ? String(due) : "✓", !due);
     setBadge("learn", fresh ? String(batch) : "✓", !fresh);
     setBadge("practice", String(ids.length), !ids.length);
-    setBadge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), ids.length < 2);
+    setBadge("match", String(Math.min(ids.length, lessonSize("match"))), ids.length < 2);
     // Highlight the one lesson to do next: reviews first, then new words.
     var next = due ? "review" : fresh ? "learn" : null;
     ["review", "learn"].forEach(function (lesson) {
@@ -1225,6 +1216,7 @@
   }
 
   function refreshPage() {
+    if (!$("setup-view").hidden) updateSetup();
     if (!el.homeView.hidden) renderHome();
     if (!$("parts-view").hidden) renderPosGrid();
     if (!$("topic-view").hidden) renderTopic();
@@ -1258,6 +1250,81 @@
     }
   }
 
+  // ---------- lesson setup ----------
+
+  var setupLesson = "review";
+  var SETUP_TEXT = {
+    review: "Cards that are due today",
+    learn: "The next new words, in your chapter order",
+    practice: "Any cards you choose, in any order",
+    match: "Pair Greek words with their meanings"
+  };
+  var ANSWER_HELP = {
+    auto: "Multiple choice while a word is new, then typing once you know it.",
+    choice: "Pick the meaning from four options.",
+    type: "Type the meaning; small typos are fine. (With English first, you get choices.)",
+    flip: "Think of the answer, flip the card, and mark yourself right or wrong."
+  };
+
+  function showSetup(lesson) {
+    if (round) returnGroup();
+    setupLesson = lesson;
+    toggleSettings(false);
+    showView("setup");
+    $("setup-title").textContent = (topic ? partLabel(topic) + " · " : "") + LESSONS[lesson].title;
+    $("setup-desc").textContent = SETUP_TEXT[lesson];
+    $("setup-back").textContent = "← " + (topic ? partLabel(topic) : "Home");
+    $("setup-answer").hidden = lesson === "match";
+    $("setup-direction").hidden = lesson === "match";
+    $("setup-parts").hidden = !!topic;
+    var sizes = $("size-options");
+    sizes.textContent = "";
+    SIZE_OPTIONS[lesson].forEach(function (n) {
+      var label = make("label");
+      var input = make("input");
+      input.type = "radio";
+      input.name = "size";
+      input.value = n;
+      input.checked = n === lessonSize(lesson);
+      label.appendChild(input);
+      label.appendChild(make("span", null, n ? String(n) : "All"));
+      sizes.appendChild(label);
+    });
+    // Size buttons are rebuilt per lesson, so bind them here.
+    sizes.querySelectorAll("input").forEach(function (input) {
+      input.addEventListener("change", function () {
+        settings.sizes[setupLesson] = Number(input.value);
+        save(SETTINGS_KEY, settings);
+        updateSetup();
+      });
+    });
+    updateSetup();
+  }
+
+  function updateSetup() {
+    if ($("setup-view").hidden) return;
+    $("answer-help").textContent = ANSWER_HELP[settings.exercise] || "";
+    var allChapters = settings.chapters.length === chapters.length;
+    $("chapters-summary").textContent = allChapters ? "· all" : "· " + settings.chapters.length + " of " + chapters.length;
+    $("parts-summary").textContent = settings.parts.length === parts.length ? "· all" :
+      "· " + settings.parts.length + " of " + parts.length;
+    var count = selectedIds().length ? lessonDeck(setupLesson).length : 0;
+    var message;
+    if (!settings.chapters.length || (!topic && !settings.parts.length)) {
+      message = "Choose at least one chapter" + (topic ? "" : " and part of speech") + ".";
+    } else if (!count) {
+      message = setupLesson === "review" ? "Nothing is due right now." :
+        setupLesson === "learn" ? "No new words left in this selection." : "No cards in this selection.";
+    } else if (setupLesson === "match" && count < 2) {
+      message = "Choose more words to play.";
+      count = 0;
+    } else {
+      message = plural(count, setupLesson === "learn" ? "new word" : "card");
+    }
+    $("setup-count").textContent = message;
+    $("setup-start").disabled = !count;
+  }
+
   // ---------- part-of-speech pages ----------
 
   function showTopic(pos) {
@@ -1281,12 +1348,12 @@
       (settings.chapters.length === chapters.length ? "" : " in your chapters");
     var badge = function (lesson, text, off) {
       $("topic-meta-" + lesson).textContent = text;
-      $("topic-lesson-" + lesson).disabled = !!off;
+      $("topic-lesson-" + lesson).classList.toggle("done", !!off);
     };
     badge("review", due ? String(due) : "✓", !due);
-    badge("learn", fresh ? String(Math.min(fresh, settings.newPerRound || 20)) : "✓", !fresh);
+    badge("learn", fresh ? String(Math.min(fresh, lessonSize("learn"))) : "✓", !fresh);
     badge("practice", String(ids.length), !ids.length);
-    badge("match", String(Math.min(ids.length, MATCH_GAME_SIZE)), ids.length < 2);
+    badge("match", String(Math.min(ids.length, lessonSize("match"))), ids.length < 2);
     $("topic-lesson-parse").hidden = PARSABLE.indexOf(topic) === -1;
     renderChart();
   }
@@ -1410,6 +1477,9 @@
     stats = load(STATS_KEY) || {};
     migrateStats();
 
+    // Older settings: matching is a lesson now, and the new-words count moved to "How many".
+    if (settings.exercise === "match") settings.exercise = "auto";
+    if (!savedSettings || !savedSettings.sizes) settings.sizes.learn = settings.newPerRound;
     applySettingsToForm();
     bindEvents();
     showHome();
