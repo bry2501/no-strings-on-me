@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Greek Flashcards</title>
+  <meta name="description" content="Flashcards for Biblical Greek vocabulary from Mounce, Basics of Biblical Greek.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Greek Cards">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1><button type="button" id="home-link" class="brand">Greek Flashcards</button></h1>
+      <button type="button" id="settings-toggle" class="icon-btn" aria-expanded="false" aria-controls="settings"
+        aria-label="Settings" title="Settings"><span aria-hidden="true">⚙</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section id="settings" class="panel" hidden>
+      <h2>Settings</h2>
+      <fieldset>
+        <legend>Order of new words</legend>
+        <label class="radio"><input type="radio" name="track" value="one" checked> Track One: chapters in book order</label>
+        <label class="radio"><input type="radio" name="track" value="two"> Track Two: chapters 15–18 and 21 before 10–14</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>During a lesson</legend>
+        <label class="check"><input type="checkbox" id="opt-shuffle" checked> Shuffle cards</label>
+        <label class="check"><input type="checkbox" id="opt-repeat" checked> Repeat missed cards later in the round</label>
+      </fieldset>
+
+      <p class="help">Cards you get right come back after 1, 3, 7, 14, then 30 days. Cards you miss come back the next day.</p>
+
+      <details class="about">
+        <summary>About and credits</summary>
+        <p id="source"></p>
+        <p>Example verses: SBL Greek New Testament, © 2010 Society of Biblical Literature and Logos Bible Software.</p>
+        <p>Parsing data: <a href="https://github.com/morphgnt/sblgnt">MorphGNT</a> (CC BY-SA).</p>
+        <p>Phrases: <a href="https://github.com/Clear-Bible/macula-greek">MACULA Greek</a> (Biblica, CC BY 4.0), Nestle 1904 text (public domain).</p>
+      </details>
+
+      <div class="panel-actions">
+        <button type="button" id="settings-done" class="primary">Done</button>
+        <button type="button" id="install" class="ghost" hidden>Install app</button>
+        <button type="button" id="reset-stats" class="ghost danger">Reset saved progress</button>
+      </div>
+    </section>
+
+    <div id="setup-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="setup-back">← Home</button>
+        <div class="lesson-name"><strong id="setup-title"></strong><span id="setup-desc"></span></div>
+      </div>
+
+      <section class="setup-block" id="setup-answer">
+        <h3>How to answer</h3>
+        <div class="seg-radio">
+          <label><input type="radio" name="exercise" value="auto" checked><span>Mixed</span></label>
+          <label><input type="radio" name="exercise" value="choice"><span>Choices</span></label>
+          <label><input type="radio" name="exercise" value="type"><span>Typing</span></label>
+          <label><input type="radio" name="exercise" value="flip"><span>Flip</span></label>
+        </div>
+        <p class="help" id="answer-help"></p>
+      </section>
+
+      <section class="setup-block" id="setup-direction">
+        <h3>Show first</h3>
+        <div class="seg-radio">
+          <label><input type="radio" name="direction" value="greek" checked><span>Greek</span></label>
+          <label><input type="radio" name="direction" value="english"><span>English</span></label>
+        </div>
+      </section>
+
+      <section class="setup-block" id="setup-size">
+        <h3>How many</h3>
+        <div class="seg-radio" id="size-options"></div>
+      </section>
+
+      <details class="setup-block" id="setup-parts">
+        <summary><h3>Parts of speech <span class="block-summary" id="parts-summary"></span></h3></summary>
+        <div class="chip-actions">
+          <button type="button" class="link" id="parts-all">All</button>
+          <button type="button" class="link" id="parts-none">None</button>
+        </div>
+        <div id="part-list" class="chips"></div>
+      </details>
+
+      <details class="setup-block" id="setup-chapters">
+        <summary><h3>Chapters <span class="block-summary" id="chapters-summary"></span></h3></summary>
+        <div class="chip-actions">
+          <button type="button" class="link" id="chapters-all">All</button>
+          <button type="button" class="link" id="chapters-none">None</button>
+        </div>
+        <div id="chapter-list" class="chips"></div>
+      </details>
+
+      <div class="setup-start">
+        <span id="setup-count"></span>
+        <button type="button" class="primary" id="setup-start">Start</button>
+      </div>
+    </div>
+
+    <div id="home-view">
+      <h2 class="menu-title">Vocabulary</h2>
+      <div class="home-tiles">
+        <button type="button" class="home-tile t-review" id="lesson-review">
+          <span class="ti" aria-hidden="true">↻</span>
+          <span class="tt">Review</span><small>Cards due today</small>
+          <span class="badge" id="meta-review"></span>
+        </button>
+        <button type="button" class="home-tile t-learn" id="lesson-learn">
+          <span class="ti" aria-hidden="true">＋</span>
+          <span class="tt">Learn</span><small>New words</small>
+          <span class="badge" id="meta-learn"></span>
+        </button>
+        <button type="button" class="home-tile t-practice" id="lesson-practice">
+          <span class="ti" aria-hidden="true">✎</span>
+          <span class="tt">Practice</span><small>All words</small>
+          <span class="badge" id="meta-practice"></span>
+        </button>
+        <button type="button" class="home-tile t-match" id="lesson-match">
+          <span class="ti" aria-hidden="true">⇄</span>
+          <span class="tt">Match</span><small>Pair words and meanings</small>
+          <span class="badge" id="meta-match"></span>
+        </button>
+      </div>
+
+      <h2 class="menu-title">Focus</h2>
+      <div class="home-tiles">
+        <button type="button" class="home-tile t-parse" id="open-parts">
+          <span class="ti" aria-hidden="true">≡</span>
+          <span class="tt">Parts of speech</span><small>Prepositions, verbs…</small>
+        </button>
+        <button type="button" class="home-tile t-pink" id="lesson-parse">
+          <span class="ti" aria-hidden="true">α</span>
+          <span class="tt">Parsing</span><small>Identify NT forms</small>
+        </button>
+      </div>
+    </div>
+
+    <div id="parts-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="parts-home">← Home</button>
+        <div class="lesson-name"><strong>Parts of speech</strong><span>Choose one to study it on its own</span></div>
+      </div>
+      <div class="menu" id="pos-grid"></div>
+    </div>
+
+    <div id="topic-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="topic-home">← Parts of speech</button>
+        <div class="lesson-name"><strong id="topic-title"></strong><span id="topic-sub"></span></div>
+      </div>
+
+      <div class="tiles topic-tiles">
+        <button type="button" class="tile-lesson t-review" id="topic-lesson-review" data-lesson="review" title="Cards that are due today">
+          <span class="ti" aria-hidden="true">↻</span><span class="tt">Review</span><span class="badge" id="topic-meta-review"></span>
+        </button>
+        <button type="button" class="tile-lesson t-learn" id="topic-lesson-learn" data-lesson="learn" title="The next new words in book order">
+          <span class="ti" aria-hidden="true">＋</span><span class="tt">Learn</span><span class="badge" id="topic-meta-learn"></span>
+        </button>
+        <button type="button" class="tile-lesson t-practice" id="topic-lesson-practice" data-lesson="practice" title="Every card in this group">
+          <span class="ti" aria-hidden="true">✎</span><span class="tt">Practice</span><span class="badge" id="topic-meta-practice"></span>
+        </button>
+        <button type="button" class="tile-lesson t-match" id="topic-lesson-match" data-lesson="match" title="Pair words with meanings, five at a time">
+          <span class="ti" aria-hidden="true">⇄</span><span class="tt">Match</span><span class="badge" id="topic-meta-match"></span>
+        </button>
+        <button type="button" class="tile-lesson t-parse wide" id="topic-lesson-parse" title="Identify New Testament forms of these words">
+          <span class="ti" aria-hidden="true">α</span><span class="tt">Parsing drill</span><span class="badge" id="topic-meta-parse">NT forms</span>
+        </button>
+      </div>
+
+      <section class="chart-panel">
+        <h2 class="section-title">How often they occur in the New Testament</h2>
+        <div class="legend" aria-hidden="true">
+          <span><i class="key key-new"></i>New</span><span><i class="key key-learning"></i>Learning</span>
+          <span><i class="key key-known"></i>Known well</span><span><i class="key key-extra"></i>Not in your list</span>
+        </div>
+        <div id="topic-chart" class="chart"></div>
+        <button type="button" class="link chart-more" id="chart-more" hidden></button>
+        <p class="help">Tap a word to see its meaning.</p>
+      </section>
+    </div>
+
+   <div id="vocab-view" hidden>
+    <div class="lesson-bar">
+      <button type="button" class="back" id="vocab-home">← Home</button>
+      <div class="lesson-name"><strong id="lesson-title"></strong><span id="lesson-sub"></span></div>
+    </div>
+
+    <section id="study" aria-live="polite">
+      <div class="progress">
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div class="tally">
+          <span id="count-remaining">0 left</span>
+          <span class="right-count" title="Right">✓ <b id="count-right">0</b></span>
+          <span class="wrong-count" title="Wrong">✗ <b id="count-wrong">0</b></span>
+          <span class="skip-count" title="Skipped">↷ <b id="count-skip">0</b></span>
+        </div>
+      </div>
+
+      <div id="card" class="card" tabindex="0" role="button">
+        <div class="card-meta">
+          <span id="card-chapter"></span>
+          <span id="card-pos"></span>
+        </div>
+        <div class="card-front">
+          <div id="prompt" class="prompt"></div>
+          <div id="case-tag" class="case-tag" hidden></div>
+          <div id="hint" class="hint">Tap or press Space to reveal</div>
+        </div>
+        <div id="answer" class="card-back" hidden></div>
+      </div>
+
+      <div id="choices" class="choices" hidden></div>
+
+      <form id="type-form" class="type-form" hidden autocomplete="off">
+        <label for="type-input" class="visually-hidden">Type the meaning</label>
+        <input id="type-input" type="text" placeholder="Type the meaning" autocapitalize="off" spellcheck="false">
+        <button type="submit" id="type-check" class="primary">Check</button>
+      </form>
+      <p id="feedback" class="feedback" hidden></p>
+
+      <div id="match" class="match" hidden>
+        <div id="match-greek" class="match-col"></div>
+        <div id="match-english" class="match-col"></div>
+      </div>
+
+      <div class="controls" id="flip-controls">
+        <button type="button" id="btn-wrong" class="wrong" disabled>
+          <span class="icon">✗</span> Wrong <kbd>1</kbd>
+        </button>
+        <button type="button" id="btn-skip" class="skip">
+          <span class="icon">↷</span> Skip <kbd>2</kbd>
+        </button>
+        <button type="button" id="btn-right" class="right" disabled>
+          <span class="icon">✓</span> Right <kbd>3</kbd>
+        </button>
+      </div>
+      <div class="controls answer-controls" id="answer-controls" hidden>
+        <button type="button" id="btn-skip2" class="skip"><span class="icon">↷</span> Skip</button>
+        <button type="button" id="btn-override" class="ghost" hidden>I was right</button>
+        <button type="button" id="btn-continue" class="primary" hidden>Continue <kbd>Enter</kbd></button>
+      </div>
+    </section>
+
+    <section id="caught-up" class="panel" hidden>
+      <h2>Nothing to study here</h2>
+      <p id="caught-up-text"></p>
+      <div class="panel-actions">
+        <button type="button" id="caught-up-home" class="primary">Back to home</button>
+      </div>
+    </section>
+
+    <section id="summary" class="panel" hidden>
+      <h2>Round complete</h2>
+      <p id="summary-text"></p>
+      <p id="summary-next" class="srs-status"></p>
+      <ul id="missed-list" class="missed"></ul>
+      <div class="panel-actions">
+        <button type="button" id="practice-missed" class="primary">Practice missed cards</button>
+        <button type="button" id="restart" class="ghost">Another round</button>
+        <button type="button" id="summary-home" class="ghost">Home</button>
+      </div>
+    </section>
+
+   </div>
+
+    <div id="parse-view" hidden>
+      <div class="lesson-bar">
+        <button type="button" class="back" id="parse-home">← Home</button>
+        <div class="lesson-name"><strong>Parsing drill</strong><span>Tap the parts of each form, then Check</span></div>
+      </div>
+      <section id="parse-setup" class="panel">
+        <h2>Parsing drill</h2>
+        <p class="help">Identify New Testament forms of your vocabulary words. Only forms you have studied are included.</p>
+        <label class="number">Studied through chapter
+          <select id="parse-chapter"></select>
+        </label>
+        <fieldset>
+          <legend>Include</legend>
+          <label class="check"><input type="checkbox" id="parse-nominal" checked> Nouns, adjectives, pronouns and the article</label>
+          <label class="check"><input type="checkbox" id="parse-verbs" checked> Verbs</label>
+        </fieldset>
+        <p id="parse-count" class="srs-status"></p>
+        <div class="panel-actions">
+          <button type="button" id="parse-start" class="primary">Start 20 forms</button>
+        </div>
+      </section>
+
+      <section id="parse-study" hidden>
+        <div class="progress">
+          <div class="progress-bar"><div id="parse-progress"></div></div>
+          <div class="tally">
+            <span id="parse-left">0 left</span>
+            <span class="right-count" title="Right">✓ <b id="parse-right">0</b></span>
+            <span class="wrong-count" title="Wrong">✗ <b id="parse-wrong">0</b></span>
+          </div>
+        </div>
+        <div id="parse-card" class="card parse-card">
+          <div class="card-meta"><span>Parse this form</span><span id="parse-pos"></span></div>
+          <div class="card-front">
+            <div id="parse-form" class="prompt greek" lang="grc"></div>
+          </div>
+          <div id="parse-answer" class="card-back" hidden></div>
+        </div>
+        <div id="parse-fields" class="parse-fields"></div>
+        <div class="controls answer-controls">
+          <button type="button" id="parse-skip" class="skip"><span class="icon">↷</span> Skip</button>
+          <button type="button" id="parse-check" class="primary">Check <kbd>Enter</kbd></button>
+          <button type="button" id="parse-next" class="primary" hidden>Continue <kbd>Enter</kbd></button>
+        </div>
+      </section>
+
+      <section id="parse-summary" class="panel" hidden>
+        <h2>Drill complete</h2>
+        <p id="parse-summary-text"></p>
+        <ul id="parse-missed" class="missed"></ul>
+        <div class="panel-actions">
+          <button type="button" id="parse-again" class="primary">Another 20</button>
+          <button type="button" id="parse-setup-btn" class="ghost">Change what's included</button>
+        </div>
+      </section>
+    </div>
+
+    <p id="error" class="error" hidden></p>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="parse.js"></script>
+</body>
+</html>
